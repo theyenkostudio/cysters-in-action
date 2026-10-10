@@ -13,5 +13,6 @@ Working space for discussing, taking notes and deciding on a direction **before*
 | [07-landing-faq-and-voices.md](07-landing-faq-and-voices.md) | FAQ and Voices sections: content status and open decisions. |
 | [08-motion.md](08-motion.md) | Scroll-reveal motion spec for the build. |
 | [09-site-pages.md](09-site-pages.md) | Page-by-page prototype status and content still needed. |
+| [10-design-tokens.md](10-design-tokens.md) | Colour, type, spacing and motion tokens wired into the app. |
 
 Flow: questions → notes → decisions. Nothing gets built until the key decisions are recorded.
