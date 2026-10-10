@@ -159,6 +159,80 @@
 }
 
 /*
+  Motion. One move everywhere: settle in, slow ease-out, play once. See docs/08-motion.md.
+  Everything here sits inside no-preference, so reduced-motion users get none of it.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  /* Text and cards: fade in and rise a little. */
+  [data-reveal-kind="rise"] {
+    transition:
+      opacity var(--duration-settle) var(--ease-settle) var(--reveal-delay, 0ms),
+      transform var(--duration-settle) var(--ease-settle) var(--reveal-delay, 0ms);
+  }
+  [data-reveal-kind="rise"][data-reveal="hidden"] {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  /* Photos: the container fades in while the photo eases from 3% zoomed to full size. */
+  [data-reveal-kind="photo"] {
+    transition: opacity 800ms var(--ease-settle) var(--reveal-delay, 0ms);
+  }
+  [data-reveal-kind="photo"] img {
+    transition: transform 1000ms var(--ease-settle) var(--reveal-delay, 0ms);
+  }
+  [data-reveal-kind="photo"][data-reveal="hidden"] {
+    opacity: 0;
+  }
+  [data-reveal-kind="photo"][data-reveal="hidden"] img {
+    transform: scale(1.03);
+  }
+
+  /* Hive: cells ripple in from the centre. Each cell sets --d (its delay) from its distance to the centre. */
+  [data-reveal-kind="hive"] .hive-cell {
+    transition:
+      opacity var(--duration-settle) var(--ease-settle) var(--d, 0ms),
+      transform var(--duration-settle) var(--ease-settle) var(--d, 0ms),
+      filter 300ms ease;
+  }
+  [data-reveal-kind="hive"][data-reveal="hidden"] .hive-cell {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  /* Hero photo settles once on load. The text and nav are visible straight away. */
+  .hero-settle {
+    animation: hero-settle 1400ms var(--ease-settle) both;
+  }
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  /* Cross-fade between pages. The old page fades out quickly, the new one fades in. */
+  ::view-transition-old(.page-fade) {
+    animation: 200ms var(--ease-settle) both page-fade-out;
+  }
+  ::view-transition-new(.page-fade) {
+    animation: 300ms var(--ease-settle) both page-fade-in;
+  }
+  @keyframes page-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes page-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/*
   FAQ: the answer eases open and closed instead of snapping.
   This is an enhancement. Browsers without ::details-content / interpolate-size
   support just open and close instantly, and everything still works.

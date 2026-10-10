@@ -13,7 +13,7 @@ export function TextLink({ href, children, className }: TextLinkProps) {
     <Link
       href={href}
       className={cn(
-        "text-link-sm uppercase underline underline-offset-[5px] md:text-link",
+        "text-link-sm uppercase underline underline-offset-[5px] transition-[text-underline-offset] duration-200 hover:underline-offset-[7px] md:text-link",
         className,
       )}
     >
@@ -33,7 +33,7 @@ export function TextLinkLabel({
   return (
     <span
       className={cn(
-        "text-link-sm uppercase underline underline-offset-[5px] md:text-link",
+        "text-link-sm uppercase underline underline-offset-[5px] transition-[text-underline-offset] duration-200 group-hover:underline-offset-[7px] md:text-link",
         className,
       )}
     >

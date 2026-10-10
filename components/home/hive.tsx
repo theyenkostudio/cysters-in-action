@@ -1,5 +1,6 @@
 import type { StaticImageData } from "next/image";
 import { Photo } from "@/components/ui/photo";
+import { Reveal } from "@/components/ui/reveal";
 import { photos } from "@/lib/photos";
 import { cn } from "@/lib/cn";
 
@@ -89,11 +90,23 @@ const dims = {
   sm: { w: 98, h: 113, sizes: "100px" },
 } as const;
 
+// The "You?" cell sits at the centre of each layout. Cells reveal outward from it.
+const centre = { lg: { x: 492, y: 236.5 }, sm: { x: 156, y: 240 } } as const;
+const rippleMsPerPx = { lg: 0.9, sm: 1.3 } as const;
+
 function HexCell({ cell, size }: { cell: Cell; size: Size }) {
   const { w, h, sizes } = dims[size];
   const lg = size === "lg";
-  const base = "group absolute block overflow-hidden";
-  const style = { left: cell.x, top: cell.y, width: w, height: h, clipPath: HEX };
+  const base = "hive-cell group absolute block overflow-hidden";
+  const distance = Math.hypot(cell.x + w / 2 - centre[size].x, cell.y + h / 2 - centre[size].y);
+  const style = {
+    left: cell.x,
+    top: cell.y,
+    width: w,
+    height: h,
+    clipPath: HEX,
+    "--d": `${Math.round(distance * rippleMsPerPx[size])}ms`,
+  } as React.CSSProperties;
 
   if (cell.kind === "photo") {
     return (
@@ -167,16 +180,16 @@ function HexCell({ cell, size }: { cell: Cell; size: Size }) {
 export function Hive() {
   return (
     <>
-      <div className="relative hidden h-[615px] w-[820px] max-w-full lg:block">
+      <Reveal kind="hive" className="relative hidden h-[615px] w-[820px] max-w-full lg:block">
         {desktopCells.map((cell) => (
           <HexCell key={`${cell.x}-${cell.y}`} cell={cell} size="lg" />
         ))}
-      </div>
-      <div className="relative mx-auto h-[570px] w-[312px] lg:hidden">
+      </Reveal>
+      <Reveal kind="hive" className="relative mx-auto h-[570px] w-[312px] lg:hidden">
         {mobileCells.map((cell) => (
           <HexCell key={`${cell.x}-${cell.y}`} cell={cell} size="sm" />
         ))}
-      </div>
+      </Reveal>
     </>
   );
 }

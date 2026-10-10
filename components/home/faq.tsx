@@ -1,4 +1,5 @@
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { Reveal } from "@/components/ui/reveal";
 import { TextLink } from "@/components/ui/text-link";
 
 // Answers marked [To confirm] are open decisions. See docs/07-landing-faq-and-voices.md.
@@ -43,7 +44,7 @@ export function Faq() {
       id="faq"
       className="flex flex-col gap-7 px-gutter-sm pb-section-sm md:flex-row md:flex-wrap md:gap-x-20 md:gap-y-10 md:px-gutter md:pb-section"
     >
-      <div className="flex flex-col gap-4 md:max-w-[380px] md:flex-[1_1_280px]">
+      <Reveal className="flex flex-col gap-4 md:max-w-[380px] md:flex-[1_1_280px]">
         <Eyebrow>Questions</Eyebrow>
         <h2 className="text-h2-sm text-accent md:text-h2">Frequently asked questions.</h2>
         <p className="hidden text-body text-muted md:block">
@@ -52,9 +53,9 @@ export function Faq() {
         <TextLink href="#email" className="hidden md:inline">
           Ask a question
         </TextLink>
-      </div>
+      </Reveal>
 
-      <div className="border-b border-rule md:max-w-[860px] md:flex-[2_1_520px]">
+      <Reveal delay={70} className="border-b border-rule md:max-w-[860px] md:flex-[2_1_520px]">
         {faq.map((item, i) => (
           // Same `name` makes the group exclusive: opening one closes the others.
           <details key={item.q} name="faq" open={i === 0} className="faq-item group border-t border-rule">
@@ -70,7 +71,7 @@ export function Faq() {
             </div>
           </details>
         ))}
-      </div>
+      </Reveal>
 
       <TextLink href="#email" className="py-2 md:hidden">
         Can&apos;t find yours? Ask a question

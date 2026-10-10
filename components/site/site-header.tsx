@@ -6,12 +6,21 @@ import { cn } from "@/lib/cn";
 import { MobileMenu } from "./mobile-menu";
 import { navLinks } from "./nav";
 
+type SiteHeaderProps = {
+  /**
+   * overlay: sits over a hero photo (white text, no background) until you scroll. Used on the home page.
+   * light:   always solid off-white with dark text. Used on pages that start with plain content.
+   */
+  tone?: "overlay" | "light";
+  /** Path of the current page, so its link can be highlighted. */
+  current?: string;
+};
+
 /**
- * Fixed header. At the top of the page it sits over the hero photo (white text, no background).
- * Once you scroll, it turns solid off-white with dark text so it stays readable over any section.
- * Wordmark on the left; links and "Join the community" grouped on the right.
+ * Fixed header. Wordmark on the left; links and "Join the community" grouped on the right.
+ * Pages using it need top padding to clear it: `pt-15 md:pt-18`.
  */
-export function SiteHeader() {
+export function SiteHeader({ tone = "overlay", current }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -21,11 +30,13 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", update);
   }, []);
 
+  const solid = tone === "light" || scrolled;
+
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 flex h-[60px] items-center justify-between border-b px-gutter-sm transition-colors duration-300 ease-settle md:h-auto md:flex-wrap md:gap-x-10 md:gap-y-4 md:px-gutter md:py-[22px]",
-        scrolled ? "border-rule bg-ground text-ink" : "border-white/40 bg-transparent text-white",
+        solid ? "border-rule bg-ground text-ink" : "border-white/40 bg-transparent text-white",
       )}
     >
       <Link
@@ -39,11 +50,19 @@ export function SiteHeader() {
         aria-label="Main"
         className="hidden flex-wrap items-center gap-x-9 gap-y-2 text-[0.9375rem] md:flex"
       >
-        {navLinks.map((item) => (
-          <Link key={item.href} href={item.href} className="hover:underline">
-            {item.label}
-          </Link>
-        ))}
+        {navLinks.map((item) => {
+          const isCurrent = item.href === current;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={isCurrent ? "page" : undefined}
+              className={cn("hover:underline", isCurrent && "font-semibold text-accent")}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
         <Link
           href="/#join"
           className="font-medium underline underline-offset-4"

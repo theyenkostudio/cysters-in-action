@@ -9,7 +9,7 @@ export function Button({
   return (
     <button
       className={cn(
-        "min-h-[52px] cursor-pointer bg-accent px-7 text-link uppercase text-accent-ink",
+        "min-h-[52px] cursor-pointer bg-accent px-7 text-link uppercase text-accent-ink transition-[filter] duration-200 hover:brightness-90",
         className,
       )}
       {...props}

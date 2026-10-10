@@ -12,7 +12,7 @@ export function Hero() {
         sizes="100vw"
         priority
         quality={90}
-        className="object-[28%_center] md:object-[center_35%]"
+        className="hero-settle object-[28%_center] md:object-[center_35%]"
       />
       {/* Darkens the top (for the nav) and bottom (for the headline) so white text stays readable. */}
       <div

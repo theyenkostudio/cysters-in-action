@@ -1,5 +1,6 @@
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Photo } from "@/components/ui/photo";
+import { Reveal } from "@/components/ui/reveal";
 import { photos } from "@/lib/photos";
 
 // Placeholder quotes, as in the design. Real stories only, with the member's consent.
@@ -34,7 +35,7 @@ export function Voices() {
       id="voices"
       className="flex flex-col gap-8 px-gutter-sm py-section-sm md:gap-10 md:px-gutter md:py-section"
     >
-      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+      <Reveal className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
         <div className="flex flex-col gap-4">
           <Eyebrow>Member stories</Eyebrow>
           <h2 className="max-w-[760px] text-h2-sm text-accent md:text-h2">
@@ -45,21 +46,27 @@ export function Voices() {
           Members share what diagnosis, daily life and finding support are like
           for them. Every story is shared with their consent.
         </p>
-      </div>
+      </Reveal>
 
       <div className="flex flex-col gap-8 md:flex-row md:flex-wrap md:gap-x-6 md:gap-y-10">
-        {stories.map((story) => (
+        {stories.map((story, i) => (
           <figure key={story.alt} className="flex flex-col gap-4 md:flex-[1_1_300px] md:gap-5">
-            <div className={`relative aspect-square overflow-hidden ${story.tint}`}>
+            <Reveal
+              kind="photo"
+              delay={i * 70}
+              className={`relative aspect-square overflow-hidden ${story.tint}`}
+            >
               <Photo
                 src={story.src}
                 alt={story.alt}
                 sizes="(min-width: 768px) 33vw, 100vw"
                 position={story.position}
               />
-            </div>
-            <blockquote className="text-quote-sm text-accent md:text-quote">{quote}</blockquote>
-            <figcaption className="text-[0.875rem] leading-normal text-muted">{caption}</figcaption>
+            </Reveal>
+            <Reveal delay={i * 70 + 120} className="flex flex-col gap-4 md:gap-5">
+              <blockquote className="text-quote-sm text-accent md:text-quote">{quote}</blockquote>
+              <figcaption className="text-[0.875rem] leading-normal text-muted">{caption}</figcaption>
+            </Reveal>
           </figure>
         ))}
       </div>

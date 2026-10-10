@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -16,7 +17,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${hanken.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Cross-fades between pages. Styled by `.page-fade` in globals.css. */}
+        <ViewTransition default="page-fade">{children}</ViewTransition>
+      </body>
     </html>
   );
 }
