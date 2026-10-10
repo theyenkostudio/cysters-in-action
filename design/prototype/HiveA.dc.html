@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hive A Network</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;background:#FAF8F5;color:#2B2128}
+a{color:#2B2128;text-decoration:none}a:hover{text-decoration:none}
+.node{position:absolute;display:block;box-sizing:border-box;border:3px solid;border-radius:50%;background:#FAF8F5;animation:bob 8s ease-in-out infinite}
+.node:hover,.node:focus-visible{z-index:5}
+.node .clip{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;overflow:hidden;text-align:center}
+.node img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.node:hover img,.node:focus-visible img{transform:scale(1.14)}
+.node .tip{position:absolute;left:50%;top:100%;transform:translate(-50%,8px);white-space:nowrap;font-size:12px;font-weight:500;background:#2B2128;color:#FFFFFF;padding:6px 10px;opacity:0;pointer-events:none;transition:opacity 0.2s ease}
+.node:hover .tip,.node:focus-visible .tip{opacity:1}
+.node.you{animation:you-pulse 3.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes you-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){.node,.node.you{animation:none}.node img{transition:none}}
+</style>
+</helmet>
+<div style="width:1440px;height:850px;box-sizing:border-box;background:#FAF8F5;color:#2B2128;font-family:'Hanken Grotesk',system-ui,sans-serif;padding:72px 32px 0">
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:24px">
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:640px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Join us</div>
+      <p style="margin:0;font-size:44px;line-height:1.1;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">Everyone is connected to someone.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#5E5360">Hover a face to see what connects us. The lines are conversations, shared experiences and small acts of support.</p>
+      <div style="display:flex;gap:24px;font-size:13px;font-weight:500">
+        <span style="display:flex;align-items:center;gap:8px"><span style="display:block;width:14px;height:14px;border-radius:50%;border:3px solid #7FB5AF;box-sizing:border-box"></span>Learn</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="display:block;width:14px;height:14px;border-radius:50%;border:3px solid #A593BD;box-sizing:border-box"></span>Connect</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="display:block;width:14px;height:14px;border-radius:50%;border:3px solid #E0A9A3;box-sizing:border-box"></span>Act</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative;width:1376px;height:560px">
+    <svg width="1376" height="560" viewBox="0 0 1376 560" style="position:absolute;left:0;top:0" aria-hidden="true">
+      <g stroke="#5A2D5F" stroke-opacity="0.28" stroke-width="1.2" fill="none">
+        <line x1="688" y1="280" x2="400" y2="270"/>
+        <line x1="688" y1="280" x2="980" y2="300"/>
+        <line x1="688" y1="280" x2="560" y2="470"/>
+        <line x1="688" y1="280" x2="840" y2="470"/>
+        <line x1="688" y1="280" x2="640" y2="70"/>
+        <line x1="400" y1="270" x2="110" y2="330"/>
+        <line x1="400" y1="270" x2="380" y2="60"/>
+        <line x1="380" y1="60" x2="140" y2="100"/>
+        <line x1="380" y1="60" x2="640" y2="70"/>
+        <line x1="640" y1="70" x2="900" y2="80"/>
+        <line x1="900" y1="80" x2="1100" y2="200"/>
+        <line x1="900" y1="80" x2="1200" y2="110"/>
+        <line x1="1200" y1="110" x2="1100" y2="200"/>
+        <line x1="1100" y1="200" x2="980" y2="300"/>
+        <line x1="980" y1="300" x2="1260" y2="380"/>
+        <line x1="980" y1="300" x2="840" y2="470"/>
+        <line x1="840" y1="470" x2="560" y2="470"/>
+        <line x1="560" y1="470" x2="270" y2="480"/>
+        <line x1="270" y1="480" x2="110" y2="330"/>
+        <line x1="840" y1="470" x2="1110" y2="500"/>
+        <line x1="1260" y1="380" x2="1110" y2="500"/>
+        <line x1="140" y1="100" x2="110" y2="330"/>
+      </g>
+    </svg>
+
+    <!-- Learn: teal -->
+    <a class="node" href="#" style="left:88px;top:48px;width:104px;height:104px;border-color:#7FB5AF;animation-duration:7s;animation-delay:-1s"><span class="clip"><img src="/_blob/70a496ce61e16710a5e3e85930dc182b" alt="A woman writing in a notebook"></span><span class="tip">Write it down</span></a>
+    <a class="node" href="#" style="left:338px;top:18px;width:84px;height:84px;border-color:#7FB5AF;animation-duration:9s;animation-delay:-4s"><span class="clip"><img src="/_blob/888e4c91357c42feb3d6b13957114ce2" alt="Hands wrapped around a white mug" style="object-position:55% center"></span><span class="tip">Take a minute</span></a>
+    <a class="node" href="#" style="left:594px;top:24px;width:92px;height:92px;border-color:#7FB5AF;background:#B5CFCB;animation-duration:8s;animation-delay:-2s"><span class="clip" style="font-size:13px;line-height:1.2;font-weight:500;padding:0 12px">Ask a question</span></a>
+    <a class="node" href="#" style="left:850px;top:30px;width:100px;height:100px;border-color:#7FB5AF;animation-duration:10s;animation-delay:-6s"><span class="clip"><img src="/_blob/f7644dcf50e6e6b27a04179dc335f495" alt="A woman chopping fresh vegetables" style="object-position:75% center"></span><span class="tip">Cook together</span></a>
+    <a class="node" href="#" style="left:340px;top:210px;width:120px;height:120px;border-color:#7FB5AF;animation-duration:9s;animation-delay:-3s"><span class="clip"><img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a mug among plants" style="object-position:45% center"></span><span class="tip">Slow mornings</span></a>
+
+    <!-- Connect: lilac -->
+    <a class="node" href="#" style="left:46px;top:266px;width:128px;height:128px;border-color:#A593BD;animation-duration:8s;animation-delay:-5s"><span class="clip"><img src="/_blob/37a8aeb039e6a4cce7ae0db376ef0049" alt="Two women talking across a café table" style="object-position:25% center"></span><span class="tip">Coffee and honest talk</span></a>
+    <a class="node" href="#" style="left:222px;top:432px;width:96px;height:96px;border-color:#A593BD;animation-duration:7s;animation-delay:-2s"><span class="clip"><img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="A woman in glasses talking with a friend on a bench" style="object-position:55% 25%"></span><span class="tip">Say it out loud</span></a>
+    <a class="node" href="#" style="left:1214px;top:334px;width:92px;height:92px;border-color:#A593BD;animation-duration:9s;animation-delay:-7s"><span class="clip"><img src="/_blob/46dad35daf9d6d016d540ae8b08bcef5" alt="Two friends laughing over their phones"></span><span class="tip">Stay in touch</span></a>
+    <a class="node" href="#" style="left:788px;top:418px;width:104px;height:104px;border-color:#A593BD;animation-duration:8s;animation-delay:-1s"><span class="clip"><img src="/_blob/aa6973b0025b327133792dfecaf5253d" alt="Two women laughing in warm purple light" style="object-position:40% center"></span><span class="tip">Laugh loudly</span></a>
+    <a class="node" href="#" style="left:1062px;top:452px;width:96px;height:96px;border-color:#A593BD;background:#EBCFCB;animation-duration:10s;animation-delay:-3s"><span class="clip" style="font-size:13px;line-height:1.2;font-weight:500;padding:0 12px">Share a story</span></a>
+
+    <!-- Act: blush -->
+    <a class="node" href="#" style="left:916px;top:236px;width:128px;height:128px;border-color:#E0A9A3;animation-duration:9s;animation-delay:-4s"><span class="clip"><img src="/_blob/c971bdc618c6c4643465487a12fc90ea" alt="Two women walking arm in arm" style="object-position:50% 40%"></span><span class="tip">Walk it out</span></a>
+    <a class="node" href="#" style="left:1144px;top:54px;width:112px;height:112px;border-color:#E0A9A3;animation-duration:8s;animation-delay:-6s"><span class="clip"><img src="/_blob/5afb10e04a3b05fbbca6ba07079c5701" alt="Friends walking together along a path" style="object-position:60% center"></span><span class="tip">Together, outside</span></a>
+    <a class="node" href="#" style="left:505px;top:415px;width:110px;height:110px;border-color:#E0A9A3;animation-duration:7s;animation-delay:-5s"><span class="clip"><img src="/_blob/d0ec20c6faf36e721c82a0b72685abaa" alt="Three friends in a close group hug" style="object-position:40% center"></span><span class="tip">Hold each other up</span></a>
+    <a class="node" href="#" style="left:1058px;top:158px;width:84px;height:84px;border-color:#E0A9A3;background:#C9BDD6;animation-duration:9s;animation-delay:-2s"><span class="clip" style="font-size:12px;line-height:1.2;font-weight:500;padding:0 10px">Take action</span></a>
+
+    <!-- You -->
+    <a class="node you" href="#" style="left:613px;top:205px;width:150px;height:150px;border-color:#5A2D5F;background:{{accent}}"><span class="clip" style="flex-direction:column;gap:4px;color:#FFFFFF"><span style="font-size:32px;font-weight:500;letter-spacing:-0.01em;color:#FFFFFF">You?</span><span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:#FFFFFF">Join the hive</span></span></a>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#5A2D5F","options":["#5A2D5F","#1F5656","#7A2E4D","#2B2128"]},"$preview":{"width":1440,"height":850}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#5A2D5F' };
+  }
+}
+</script>
+</body>
+</html>

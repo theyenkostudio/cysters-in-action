@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cysters in Action Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;background:#FAF8F5;color:#2B2128}
+a{color:#2B2128;text-decoration:none}a:hover{text-decoration:underline}
+.on-photo,.on-photo a{color:#FFFFFF}
+.hex{position:absolute;display:block;overflow:hidden;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);text-decoration:none}
+.hex:hover{text-decoration:none}
+.hex img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+.hex:hover img,.hex:focus-visible img{transform:scale(1.12)}
+.hex .cap{position:absolute;left:0;right:0;bottom:0;padding:44px 20px 34px;text-align:center;font-size:13px;line-height:1.3;font-weight:500;color:#FFFFFF;background:linear-gradient(to top,rgba(20,12,22,0.78),rgba(20,12,22,0));opacity:0;transition:opacity 0.3s ease}
+.hex:hover .cap,.hex:focus-visible .cap{opacity:1}
+.hex.tint{transition:filter 0.3s ease}
+.hex.tint:hover{filter:brightness(0.95)}
+@media (prefers-reduced-motion:reduce){.hex img{transition:none}}
+</style>
+</helmet>
+<div style="background:#FAF8F5;color:#2B2128;font-family:'Hanken Grotesk',system-ui,sans-serif;width:100%">
+
+  <!-- Hero -->
+  <div class="on-photo" style="position:relative;min-height:780px;background:#5B4A5C;display:flex;flex-direction:column;overflow:hidden">
+    <img src="/_blob/37a8aeb039e6a4cce7ae0db376ef0049" alt="Two women talking across a café table, smiling at each other" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center 35%">
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,rgba(20,12,22,0.55) 0%,rgba(20,12,22,0) 28%,rgba(20,12,22,0) 40%,rgba(20,12,22,0.72) 100%)"></div>
+    <div style="position:relative;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between;padding:22px 32px;border-bottom:1px solid rgba(255,255,255,0.4)">
+      <a href="#" style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Cysters in Action</a>
+      <nav style="display:flex;flex-wrap:wrap;gap:8px 36px;font-size:15px">
+        <a href="Learn.dc.html">Learn</a>
+        <a href="Connect.dc.html">Connect</a>
+        <a href="Act.dc.html">Act</a>
+        <a href="About.dc.html">About</a>
+        <a href="Donate.dc.html">Donate</a>
+        <a href="#join" style="font-weight:500;text-decoration:underline;text-underline-offset:4px">Join the community</a>
+      </nav>
+    </div>
+    <div style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 32px 56px;gap:24px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500">PMOS (formerly PCOS)</div>
+      <h1 style="margin:0;max-width:760px;font-size:60px;line-height:1.08;font-weight:500;letter-spacing:-0.02em">Living with PMOS goes beyond symptoms. So does community.</h1>
+      <p style="margin:0;max-width:560px;font-size:19px;line-height:1.5">A space to learn from information you can trust, connect with people who understand, and act for better care.</p>
+      <a href="#join" style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px">Join the community</a>
+    </div>
+  </div>
+
+  <!-- Statement -->
+  <section id="about" style="padding:96px 32px 80px;display:flex;flex-wrap:wrap;gap:40px 80px">
+    <div style="flex:1 1 220px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Why we exist</div>
+    <div style="flex:3 1 520px;max-width:900px;display:flex;flex-direction:column;gap:32px">
+      <p style="margin:0;font-size:40px;line-height:1.2;font-weight:500;letter-spacing:-0.015em;color:{{accent}}">Living with PMOS goes beyond symptoms. Another part of the experience deserves attention too: community.</p>
+      <p style="margin:0;max-width:600px;font-size:18px;line-height:1.6;color:#5E5360">Misinformation. Stigma. Delayed diagnosis. Gaps in care. Information that's hard to understand and harder to trust. Cysters in Action is a place to come together around all of it.</p>
+    </div>
+  </section>
+
+  <!-- Learn / Connect / Act -->
+  <section style="padding:0 32px 96px">
+    <div style="display:flex;flex-wrap:wrap;gap:24px">
+      <a href="Learn.dc.html" id="learn" style="flex:1 1 300px;display:flex;flex-direction:column;gap:20px;text-decoration:none">
+        <div style="aspect-ratio:4/5;background:#B5CFCB;overflow:hidden">
+          <img src="/_blob/888e4c91357c42feb3d6b13957114ce2" alt="Hands wrapped around a white mug resting on a book" style="display:block;width:100%;height:100%;object-fit:cover;object-position:55% center">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:28px;font-weight:500;letter-spacing:-0.01em;color:{{accent}}">Learn</div>
+          <div style="font-size:16px;line-height:1.55;color:#5E5360;max-width:400px">Reliable health information and shared experience, in words you can understand and trust.</div>
+          <div style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px;margin-top:8px">Start learning</div>
+        </div>
+      </a>
+      <a href="Connect.dc.html" id="connect" style="flex:1 1 300px;display:flex;flex-direction:column;gap:20px;text-decoration:none">
+        <div style="aspect-ratio:4/5;background:#EBCFCB;overflow:hidden">
+          <img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="A smiling woman in glasses talking with a friend on an outdoor bench" style="display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:28px;font-weight:500;letter-spacing:-0.01em;color:{{accent}}">Connect</div>
+          <div style="font-size:16px;line-height:1.55;color:#5E5360;max-width:400px">Meet others who understand parts of the journey, whatever stage you're at.</div>
+          <div style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px;margin-top:8px">Meet the community</div>
+        </div>
+      </a>
+      <a href="Act.dc.html" id="act" style="flex:1 1 300px;display:flex;flex-direction:column;gap:20px;text-decoration:none">
+        <div style="aspect-ratio:4/5;background:#C9BDD6;display:flex;align-items:flex-end;padding:20px;box-sizing:border-box">
+          <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;line-height:1.5;max-width:240px">Photo slot · a group together, shoulder to shoulder, facing the camera</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:28px;font-weight:500;letter-spacing:-0.01em;color:{{accent}}">Act</div>
+          <div style="font-size:16px;line-height:1.55;color:#5E5360;max-width:400px">Speak up on what matters to us and push for better awareness, understanding and care.</div>
+          <div style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px;margin-top:8px">Take action</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Founding Circle -->
+  <section style="display:flex;flex-wrap:wrap;background:#EFEAE4">
+    <div style="position:relative;flex:1 1 520px;min-height:560px;background:#B5CFCB;overflow:hidden">
+      <img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a white mug, surrounded by plants in warm light" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:45% center">
+    </div>
+    <div style="flex:1 1 520px;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:80px 56px;box-sizing:border-box">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">The Founding Circle</div>
+      <p style="margin:0;max-width:520px;font-size:34px;line-height:1.2;font-weight:500;letter-spacing:-0.015em;color:{{accent}}">The first step is taken. Now the listening, learning and building together starts.</p>
+      <a href="About.dc.html" style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px">Meet the circle</a>
+    </div>
+  </section>
+
+  <!-- Voices -->
+  <section id="voices" style="padding:96px 32px 96px;display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Member stories</div>
+        <p style="margin:0;max-width:760px;font-size:44px;line-height:1.1;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">What living with PMOS is really like, from the people who live it.</p>
+      </div>
+      <p style="margin:0;max-width:380px;font-size:16px;line-height:1.6;color:#5E5360">Members share what diagnosis, daily life and finding support are like for them. Every story is shared with their consent.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:40px 24px">
+      <figure style="margin:0;flex:1 1 300px;display:flex;flex-direction:column;gap:20px">
+        <div style="aspect-ratio:1/1;overflow:hidden;background:#EBCFCB"><img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="A smiling woman in glasses talking with a friend on a bench" style="display:block;width:100%;height:100%;object-fit:cover;object-position:55% 25%"></div>
+        <blockquote style="margin:0;font-size:22px;line-height:1.35;font-weight:500;letter-spacing:-0.01em;color:{{accent}}">“[Member quote: a sentence or two, in their own words, shared with consent.]”</blockquote>
+        <figcaption style="font-size:14px;line-height:1.5;color:#5E5360">[First name] · [Years living with PMOS]</figcaption>
+      </figure>
+      <figure style="margin:0;flex:1 1 300px;display:flex;flex-direction:column;gap:20px">
+        <div style="aspect-ratio:1/1;overflow:hidden;background:#B5CFCB"><img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a mug among plants" style="display:block;width:100%;height:100%;object-fit:cover;object-position:45% center"></div>
+        <blockquote style="margin:0;font-size:22px;line-height:1.35;font-weight:500;letter-spacing:-0.01em;color:{{accent}}">“[Member quote: a sentence or two, in their own words, shared with consent.]”</blockquote>
+        <figcaption style="font-size:14px;line-height:1.5;color:#5E5360">[First name] · [Years living with PMOS]</figcaption>
+      </figure>
+      <figure style="margin:0;flex:1 1 300px;display:flex;flex-direction:column;gap:20px">
+        <div style="aspect-ratio:1/1;overflow:hidden;background:#C9BDD6"><img src="/_blob/c971bdc618c6c4643465487a12fc90ea" alt="Two women walking arm in arm in a park" style="display:block;width:100%;height:100%;object-fit:cover;object-position:50% 35%"></div>
+        <blockquote style="margin:0;font-size:22px;line-height:1.35;font-weight:500;letter-spacing:-0.01em;color:{{accent}}">“[Member quote: a sentence or two, in their own words, shared with consent.]”</blockquote>
+        <figcaption style="font-size:14px;line-height:1.5;color:#5E5360">[First name] · [Years living with PMOS]</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="padding:0 32px 96px;display:flex;flex-wrap:wrap;gap:40px 80px">
+    <div style="flex:1 1 280px;max-width:380px;display:flex;flex-direction:column;gap:16px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Questions</div>
+      <p style="margin:0;font-size:44px;line-height:1.1;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">Frequently asked questions.</p>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#5E5360">Can't find yours? Tell us and we'll add it.</p>
+      <a href="#email" style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px">Ask a question</a>
+    </div>
+    <div style="flex:2 1 520px;max-width:860px;border-bottom:1px solid rgba(43,33,40,0.25)">
+      <sc-for list="{{faq}}" as="item" hint-placeholder-count="8">
+        <div>
+          <button type="button" onClick="{{ item.toggle }}" aria-expanded="{{ item.expanded }}" style="display:flex;width:100%;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;background:none;border:0;border-top:1px solid rgba(43,33,40,0.25);font-family:inherit;font-size:20px;line-height:1.3;font-weight:500;text-align:left;color:#2B2128;cursor:pointer">
+            <span>{{item.q}}</span>
+            <span aria-hidden="true" style="flex:none;font-size:26px;font-weight:400;color:{{accent}}">{{item.sign}}</span>
+          </button>
+          <sc-if value="{{ item.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 56px 28px 0;max-width:700px;font-size:16px;line-height:1.65;color:#5E5360">{{item.a}}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- Join: the hive -->
+  <section id="join" style="padding:88px 32px;display:flex;flex-wrap:wrap;gap:56px 72px;align-items:center;justify-content:space-between">
+    <div style="flex:1 1 340px;max-width:420px;display:flex;flex-direction:column;gap:20px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Join us</div>
+      <p style="margin:0;font-size:44px;line-height:1.1;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">Join the community.</p>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#5E5360">Meet others living with PMOS and be among the first in as we build this together. Every cell in the hive is a member, a story or a question.</p>
+      <form style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+        <label for="email" style="font-size:13px;font-weight:500">Email address</label>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <input id="email" type="email" placeholder="you@example.com" style="flex:1 1 200px;min-height:52px;box-sizing:border-box;padding:0 16px;font-family:inherit;font-size:16px;color:#2B2128;background:#FFFFFF;border:1px solid #2B2128;border-radius:0">
+          <button type="button" style="min-height:52px;padding:0 28px;font-family:inherit;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;color:#FAF8F5;background:{{accent}};border:0;border-radius:0;cursor:pointer">Join</button>
+        </div>
+        <div style="font-size:13px;line-height:1.5;color:#5E5360">Get the newsletter and hear first as we build this together. Unsubscribe any time.</div>
+      </form>
+    </div>
+
+    <div style="position:relative;flex:0 0 820px;width:820px;max-width:100%;height:615px">
+      <!-- Row 1 -->
+      <a class="hex" href="#email" style="left:3px;top:3.5px;width:158px;height:182px"><img src="/_blob/37a8aeb039e6a4cce7ae0db376ef0049" alt="Two women talking across a café table" style="object-position:25% center"><span class="cap">Coffee and honest talk</span></a>
+      <a class="hex tint" href="#email" style="left:167px;top:3.5px;width:158px;height:182px;background:#EBCFCB;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 30px;box-sizing:border-box;font-size:17px;line-height:1.2;font-weight:500;color:#2B2128">Share a story</a>
+      <a class="hex" href="#email" style="left:331px;top:3.5px;width:158px;height:182px"><img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="A woman in glasses smiling as she talks with a friend on a bench" style="object-position:55% 25%"><span class="cap">Say it out loud</span></a>
+      <a class="hex" href="#email" style="left:495px;top:3.5px;width:158px;height:182px"><img src="/_blob/70a496ce61e16710a5e3e85930dc182b" alt="A woman writing in a notebook" style="object-position:50% center"><span class="cap">Write it down</span></a>
+      <a class="hex tint" href="#email" aria-label="A place waiting for you" style="left:659px;top:3.5px;width:158px;height:182px;background:#EFEAE4;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:400;color:#B9AEBB">+</a>
+      <!-- Row 2 -->
+      <a class="hex" href="#email" style="left:85px;top:145.5px;width:158px;height:182px"><img src="/_blob/c971bdc618c6c4643465487a12fc90ea" alt="Two women walking arm in arm in a park" style="object-position:50% 40%"><span class="cap">Walk it out</span></a>
+      <a class="hex" href="#email" style="left:249px;top:145.5px;width:158px;height:182px"><img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a white mug among plants" style="object-position:45% center"><span class="cap">Slow mornings</span></a>
+      <a class="hex queen" href="#email" style="left:413px;top:145.5px;width:158px;height:182px;background:{{accent}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;color:#FFFFFF"><span style="font-size:34px;font-weight:500;letter-spacing:-0.01em;color:#FFFFFF">You?</span><span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:#FFFFFF">Join the hive</span></a>
+      <a class="hex" href="#email" style="left:577px;top:145.5px;width:158px;height:182px"><img src="/_blob/aa6973b0025b327133792dfecaf5253d" alt="Two women laughing together in warm purple light" style="object-position:40% center"><span class="cap">Laugh loudly</span></a>
+      <!-- Row 3 -->
+      <a class="hex tint" href="#email" style="left:3px;top:287.5px;width:158px;height:182px;background:#B5CFCB;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 30px;box-sizing:border-box;font-size:17px;line-height:1.2;font-weight:500;color:#2B2128">Ask a question</a>
+      <a class="hex" href="#email" style="left:167px;top:287.5px;width:158px;height:182px"><img src="/_blob/888e4c91357c42feb3d6b13957114ce2" alt="Hands wrapped around a white mug resting on a book" style="object-position:55% center"><span class="cap">Take a minute</span></a>
+      <a class="hex" href="#email" style="left:331px;top:287.5px;width:158px;height:182px"><img src="/_blob/d0ec20c6faf36e721c82a0b72685abaa" alt="Three friends in a close group hug" style="object-position:40% center"><span class="cap">Hold each other up</span></a>
+      <a class="hex tint" href="#email" style="left:495px;top:287.5px;width:158px;height:182px;background:#C9BDD6;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 30px;box-sizing:border-box;font-size:17px;line-height:1.2;font-weight:500;color:#2B2128">Find your people</a>
+      <a class="hex" href="#email" style="left:659px;top:287.5px;width:158px;height:182px"><img src="/_blob/5afb10e04a3b05fbbca6ba07079c5701" alt="Friends walking together arm in arm along a tree-lined path" style="object-position:60% center"><span class="cap">Together, outside</span></a>
+      <!-- Row 4 -->
+      <a class="hex tint" href="#email" aria-label="A place waiting for you" style="left:85px;top:429.5px;width:158px;height:182px;background:#EFEAE4;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:400;color:#B9AEBB">+</a>
+      <a class="hex" href="#email" style="left:249px;top:429.5px;width:158px;height:182px"><img src="/_blob/46dad35daf9d6d016d540ae8b08bcef5" alt="Two friends laughing over their phones at a table" style="object-position:50% center"><span class="cap">Stay in touch</span></a>
+      <a class="hex" href="#email" style="left:413px;top:429.5px;width:158px;height:182px"><img src="/_blob/f7644dcf50e6e6b27a04179dc335f495" alt="A woman chopping fresh vegetables in a bright kitchen" style="object-position:75% center"><span class="cap">Cook together</span></a>
+      <a class="hex tint" href="#email" style="left:577px;top:429.5px;width:158px;height:182px;background:#EBCFCB;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 30px;box-sizing:border-box;font-size:17px;line-height:1.2;font-weight:500;color:#2B2128">Take action</a>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section style="background:#EFEAE4;padding:64px 32px;display:flex;flex-wrap:wrap;gap:20px 56px;align-items:center;justify-content:space-between">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:680px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Support the cause</div>
+      <p style="margin:0;font-size:34px;line-height:1.2;font-weight:500;letter-spacing:-0.015em;color:{{accent}}">Want to help this grow? Donating is always optional.</p>
+    </div>
+    <a href="Donate.dc.html" style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:5px">Donate</a>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding:48px 32px 40px;border-top:1px solid rgba(43,33,40,0.25);display:flex;flex-wrap:wrap;gap:32px 80px;justify-content:space-between">
+    <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:12px;max-width:420px">
+      <div style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Cysters in Action</div>
+      <div style="font-size:14px;line-height:1.6;color:#5E5360">Information shared here is for education and community support. It isn't medical advice. Please speak to your healthcare provider about your own care.</div>
+    </div>
+    <nav style="display:flex;flex-wrap:wrap;gap:12px 32px;font-size:14px;align-items:flex-start">
+      <a href="Learn.dc.html">Learn</a>
+      <a href="Connect.dc.html">Connect</a>
+      <a href="Act.dc.html">Act</a>
+      <a href="About.dc.html">About</a>
+      <a href="Donate.dc.html">Donate</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </nav>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#5A2D5F","options":["#5A2D5F","#1F5656","#7A2E4D","#2B2128"]},"$preview":{"width":1440,"height":3700}}'>
+class Component extends DCLogic {
+  state = { open: 0 };
+  renderVals() {
+    const faq = [
+      { q: "What is PMOS, and is it the same as PCOS?", a: "PMOS (polyendocrine metabolic ovarian syndrome) is the new name for PCOS, announced in May 2026. It describes the same condition, and diagnosis and treatment haven't changed. The name is being phased in over about three years." },
+      { q: "Why was the name changed?", a: "The old name focused on the ovaries, but the condition also affects hormones and metabolism, and many people diagnosed don't have polycystic ovaries. [Clinician to review this wording.]" },
+      { q: "Who is Cysters in Action for?", a: "[To confirm: people living with PMOS at any stage, plus family and supporters?]" },
+      { q: "Who runs it?", a: "A Founding Circle of people living with PMOS has taken the first step. [Add names and roles once agreed.]" },
+      { q: "Is this medical advice?", a: "No. What we share is for education and community support. Please speak to your healthcare provider about your own care." },
+      { q: "Who checks the health information?", a: "[To confirm: who reviews content, how, and how often it is updated.]" },
+      { q: "What happens to my email and my photos?", a: "[To confirm: privacy policy, how photos are stored and whether you can stay anonymous.]" },
+      { q: "How do I get involved?", a: "Join the newsletter for now. We'll share ways to tell your story and take action together as we build this." }
+    ];
+    const open = this.state.open;
+    return {
+      accent: this.props.accent ?? '#5A2D5F',
+      faq: faq.map((f, i) => ({
+        q: f.q,
+        a: f.a,
+        open: open === i,
+        expanded: open === i ? 'true' : 'false',
+        sign: open === i ? '−' : '+',
+        toggle: () => this.setState({ open: open === i ? -1 : i })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

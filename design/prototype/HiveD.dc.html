@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hive D Stream</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;background:#241628;color:#2B2128}
+.band{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent)}
+.row{display:flex;width:max-content;animation:slide 70s linear infinite}
+.row.rev{animation-direction:reverse;animation-duration:85s}
+.row.slow{animation-duration:100s}
+.band:hover .row{animation-play-state:paused}
+.cell{position:relative;flex:none;width:300px;height:210px;margin-right:16px;overflow:hidden}
+.cell img{display:block;width:100%;height:100%;object-fit:cover}
+.cell.text{display:flex;align-items:flex-end;padding:18px;box-sizing:border-box;font-size:22px;line-height:1.15;font-weight:500;letter-spacing:-0.01em;color:#2B2128}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.row{animation:none}}
+</style>
+</helmet>
+<div style="position:relative;width:1440px;height:790px;box-sizing:border-box;overflow:hidden;background:#241628;font-family:'Hanken Grotesk',system-ui,sans-serif;padding:64px 0;display:flex;flex-direction:column;gap:16px">
+
+  <!-- Row 1 -->
+  <div class="band"><div class="row">
+    <div class="cell"><img src="/_blob/37a8aeb039e6a4cce7ae0db376ef0049" alt="Two women talking across a café table" style="object-position:30% center"></div>
+    <div class="cell text" style="background:#EBCFCB">Share a story</div>
+    <div class="cell"><img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="A woman in glasses talking with a friend on a bench" style="object-position:55% 25%"></div>
+    <div class="cell"><img src="/_blob/70a496ce61e16710a5e3e85930dc182b" alt="A woman writing in a notebook" style="object-position:50% 45%"></div>
+    <div class="cell text" style="background:#B5CFCB">Ask a question</div>
+    <div class="cell"><img src="/_blob/d0ec20c6faf36e721c82a0b72685abaa" alt="Three friends in a close group hug" style="object-position:40% center"></div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/37a8aeb039e6a4cce7ae0db376ef0049" alt="" style="object-position:30% center"></div>
+    <div class="cell text" aria-hidden="true" style="background:#EBCFCB">Share a story</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="" style="object-position:55% 25%"></div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/70a496ce61e16710a5e3e85930dc182b" alt="" style="object-position:50% 45%"></div>
+    <div class="cell text" aria-hidden="true" style="background:#B5CFCB">Ask a question</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/d0ec20c6faf36e721c82a0b72685abaa" alt="" style="object-position:40% center"></div>
+  </div></div>
+
+  <!-- Row 2 -->
+  <div class="band"><div class="row rev" style="margin-left:-158px">
+    <div class="cell"><img src="/_blob/aa6973b0025b327133792dfecaf5253d" alt="Two women laughing in warm purple light" style="object-position:35% center"></div>
+    <div class="cell"><img src="/_blob/c971bdc618c6c4643465487a12fc90ea" alt="Two women walking arm in arm in a park" style="object-position:50% 40%"></div>
+    <div class="cell text" style="background:#C9BDD6">Find your people</div>
+    <div class="cell"><img src="/_blob/888e4c91357c42feb3d6b13957114ce2" alt="Hands wrapped around a white mug" style="object-position:55% center"></div>
+    <div class="cell"><img src="/_blob/46dad35daf9d6d016d540ae8b08bcef5" alt="Two friends laughing over their phones"></div>
+    <div class="cell text" style="background:#EBCFCB">Take action</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/aa6973b0025b327133792dfecaf5253d" alt="" style="object-position:35% center"></div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/c971bdc618c6c4643465487a12fc90ea" alt="" style="object-position:50% 40%"></div>
+    <div class="cell text" aria-hidden="true" style="background:#C9BDD6">Find your people</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/888e4c91357c42feb3d6b13957114ce2" alt="" style="object-position:55% center"></div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/46dad35daf9d6d016d540ae8b08bcef5" alt=""></div>
+    <div class="cell text" aria-hidden="true" style="background:#EBCFCB">Take action</div>
+  </div></div>
+
+  <!-- Row 3 -->
+  <div class="band"><div class="row slow" style="margin-left:-60px">
+    <div class="cell"><img src="/_blob/f7644dcf50e6e6b27a04179dc335f495" alt="A woman chopping fresh vegetables" style="object-position:75% center"></div>
+    <div class="cell text" style="background:#C9BDD6">Say hello</div>
+    <div class="cell"><img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a mug among plants" style="object-position:45% center"></div>
+    <div class="cell text" style="background:#B5CFCB">Learn together</div>
+    <div class="cell"><img src="/_blob/5afb10e04a3b05fbbca6ba07079c5701" alt="Friends walking together along a path" style="object-position:60% center"></div>
+    <div class="cell text" style="background:#EBCFCB">Speak up</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/f7644dcf50e6e6b27a04179dc335f495" alt="" style="object-position:75% center"></div>
+    <div class="cell text" aria-hidden="true" style="background:#C9BDD6">Say hello</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="" style="object-position:45% center"></div>
+    <div class="cell text" aria-hidden="true" style="background:#B5CFCB">Learn together</div>
+    <div class="cell" aria-hidden="true"><img src="/_blob/5afb10e04a3b05fbbca6ba07079c5701" alt="" style="object-position:60% center"></div>
+    <div class="cell text" aria-hidden="true" style="background:#EBCFCB">Speak up</div>
+  </div></div>
+
+  <!-- Join card -->
+  <div style="position:absolute;left:440px;top:155px;width:560px;box-sizing:border-box;padding:40px;background:#FAF8F5;box-shadow:0 24px 60px rgba(0,0,0,0.4);display:flex;flex-direction:column;gap:16px">
+    <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Join us</div>
+    <p style="margin:0;font-size:38px;line-height:1.1;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">A stream of people who get it.</p>
+    <p style="margin:0;font-size:16px;line-height:1.6;color:#5E5360">Step in, say hello, and add your face and your story. Get the newsletter and hear first as we build this together.</p>
+    <form style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+      <label for="email-d" style="font-size:13px;font-weight:500;color:#2B2128">Email address</label>
+      <div style="display:flex;gap:12px">
+        <input id="email-d" type="email" placeholder="you@example.com" style="flex:1 1 auto;min-width:0;min-height:52px;box-sizing:border-box;padding:0 16px;font-family:inherit;font-size:16px;color:#2B2128;background:#FFFFFF;border:1px solid #2B2128;border-radius:0">
+        <button type="button" style="min-height:52px;padding:0 28px;font-family:inherit;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;color:#FAF8F5;background:{{accent}};border:0;border-radius:0;cursor:pointer">Join</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#5A2D5F","options":["#5A2D5F","#1F5656","#7A2E4D","#2B2128"]},"$preview":{"width":1440,"height":790}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#5A2D5F' };
+  }
+}
+</script>
+</body>
+</html>

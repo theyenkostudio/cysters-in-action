@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cysters in Action Donate</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;background:#FAF8F5;color:#2B2128}
+a{color:#2B2128;text-decoration:none}a:hover{text-decoration:underline}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #2B2128;outline-offset:2px}
+</style>
+</helmet>
+<div style="background:#FAF8F5;color:#2B2128;font-family:'Hanken Grotesk',system-ui,sans-serif;width:100%">
+
+  <!-- Header -->
+  <header style="display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between;padding:22px 32px;border-bottom:1px solid rgba(43,33,40,0.25)">
+    <a href="Main.dc.html" style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Cysters in Action</a>
+    <nav style="display:flex;flex-wrap:wrap;gap:8px 36px;font-size:15px;align-items:center">
+      <a href="Learn.dc.html">Learn</a>
+      <a href="Connect.dc.html">Connect</a>
+      <a href="Act.dc.html">Act</a>
+      <a href="About.dc.html">About</a>
+      <a href="Donate.dc.html" style="font-weight:600;color:{{accent}}">Donate</a>
+      <a href="Main.dc.html" style="font-weight:500;text-decoration:underline;text-underline-offset:4px">Join the community</a>
+    </nav>
+  </header>
+
+  <!-- Intro -->
+  <section style="padding:88px 32px 56px;display:flex;flex-wrap:wrap;gap:24px 80px;align-items:flex-end;justify-content:space-between">
+    <div style="flex:1 1 560px;max-width:860px;display:flex;flex-direction:column;gap:20px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Donate</div>
+      <h1 style="margin:0;font-size:64px;line-height:1.05;font-weight:500;letter-spacing:-0.025em;color:{{accent}}">Support the cause.</h1>
+    </div>
+    <p style="margin:0;flex:0 1 460px;font-size:18px;line-height:1.6;color:#5E5360">Cysters in Action exists so people living with PMOS can learn, connect and act. Donating is always optional, and there are other ways to help too.</p>
+  </section>
+
+  <!-- Photo -->
+  <div style="height:520px;overflow:hidden;background:#EBCFCB">
+    <img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a white mug among plants" style="display:block;width:100%;height:100%;object-fit:cover;object-position:50% 40%">
+  </div>
+
+  <!-- Donation -->
+  <section style="padding:96px 32px;display:flex;flex-wrap:wrap;gap:56px 80px;align-items:flex-start">
+
+    <form style="flex:1 1 480px;max-width:620px;box-sizing:border-box;background:#EFEAE4;padding:40px;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Make a donation</div>
+        <p style="margin:0;font-size:34px;line-height:1.15;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">Choose how you'd like to give.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13px;font-weight:500">How often</div>
+        <div style="display:flex;gap:12px">
+          <sc-for list="{{freqs}}" as="f" hint-placeholder-count="2">
+            <button type="button" onClick="{{ f.pick }}" aria-pressed="{{ f.pressed }}" style="flex:1 1 0;min-height:52px;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;border-radius:0;{{ f.sel }}">{{f.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13px;font-weight:500">Amount</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <sc-for list="{{amounts}}" as="a" hint-placeholder-count="4">
+            <button type="button" onClick="{{ a.pick }}" aria-pressed="{{ a.pressed }}" style="flex:1 1 90px;min-height:52px;font-family:inherit;font-size:17px;font-weight:500;cursor:pointer;border-radius:0;{{ a.sel }}">{{a.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label for="other" style="font-size:13px;font-weight:500">Or enter another amount</label>
+        <input id="other" type="text" inputmode="numeric" placeholder="Other amount" style="min-height:52px;box-sizing:border-box;padding:0 16px;font-family:inherit;font-size:16px;color:#2B2128;background:#FFFFFF;border:1px solid #2B2128;border-radius:0">
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <button type="button" style="min-height:56px;font-family:inherit;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;color:#FAF8F5;background:{{accent}};border:0;border-radius:0;cursor:pointer">Continue: {{summary}}</button>
+        <div style="font-size:13px;line-height:1.5;color:#5E5360">[To confirm: currency, suggested amounts and the payment provider.]</div>
+      </div>
+    </form>
+
+    <div style="flex:1 1 400px;max-width:560px;display:flex;flex-direction:column;gap:56px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Where your donation goes</div>
+        <div style="display:flex;flex-direction:column">
+          <div style="padding:20px 0;border-top:1px solid rgba(43,33,40,0.25);font-size:17px;line-height:1.6">[To confirm: what donations will fund, for example reviewing health content, running the community or campaigns.]</div>
+          <div style="padding:20px 0;border-top:1px solid rgba(43,33,40,0.25);font-size:17px;line-height:1.6">[To confirm: the organisation's name and legal status, and whether donations are tax-deductible.]</div>
+          <div style="padding:20px 0;border-top:1px solid rgba(43,33,40,0.25);border-bottom:1px solid rgba(43,33,40,0.25);font-size:17px;line-height:1.6">[To confirm: how donors get a receipt and how to change or cancel a monthly donation.]</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Other ways to help</div>
+        <div style="display:flex;flex-direction:column">
+          <a href="Main.dc.html" style="padding:18px 0;border-top:1px solid rgba(43,33,40,0.25);font-size:20px;font-weight:500;color:{{accent}}">Join the community</a>
+          <a href="Connect.dc.html" style="padding:18px 0;border-top:1px solid rgba(43,33,40,0.25);font-size:20px;font-weight:500;color:{{accent}}">Share your story</a>
+          <a href="Act.dc.html" style="padding:18px 0;border-top:1px solid rgba(43,33,40,0.25);border-bottom:1px solid rgba(43,33,40,0.25);font-size:20px;font-weight:500;color:{{accent}}">Tell us what matters to you</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding:48px 32px 40px;border-top:1px solid rgba(43,33,40,0.25);display:flex;flex-wrap:wrap;gap:32px 80px;justify-content:space-between">
+    <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:12px;max-width:420px">
+      <div style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Cysters in Action</div>
+      <div style="font-size:14px;line-height:1.6;color:#5E5360">Information shared here is for education and community support. It isn't medical advice. Please speak to your healthcare provider about your own care.</div>
+    </div>
+    <nav style="display:flex;flex-wrap:wrap;gap:12px 32px;font-size:14px;align-items:flex-start">
+      <a href="Learn.dc.html">Learn</a>
+      <a href="Connect.dc.html">Connect</a>
+      <a href="Act.dc.html">Act</a>
+      <a href="About.dc.html">About</a>
+      <a href="Donate.dc.html">Donate</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </nav>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#5A2D5F","options":["#5A2D5F","#1F5656","#7A2E4D","#2B2128"]},"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+  state = { freq: 0, amt: 1 };
+  renderVals() {
+    const accent = this.props.accent ?? '#5A2D5F';
+    const on = 'background:' + accent + ';color:#FFFFFF;border:1px solid ' + accent + ';';
+    const off = 'background:#FFFFFF;color:#2B2128;border:1px solid #2B2128;';
+    const freqNames = ['One-time', 'Monthly'];
+    const amountValues = ['10', '25', '50', '100'];
+    const { freq, amt } = this.state;
+    return {
+      accent,
+      freqs: freqNames.map((label, i) => ({
+        label,
+        pressed: freq === i ? 'true' : 'false',
+        sel: freq === i ? on : off,
+        pick: () => this.setState({ freq: i })
+      })),
+      amounts: amountValues.map((label, i) => ({
+        label,
+        pressed: amt === i ? 'true' : 'false',
+        sel: amt === i ? on : off,
+        pick: () => this.setState({ amt: i })
+      })),
+      summary: amountValues[amt] + ', ' + freqNames[freq].toLowerCase()
+    };
+  }
+}
+</script>
+</body>
+</html>

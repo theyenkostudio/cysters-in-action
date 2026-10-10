@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hive C Orbit</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;background:#FAF8F5;color:#2B2128}
+a{color:#2B2128;text-decoration:none}a:hover{text-decoration:none}
+.ring{position:absolute;box-sizing:border-box;border-radius:50%;border:1px solid rgba(90,45,95,0.2);animation:spin 140s linear infinite}
+.ring.r1{animation-duration:100s}
+.ring.r2{animation-duration:150s;animation-direction:reverse}
+.ring.r3{animation-duration:220s}
+.it{position:absolute;display:block;box-sizing:border-box;border:3px solid;border-radius:50%;background:#FAF8F5;animation:spin 140s linear infinite reverse}
+.r1 .it{animation-duration:100s}
+.r2 .it{animation-duration:150s;animation-direction:normal}
+.r3 .it{animation-duration:220s}
+.it:hover,.it:focus-visible{z-index:5}
+.it .clip{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;overflow:hidden;text-align:center}
+.it img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.it:hover img,.it:focus-visible img{transform:scale(1.14)}
+.it .tip{position:absolute;left:50%;top:100%;transform:translate(-50%,8px);white-space:nowrap;font-size:12px;font-weight:500;background:#2B2128;color:#FFFFFF;padding:6px 10px;opacity:0;pointer-events:none;transition:opacity 0.2s ease}
+.it:hover .tip,.it:focus-visible .tip{opacity:1}
+.it.open{border-style:dashed;border-width:1.5px;border-color:#B9AEBB;background:transparent}
+.orbit:hover .ring,.orbit:hover .it{animation-play-state:paused}
+.core{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:50%;animation:core-pulse 3.6s ease-in-out infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes core-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@media (prefers-reduced-motion:reduce){.ring,.it,.core{animation:none}.it img{transition:none}}
+</style>
+</helmet>
+<div style="width:1440px;height:1060px;box-sizing:border-box;background:#FAF8F5;color:#2B2128;font-family:'Hanken Grotesk',system-ui,sans-serif;padding:72px 32px 0">
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:8px">
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:640px">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:{{accent}}">Join us</div>
+      <p style="margin:0;font-size:44px;line-height:1.1;font-weight:500;letter-spacing:-0.02em;color:{{accent}}">Find your orbit.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#5E5360">Three rings around you. The closest is what you're learning, then the people you're connecting with, then what we do together. Hover to pause.</p>
+      <div style="display:flex;gap:24px;font-size:13px;font-weight:500">
+        <span style="display:flex;align-items:center;gap:8px"><span style="display:block;width:14px;height:14px;border-radius:50%;border:3px solid #7FB5AF;box-sizing:border-box"></span>Learn</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="display:block;width:14px;height:14px;border-radius:50%;border:3px solid #A593BD;box-sizing:border-box"></span>Connect</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="display:block;width:14px;height:14px;border-radius:50%;border:3px solid #E0A9A3;box-sizing:border-box"></span>Act</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="orbit" style="position:relative;width:1376px;height:760px">
+
+    <!-- Ring 3: Act (outer) -->
+    <div class="ring r3" style="left:358px;top:50px;width:660px;height:660px">
+      <a class="it" href="#" style="left:412.3px;top:-18.9px;width:88px;height:88px;border-color:#E0A9A3"><span class="clip"><img src="/_blob/c971bdc618c6c4643465487a12fc90ea" alt="Two women walking arm in arm" style="object-position:50% 40%"></span><span class="tip">Walk it out</span></a>
+      <a class="it" href="#" style="left:590.9px;top:159.7px;width:88px;height:88px;border-color:#E0A9A3;background:#C9BDD6"><span class="clip" style="font-size:12px;line-height:1.2;font-weight:500;padding:0 10px">Take action</span></a>
+      <a class="it" href="#" style="left:590.9px;top:412.3px;width:88px;height:88px;border-color:#E0A9A3"><span class="clip"><img src="/_blob/5afb10e04a3b05fbbca6ba07079c5701" alt="Friends walking together along a path" style="object-position:60% center"></span><span class="tip">Together, outside</span></a>
+      <a class="it open" href="#" aria-label="An open seat for you" style="left:412.3px;top:590.9px;width:88px;height:88px"><span class="clip" style="font-size:28px;color:#B9AEBB">+</span></a>
+      <a class="it" href="#" style="left:159.7px;top:590.9px;width:88px;height:88px;border-color:#E0A9A3"><span class="clip"><img src="/_blob/d0ec20c6faf36e721c82a0b72685abaa" alt="Three friends in a close group hug" style="object-position:40% center"></span><span class="tip">Hold each other up</span></a>
+      <a class="it" href="#" style="left:-18.9px;top:412.3px;width:88px;height:88px;border-color:#E0A9A3;background:#EBCFCB"><span class="clip" style="font-size:12px;line-height:1.2;font-weight:500;padding:0 10px">Speak up</span></a>
+      <a class="it open" href="#" aria-label="An open seat for you" style="left:-18.9px;top:159.7px;width:88px;height:88px"><span class="clip" style="font-size:28px;color:#B9AEBB">+</span></a>
+      <a class="it open" href="#" aria-label="An open seat for you" style="left:159.7px;top:-18.9px;width:88px;height:88px"><span class="clip" style="font-size:28px;color:#B9AEBB">+</span></a>
+    </div>
+
+    <!-- Ring 2: Connect (middle) -->
+    <div class="ring r2" style="left:458px;top:150px;width:460px;height:460px">
+      <a class="it" href="#" style="left:184px;top:-46px;width:92px;height:92px;border-color:#A593BD"><span class="clip"><img src="/_blob/37a8aeb039e6a4cce7ae0db376ef0049" alt="Two women talking across a café table" style="object-position:25% center"></span><span class="tip">Coffee and honest talk</span></a>
+      <a class="it" href="#" style="left:363.8px;top:40.6px;width:92px;height:92px;border-color:#A593BD"><span class="clip"><img src="/_blob/53a73ff64b64aa0fd0aecb049d3ddccb" alt="A woman in glasses talking with a friend on a bench" style="object-position:55% 25%"></span><span class="tip">Say it out loud</span></a>
+      <a class="it" href="#" style="left:408.2px;top:235.2px;width:92px;height:92px;border-color:#A593BD"><span class="clip"><img src="/_blob/46dad35daf9d6d016d540ae8b08bcef5" alt="Two friends laughing over their phones"></span><span class="tip">Stay in touch</span></a>
+      <a class="it" href="#" style="left:283.8px;top:391.2px;width:92px;height:92px;border-color:#A593BD;background:#EBCFCB"><span class="clip" style="font-size:12px;line-height:1.2;font-weight:500;padding:0 10px">Share a story</span></a>
+      <a class="it" href="#" style="left:84.2px;top:391.2px;width:92px;height:92px;border-color:#A593BD"><span class="clip"><img src="/_blob/aa6973b0025b327133792dfecaf5253d" alt="Two women laughing in warm purple light" style="object-position:35% center"></span><span class="tip">Laugh loudly</span></a>
+      <a class="it" href="#" style="left:-40.2px;top:235.2px;width:92px;height:92px;border-color:#A593BD;background:#B5CFCB"><span class="clip" style="font-size:12px;line-height:1.2;font-weight:500;padding:0 10px">Say hello</span></a>
+      <a class="it open" href="#" aria-label="An open seat for you" style="left:4.2px;top:40.6px;width:92px;height:92px"><span class="clip" style="font-size:28px;color:#B9AEBB">+</span></a>
+    </div>
+
+    <!-- Ring 1: Learn (inner) -->
+    <div class="ring r1" style="left:558px;top:250px;width:260px;height:260px">
+      <a class="it" href="#" style="left:90px;top:-40px;width:80px;height:80px;border-color:#7FB5AF"><span class="clip"><img src="/_blob/70a496ce61e16710a5e3e85930dc182b" alt="A woman writing in a notebook" style="object-position:50% 45%"></span><span class="tip">Write it down</span></a>
+      <a class="it" href="#" style="left:220px;top:90px;width:80px;height:80px;border-color:#7FB5AF"><span class="clip"><img src="/_blob/888e4c91357c42feb3d6b13957114ce2" alt="Hands wrapped around a white mug" style="object-position:55% center"></span><span class="tip">Take a minute</span></a>
+      <a class="it" href="#" style="left:90px;top:220px;width:80px;height:80px;border-color:#7FB5AF"><span class="clip"><img src="/_blob/d3624971b4bfff6e7fc0a4be274e5618" alt="A smiling woman holding a mug among plants" style="object-position:45% center"></span><span class="tip">Slow mornings</span></a>
+      <a class="it" href="#" style="left:-40px;top:90px;width:80px;height:80px;border-color:#7FB5AF"><span class="clip"><img src="/_blob/f7644dcf50e6e6b27a04179dc335f495" alt="A woman chopping fresh vegetables" style="object-position:75% center"></span><span class="tip">Cook together</span></a>
+    </div>
+
+    <!-- Core -->
+    <a class="core" href="#" style="left:603px;top:295px;width:170px;height:170px;background:{{accent}};flex-direction:column;gap:4px;text-align:center"><span style="font-size:34px;font-weight:500;letter-spacing:-0.01em;color:#FFFFFF">You?</span><span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:#FFFFFF">Join the hive</span></a>
+
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#5A2D5F","options":["#5A2D5F","#1F5656","#7A2E4D","#2B2128"]},"$preview":{"width":1440,"height":1060}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#5A2D5F' };
+  }
+}
+</script>
+</body>
+</html>

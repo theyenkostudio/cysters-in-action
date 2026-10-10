@@ -1,5 +1,7 @@
 # Site Pages (prototype status)
 
+**Built in the app (Next.js):** Home and Donate. Learn, Connect, Act and About are designed but not built yet. See [11-handoff.md](11-handoff.md). The notes below describe the design.
+
 All pages are in the design canvas, with desktop and mobile versions of every page, plus the mobile menu.
 
 Shared across every page: Hanken Grotesk, warm off-white ground, one plum accent (tweakable), tinted blocks for rhythm, photography first, text links instead of loud buttons, plain-language copy, and a "not medical advice" footer. Header: wordmark far left, nav and "Join the community" far right, current page highlighted. Motion is limited to a slight zoom on hover, per [08-motion.md](08-motion.md).

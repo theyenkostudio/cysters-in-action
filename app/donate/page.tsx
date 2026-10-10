@@ -7,12 +7,14 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { Photo } from "@/components/ui/photo";
 import { Reveal } from "@/components/ui/reveal";
 import { photos } from "@/lib/photos";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Donate · Cysters in Action",
+export const metadata: Metadata = pageMetadata({
+  title: "Donate",
   description:
-    "Support Cysters in Action. Donating is always optional, and there are other ways to help too.",
-};
+    "Support Cysters in Action. Donating is always optional, and there are other ways to help people living with PMOS too.",
+  path: "/donate",
+});
 
 // Open decisions, shown as in the design. See docs/02-open-questions.md, "Donations".
 const whereItGoes = [

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { FoundingCircle } from "@/components/home/founding-circle";
 import { Faq } from "@/components/home/faq";
 import { Hero } from "@/components/home/hero";
@@ -8,6 +9,12 @@ import { SupportBand } from "@/components/home/support-band";
 import { Voices } from "@/components/home/voices";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { pageMetadata, siteConfig } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  description: siteConfig.description,
+  path: "/",
+});
 
 export default function Home() {
   return (

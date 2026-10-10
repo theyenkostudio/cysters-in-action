@@ -1,53 +1,45 @@
-# Motion: Scroll Reveals
+# Motion
 
-Status: **direction agreed, not in the prototype.** Motion can't be baked into the design canvas, so this file is the spec for the build.
+Status: **built in the app** (home page and Donate). Not in the design canvas, because it can't be baked into a static design.
 
 ## Intent
-Subtle scroll-driven reveals that give a premium, human feel. Noticeable if you look, never distracting. The test: if someone points it out, they should say "oh, nice", not "why is that moving?".
+Subtle motion that gives a premium, human feel. Noticeable if you look, never distracting. The test: if someone points it out, they should say "oh, nice", not "why is that moving?".
 
-Language: **settle into view**, not pop. No bounce, no overshoot, no spring.
+One move everywhere: **settle in**. Slow ease-out, no bounce, no overshoot, plays once. See decision D-002 in [04-decisions.md](04-decisions.md).
 
-## Starting values (tune in the browser, not on paper)
-| Property | Value |
-|----------|-------|
-| Effect | Fade in (opacity 0 to 1) plus rise (translateY about 12 to 16px to 0) |
-| Duration | About 500 to 700ms |
-| Easing | Ease-out (for example cubic-bezier(0.22, 1, 0.36, 1)). No bounce. |
-| Trigger | When about 15 to 20% of the element is in view |
-| Repeat | Once only. Never re-animate on scroll back up. |
-| Stagger | 60 to 80ms between siblings, capped at about 5 items. Beyond that, reveal as a group. |
-| Photos | Fade plus a very slight scale (about 1.03 to 1). Slightly slower than text. |
+## What's built
+| Move | Where | Detail |
+|------|-------|--------|
+| Settle in | Section text, cards, Voices, FAQ, support band, forms | Fade in and rise 16px, 600ms, ease-out. Siblings staggered by 70ms. |
+| Photos develop | Photo containers below the fold | Container fades in (800ms) while the photo eases from 3% zoomed to full size (1000ms). |
+| Hive ripple | Join hive (desktop and mobile) | Cells fade in and scale from 94%, outward from the "You?" cell. Delay is about 0.9ms per pixel of distance. |
+| Hero settle | Home hero photo | Eases from 4% zoomed to full size over 1.4s on load. Text and nav are visible immediately. |
+| FAQ easing | FAQ answers | Height eases open and closed (CSS only). Opening one closes the others. |
+| Header | Home | Fixed. Transparent over the hero, solid off-white once you scroll. |
+| Small touches | Links, buttons | Underline offset shifts on hover (200ms). The Join/Continue buttons darken slightly. Photos in the hive zoom on hover. |
+| Smooth anchors | Whole site | Links to `#sections` glide, and land clear of the fixed header. |
+| Page cross-fade | Between pages | Old page fades out in 200ms, new page fades in over 300ms. Needs two or more pages to see. |
 
-One motion language everywhere: same easing, same distance, same duration family.
+Values live as tokens: `--ease-settle: cubic-bezier(0.22, 1, 0.36, 1)` and `--duration-settle: 600ms` in `app/globals.css`.
 
-## Where to use it
-- Section headings and intro text
-- Learn / Connect / Act cards (staggered)
-- Voices cards
-- Photo tiles in the community "hive" (stagger by distance from the centre so it ripples outward)
-
-## Where not to
-- **The hero and anything above the fold.** It should be there immediately.
-- **The nav, forms and the FAQ.** Controls shouldn't appear late or shift.
-- Long body copy that people are already reading.
-- Anything that moves the layout. Animate only transform and opacity, so nothing jumps.
+## Where not to use it
+- The hero text and nav, forms, and controls. Nothing important should arrive late.
+- Anything that moves the layout. Only transform and opacity animate.
+- No parallax, no scroll-jacking, no pinned sections, nothing that loops or pulses. (The always-on pulse on the "You?" cell was removed for this reason.)
 
 ## Rules
-- **Content is visible without JavaScript or animation support.** Reveals are an enhancement, not a requirement. Never hide content by default with no fallback.
-- **Respect reduced-motion settings.** With `prefers-reduced-motion: reduce`, show everything immediately with no movement.
-- **No parallax, no scroll-jacking, no pinned sections.** Scrolling stays normal.
-- Keep it cheap: transform and opacity only, no layout-triggering properties.
-- Make sure nothing delays reading or reaching content, especially on slow phones.
+- **Content is visible without JavaScript or animation support.** The server renders everything visible. After load, `Reveal` hides only blocks that are below the fold, then shows them once as they scroll into view. Anything already on screen, or scrolled past, is never hidden.
+- **Reduced motion:** all of the above is inside `prefers-reduced-motion: no-preference`. Users who've asked for less motion get no animation, and nothing is hidden.
+- Once shown, a block never hides again.
 
-## Implementation notes
-- Preferred: CSS scroll-driven animations (`animation-timeline: view()`), which run off the main thread. Browser support isn't universal, so verify current support before relying on it.
-- Fallback: a small IntersectionObserver that adds a class once, or no animation at all. The page must work either way.
-- Build the reveal as one shared utility (a class or attribute), not per-element code, so the motion stays consistent.
+## How it's built
+- `components/ui/reveal.tsx` (client component, IntersectionObserver). Kinds: `rise`, `photo`, `hive`. Takes a `delay` in ms.
+- The CSS is in `app/globals.css` under "Motion".
+- **Change from the original plan:** I first planned CSS scroll-driven animations (`animation-timeline: view()`). Those tie the animation to scroll position, so it plays backwards when you scroll up. That isn't "plays once", so I used an IntersectionObserver instead.
+- Page cross-fade uses React's `<ViewTransition>` in `app/layout.tsx`, styled by `.page-fade`.
+- FAQ easing uses `::details-content` and `interpolate-size`. It works in recent Chrome and Edge. In other browsers the FAQ opens and closes instantly, and everything still works.
 
-## Review items in the current prototype
-The prototype already has some always-on motion in the community sections (a pulsing "You?" cell, floating and rotating nodes in the hive concepts). That's more motion than this spec allows. Decide whether to tone those down or keep them only on hover, so the site has one calm motion language.
-
-## Open questions
-- Which sections reveal at launch (all, or only cards and photos)?
-- Do we want a very light touch of motion on hover for photos (current prototype zooms slightly)? Keep it consistent with the reveal.
-- Performance budget on low-end phones and slow connections (photo-heavy pages).
+## Open items
+- If a photo has its own hover zoom (as in the hive), check it doesn't clash with the reveal transition on the same element.
+- Check performance on low-end phones and slow connections (photo-heavy pages).
+- Revisit the reveal values on a real device. These numbers are starting points.

@@ -14,5 +14,9 @@ Working space for discussing, taking notes and deciding on a direction **before*
 | [08-motion.md](08-motion.md) | Scroll-reveal motion spec for the build. |
 | [09-site-pages.md](09-site-pages.md) | Page-by-page prototype status and content still needed. |
 | [10-design-tokens.md](10-design-tokens.md) | Colour, type, spacing and motion tokens wired into the app. |
+| [12-seo.md](12-seo.md) | SEO setup, how to switch indexing on, and what's still missing. |
+| [11-handoff.md](11-handoff.md) | **Start here next time.** Where things are, what's built, what's next. |
+
+The design itself lives in a Claude design canvas. Its link and a saved copy are in [../design/README.md](../design/README.md).
 
 Flow: questions → notes → decisions. Nothing gets built until the key decisions are recorded.
