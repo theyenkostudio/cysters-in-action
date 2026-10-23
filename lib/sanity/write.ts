@@ -13,3 +13,32 @@ export async function sanityCreate(doc: Record<string, unknown> & { _type: strin
   }
   return writeClient.create(doc)
 }
+
+export async function sanityPatch(id: string, patch: Record<string, unknown>) {
+  if (!hasSanityProject) {
+    console.log(`[sanity] would patch ${id} — no project configured:`, patch)
+    return null
+  }
+  return writeClient.patch(id).set(patch).commit()
+}
+
+/**
+ * Uploads a buffer as a Sanity image asset and returns an `image` field
+ * value ready to attach to a document. No-ops when no project is
+ * configured — the caller still completes, it just won't have a real asset
+ * reference (see submitStory in lib/forms/actions.ts).
+ */
+export async function sanityUploadImage(
+  buffer: Buffer,
+  filename: string,
+  contentType: string,
+): Promise<{ _type: 'image'; asset: { _type: 'reference'; _ref: string } } | null> {
+  if (!hasSanityProject) {
+    console.log(
+      `[sanity] would upload image "${filename}" (${buffer.length} bytes) — no project configured.`,
+    )
+    return null
+  }
+  const asset = await writeClient.assets.upload('image', buffer, { filename, contentType })
+  return { _type: 'image', asset: { _type: 'reference', _ref: asset._id } }
+}

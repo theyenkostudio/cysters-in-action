@@ -150,3 +150,69 @@ export type PageBuilderBlock = {
   _key: string
   animation?: 'none' | 'subtle' | 'exaggerated'
 } & Record<string, unknown>
+
+// --- Phase 4: community features --------------------------------------------
+
+export type StoryTheme =
+  'diagnosis' | 'fertility' | 'mental health' | 'nutrition' | 'work' | 'relationships'
+
+export type StoryRef = {
+  _id: string
+  _type: 'story'
+  title: string
+  slug?: { current: string }
+  isAnonymous: boolean
+  authorName?: string
+  ageRange?: string
+  country?: string
+  body: RichTextValue
+  pullQuote?: string
+  image?: SanityImage
+  themes?: StoryTheme[]
+  contentWarning?: string
+  submittedAt: string
+  approvedAt?: string
+  featured?: boolean
+}
+
+export type EventType = 'webinar' | 'meetup' | 'qna' | 'workshop' | 'other'
+export type EventFormat = 'online' | 'inPerson' | 'hybrid'
+
+export type EventRef = {
+  _id: string
+  _type: 'event'
+  title: string
+  slug: { current: string }
+  eventType: EventType
+  format: EventFormat
+  startDateTime: string
+  endDateTime: string
+  timezone: string
+  summary?: string
+  description?: RichTextValue
+  image?: SanityImage
+  venue?: { name?: string; address?: Record<string, unknown>; mapUrl?: string }
+  onlineJoinUrl?: string
+  hosts?: { _id: string; name: string; photo?: SanityImage }[]
+  rsvpEnabled?: boolean
+  rsvpMode?: 'internal' | 'external'
+  externalRsvpUrl?: string
+  capacity?: number
+  rsvpDeadline?: string
+  recordingUrl?: string
+  status: 'scheduled' | 'cancelled' | 'postponed'
+  seo?: SeoValue
+}
+
+export type GlossaryTermRef = {
+  _id: string
+  _type: 'glossaryTerm'
+  term: string
+  slug: { current: string }
+  alsoKnownAs?: string[]
+  pronunciation?: string
+  shortDefinition: string
+  fullExplanation: RichTextValue
+  relatedTerms?: GlossaryTermRef[]
+  relatedArticles?: ArticleRef[]
+}

@@ -19,7 +19,11 @@ import { article } from './documents/article'
 import { author } from './documents/author'
 import { category } from './documents/category'
 import { contactSubmission } from './documents/contactSubmission'
+import { event } from './documents/event'
+import { eventRsvp } from './documents/eventRsvp'
+import { glossaryTerm } from './documents/glossaryTerm'
 import { page } from './documents/page'
+import { story } from './documents/story'
 import { teamMember } from './documents/teamMember'
 import { testimonial } from './documents/testimonial'
 
@@ -30,6 +34,7 @@ import { footer } from './singletons/footer'
 import { homePage } from './singletons/homePage'
 import { learnHubPage } from './singletons/learnHubPage'
 import { navigation } from './singletons/navigation'
+import { shareStoryPage } from './singletons/shareStoryPage'
 import { siteSettings } from './singletons/siteSettings'
 
 // Document type names that are singletons: at most one instance, no "create
@@ -43,11 +48,12 @@ export const SINGLETON_TYPES = new Set([
   'aboutPage',
   'learnHubPage',
   'contactPage',
+  'shareStoryPage',
 ])
 
 // Document types only ever created by the site itself (Server Actions with
 // a write token) — never by an editor via Studio's "New document" menu.
-export const NO_CREATE_TYPES = new Set(['contactSubmission'])
+export const NO_CREATE_TYPES = new Set(['contactSubmission', 'eventRsvp'])
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Objects
@@ -73,6 +79,10 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   teamMember,
   testimonial,
   contactSubmission,
+  story,
+  event,
+  eventRsvp,
+  glossaryTerm,
   // Singletons
   siteSettings,
   navigation,
@@ -82,4 +92,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   aboutPage,
   learnHubPage,
   contactPage,
+  shareStoryPage,
 ]

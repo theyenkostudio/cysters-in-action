@@ -2,6 +2,7 @@ import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { ButtonLink } from '@/components/ui/button'
+import { GlossaryTooltip } from '@/components/glossary/glossary-tooltip'
 import { resolveHref } from '@/lib/link'
 import type { RichTextValue } from '@/lib/sanity/types'
 import { cn } from '@/lib/utils'
@@ -57,6 +58,19 @@ const components: PortableTextComponents = {
         >
           {children}
         </NextLink>
+      )
+    },
+    glossaryTerm: ({ value, children }) => {
+      const term = value?.term
+      if (!term?.slug?.current) return <>{children}</>
+      return (
+        <GlossaryTooltip
+          term={term.term}
+          shortDefinition={term.shortDefinition}
+          slug={term.slug.current}
+        >
+          {children}
+        </GlossaryTooltip>
       )
     },
   },

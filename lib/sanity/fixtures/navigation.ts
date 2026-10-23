@@ -1,4 +1,4 @@
-import { categoryLink, pageLink, routeLink } from './links'
+import { categoryLink, routeLink } from './links'
 
 export const navigation = {
   _placeholder: true as const,
@@ -19,7 +19,7 @@ export const navigation = {
         {
           title: 'Community guidelines',
           description: 'How we keep this space kind and safe.',
-          link: pageLink('Community guidelines', 'community-guidelines'),
+          link: routeLink('Community guidelines', '/connect/guidelines'),
         },
       ],
     },
@@ -41,10 +41,34 @@ export const navigation = {
           description: 'Printable checklists for your next appointment.',
           link: categoryLink('Questions for your doctor', 'talking-to-your-doctor'),
         },
+        {
+          title: 'Glossary',
+          description: 'Plain-language definitions of PMOS-related terms.',
+          link: routeLink('Glossary', '/learn/glossary'),
+        },
       ],
     },
-    // Connect and Act groups are added in Phase 4 and Phase 6, once stories/
-    // events and volunteer/donate exist to link to.
+    {
+      label: 'Connect',
+      items: [
+        {
+          title: 'Stories',
+          description: 'Shared by people living with PMOS.',
+          link: routeLink('Stories', '/connect/stories'),
+        },
+        {
+          title: 'Share your story',
+          description: 'Named or anonymous — your choice.',
+          link: routeLink('Share your story', '/connect/share-your-story'),
+        },
+        {
+          title: 'Events',
+          description: 'Webinars, meetups and workshops.',
+          link: routeLink('Events', '/connect/events'),
+        },
+      ],
+    },
+    // Act group is added in Phase 6, once volunteer/donate exist to link to.
   ],
   secondaryLink: routeLink('Get support', '/contact'),
   primaryCta: {

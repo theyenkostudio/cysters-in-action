@@ -13,8 +13,10 @@ import { pillarsBlock } from './pillarsBlock'
 import { problemSolutionBlock } from './problemSolutionBlock'
 import { richTextBlock } from './richTextBlock'
 import { statsBlock } from './statsBlock'
+import { storiesCarouselBlock } from './storiesCarouselBlock'
 import { teamGridBlock } from './teamGridBlock'
 import { testimonialBlock } from './testimonialBlock'
+import { upcomingEventsBlock } from './upcomingEventsBlock'
 
 export const blockSchemaTypes: SchemaTypeDefinition[] = [
   heroBlock,
@@ -23,6 +25,8 @@ export const blockSchemaTypes: SchemaTypeDefinition[] = [
   statsBlock,
   problemSolutionBlock,
   featuredArticlesBlock,
+  upcomingEventsBlock,
+  storiesCarouselBlock,
   ctaBlock,
   richTextBlock,
   imageTextBlock,

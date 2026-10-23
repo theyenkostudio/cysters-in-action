@@ -14,8 +14,10 @@ import { PillarsBlock, type PillarsBlockData } from './pillars-block'
 import { ProblemSolutionBlock, type ProblemSolutionData } from './problem-solution-block'
 import { RichTextBlock } from './rich-text-block'
 import { StatsBlock, type StatsBlockData } from './stats-block'
+import { StoriesCarouselBlock, type StoriesCarouselData } from './stories-carousel-block'
 import { TeamGridBlock, type TeamGridData } from './team-grid-block'
 import { TestimonialBlock } from './testimonial-block'
+import { UpcomingEventsBlock, type UpcomingEventsData } from './upcoming-events-block'
 import type { HeroValue, HeroMediaValue, RichTextValue, TestimonialRef } from '@/lib/sanity/types'
 
 export function BlockRenderer({ sections }: { sections?: PageBuilderBlock[] }) {
@@ -110,6 +112,17 @@ export function BlockRenderer({ sections }: { sections?: PageBuilderBlock[] }) {
             )
           case 'formBlock':
             return <FormBlock key={block._key} data={block as unknown as FormBlockData} />
+          case 'upcomingEventsBlock':
+            return (
+              <UpcomingEventsBlock key={block._key} data={block as unknown as UpcomingEventsData} />
+            )
+          case 'storiesCarouselBlock':
+            return (
+              <StoriesCarouselBlock
+                key={block._key}
+                data={block as unknown as StoriesCarouselData}
+              />
+            )
           default:
             return null
         }

@@ -26,14 +26,58 @@ const ARTICLE_CARD = `{
   "category": category->${CATEGORY},
   "mainImage": mainImage${IMAGE},
 }`
+const SEO = `{ metaTitle, metaDescription, "ogImage": ogImage${IMAGE}, noIndex, canonicalUrl }`
+const GLOSSARY_TERM_CARD = `{ _id, _type, term, slug, alsoKnownAs, pronunciation, shortDefinition }`
+
+// Resolves the `glossaryTerm` mark's `term` reference inline, so article
+// body can render a tooltip without a second round-trip (Section 6: "glossary
+// term tooltips" on the article template).
+const richTextWithGlossary = (field: string) => `${field}[]{
+  ...,
+  markDefs[]{
+    ...,
+    _type == "glossaryTerm" => { "term": term->${GLOSSARY_TERM_CARD} }
+  }
+}`
+
 const ARTICLE_FULL = `{
   ${ARTICLE_CARD.slice(1, -1)},
-  tags, body, myths, doctorQuestions, sources, lastReviewedAt, contentWarning, seo,
+  tags, myths, doctorQuestions, sources, lastReviewedAt, contentWarning, seo,
+  "body": ${richTextWithGlossary('body')},
   "author": author->${AUTHOR},
   "medicalReviewer": medicalReviewer->${AUTHOR},
   "relatedArticles": relatedArticles[]->${ARTICLE_CARD},
 }`
-const SEO = `{ metaTitle, metaDescription, "ogImage": ogImage${IMAGE}, noIndex, canonicalUrl }`
+const GLOSSARY_TERM_FULL = `{
+  ${GLOSSARY_TERM_CARD.slice(1, -1)},
+  "fullExplanation": ${richTextWithGlossary('fullExplanation')},
+  "relatedTerms": relatedTerms[]->${GLOSSARY_TERM_CARD},
+  "relatedArticles": relatedArticles[]->${ARTICLE_CARD},
+}`
+// Only ever queried publicly with status == "approved" — see every usage
+// below. Private fields (contactEmail, the three consents, moderationNotes)
+// are never selected here at all, so they can never leak into a public response.
+const STORY_CARD = `{
+  _id, _type, title, slug, isAnonymous,
+  "authorName": select(isAnonymous => null, authorName),
+  pullQuote, "image": image${IMAGE}, themes, featured, submittedAt, approvedAt,
+}`
+const STORY_FULL = `{
+  ${STORY_CARD.slice(1, -1)},
+  ageRange, country, body, contentWarning,
+}`
+// onlineJoinUrl is deliberately excluded — "Never rendered publicly" per
+// Section 6. It's only ever read server-side, inside the RSVP Server Action,
+// via a separate query (see lib/forms/actions.ts).
+const EVENT_CARD = `{
+  _id, _type, title, slug, eventType, format, startDateTime, endDateTime, timezone,
+  summary, "image": image${IMAGE}, rsvpEnabled, rsvpMode, externalRsvpUrl, capacity, status,
+}`
+const EVENT_FULL = `{
+  ${EVENT_CARD.slice(1, -1)},
+  description, venue, rsvpDeadline, recordingUrl, seo${SEO},
+  "hosts": hosts[]->{ _id, name, "photo": photo${IMAGE} },
+}`
 
 const PAGE_BUILDER_BLOCK = `{
   ...,
@@ -51,6 +95,8 @@ const PAGE_BUILDER_BLOCK = `{
   _type == "mediaBlock" => { heroMedia${HERO_MEDIA} },
   _type == "testimonialBlock" => { testimonials[]-> },
   _type == "teamGridBlock" => { "members": members[]-> },
+  _type == "upcomingEventsBlock" => { cta${CTA} },
+  _type == "storiesCarouselBlock" => { "manualStories": stories[]->${STORY_CARD}, cta${CTA} },
 }`
 
 // --- Site shell (Phase 1) --------------------------------------------------
@@ -134,3 +180,73 @@ export const pageBySlugQuery = defineQuery(`*[_type == "page" && slug.current ==
 }`)
 
 export const allPageSlugsQuery = defineQuery(`*[_type == "page"]{ "slug": slug.current }`)
+
+// --- Community (Phase 4) -----------------------------------------------------
+
+export const shareStoryPageQuery = defineQuery(`*[_type == "shareStoryPage"][0]{
+  seo${SEO}, hero${HERO}, intro, whatHappensNext, consentText, privacyNote,
+  successHeading, successMessage, submissionsOpen, closedMessage,
+}`)
+
+export const approvedStoriesQuery = defineQuery(
+  `*[_type == "story" && status == "approved"] | order(approvedAt desc)${STORY_CARD}`,
+)
+
+export const featuredStoriesQuery = defineQuery(
+  `*[_type == "story" && status == "approved" && featured == true] | order(approvedAt desc)${STORY_CARD}`,
+)
+
+export const storyBySlugQuery = defineQuery(
+  `*[_type == "story" && status == "approved" && slug.current == $slug][0]${STORY_FULL}`,
+)
+
+export const allApprovedStorySlugsQuery = defineQuery(
+  `*[_type == "story" && status == "approved"]{ "slug": slug.current }`,
+)
+
+export const upcomingEventsQuery = defineQuery(
+  `*[_type == "event" && status != "cancelled" && startDateTime >= now()] | order(startDateTime asc)${EVENT_CARD}`,
+)
+
+export const pastEventsQuery = defineQuery(
+  `*[_type == "event" && startDateTime < now()] | order(startDateTime desc)${EVENT_CARD}`,
+)
+
+export const eventBySlugQuery = defineQuery(
+  `*[_type == "event" && slug.current == $slug][0]${EVENT_FULL}`,
+)
+
+// Public-safe (no onlineJoinUrl) — used by the .ics download route, which
+// anyone with the link can hit.
+export const eventByIdQuery = defineQuery(`*[_type == "event" && _id == $id][0]${EVENT_FULL}`)
+
+export const allEventSlugsQuery = defineQuery(`*[_type == "event"]{ "slug": slug.current }`)
+
+// Server-only — reads onlineJoinUrl, which the public queries above never select.
+export const eventJoinDetailsQuery = defineQuery(`*[_type == "event" && _id == $id][0]{
+  title, startDateTime, endDateTime, timezone, onlineJoinUrl, format, capacity,
+  "venueName": venue.name, "mapUrl": venue.mapUrl,
+}`)
+
+// Server-only, used by the Studio "Approve & publish" / "Reject" actions
+// (via /api/story-decision) to email the submitter. Never exposed to a page.
+export const storyContactDetailsQuery = defineQuery(`*[_type == "story" && _id == $id][0]{
+  title, isAnonymous, authorName, contactEmail, consentContact, "slug": slug.current,
+}`)
+
+export const glossaryTermsQuery = defineQuery(
+  `*[_type == "glossaryTerm"] | order(term asc)${GLOSSARY_TERM_CARD}`,
+)
+
+export const glossaryTermBySlugQuery = defineQuery(
+  `*[_type == "glossaryTerm" && slug.current == $slug][0]${GLOSSARY_TERM_FULL}`,
+)
+
+export const allGlossaryTermSlugsQuery = defineQuery(
+  `*[_type == "glossaryTerm"]{ "slug": slug.current }`,
+)
+
+// Capacity check inside the RSVP Server Action — counts existing attending RSVPs.
+export const eventRsvpCountQuery = defineQuery(
+  `count(*[_type == "eventRsvp" && event._ref == $eventId && attendance == "attending"])`,
+)

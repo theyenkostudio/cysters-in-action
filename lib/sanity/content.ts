@@ -5,30 +5,49 @@ import * as fixtures from './fixtures'
 import { sanityFetch } from './fetch'
 import {
   aboutPageQuery,
+  allApprovedStorySlugsQuery,
   allArticlesQuery,
+  allEventSlugsQuery,
+  allGlossaryTermSlugsQuery,
   allPageSlugsQuery,
   announcementBarQuery,
+  approvedStoriesQuery,
   articleBySlugQuery,
   articlesByCategoryQuery,
   categoriesQuery,
   categoryBySlugQuery,
   contactPageQuery,
+  eventByIdQuery,
+  eventBySlugQuery,
+  eventJoinDetailsQuery,
+  eventRsvpCountQuery,
   featuredArticlesQuery,
+  featuredStoriesQuery,
   footerQuery,
+  glossaryTermBySlugQuery,
+  glossaryTermsQuery,
   homePageQuery,
   learnHubPageQuery,
   navigationQuery,
   pageBySlugQuery,
+  pastEventsQuery,
+  shareStoryPageQuery,
   siteSettingsQuery,
+  storyBySlugQuery,
+  storyContactDetailsQuery,
   teamMembersQuery,
+  upcomingEventsQuery,
 } from './queries'
 import type {
   ArticleRef,
   CategoryRef,
+  EventRef,
+  GlossaryTermRef,
   HeroValue,
   PageBuilderBlock,
   RichTextValue,
   SeoValue,
+  StoryRef,
   TeamMemberRef,
 } from './types'
 
@@ -246,5 +265,230 @@ export function getAllPageSlugs() {
     query: allPageSlugsQuery,
     tags: ['page'],
     fixture: () => fixtures.pages.map((p) => ({ slug: p.slug.current })),
+  })
+}
+
+// --- Community (Phase 4) -----------------------------------------------------
+
+export type ShareStoryPageData = {
+  seo?: SeoValue
+  hero: HeroValue
+  intro?: RichTextValue
+  whatHappensNext: { title: string; body?: string }[]
+  consentText: RichTextValue
+  privacyNote?: string
+  successHeading?: string
+  successMessage?: string
+  submissionsOpen: boolean
+  closedMessage?: string
+} | null
+
+export function getShareStoryPage() {
+  return sanityFetch<ShareStoryPageData>({
+    query: shareStoryPageQuery,
+    tags: ['shareStoryPage'],
+    fixture: {
+      hero: fixtures.shareStoryPageHero,
+      intro: fixtures.shareStoryPageIntro,
+      whatHappensNext: fixtures.shareStoryWhatHappensNext,
+      consentText: fixtures.shareStoryConsentText,
+      privacyNote: fixtures.shareStoryPrivacyNote,
+      successHeading: fixtures.shareStorySuccessHeading,
+      successMessage: fixtures.shareStorySuccessMessage,
+      submissionsOpen: fixtures.shareStorySubmissionsOpen,
+    },
+  })
+}
+
+export function getApprovedStories() {
+  return sanityFetch<StoryRef[]>({
+    query: approvedStoriesQuery,
+    tags: ['story'],
+    fixture: () => fixtures.stories.map(withResolvedAuthorName),
+  })
+}
+
+export function getFeaturedStories() {
+  return sanityFetch<StoryRef[]>({
+    query: featuredStoriesQuery,
+    tags: ['story'],
+    fixture: () => fixtures.stories.filter((s) => s.featured).map(withResolvedAuthorName),
+  })
+}
+
+export function getStoryBySlug(slug: string) {
+  return sanityFetch<StoryRef | null>({
+    query: storyBySlugQuery,
+    params: { slug },
+    tags: [`story:${slug}`],
+    fixture: () => {
+      const story = fixtures.getStoryBySlug(slug)
+      return story ? withResolvedAuthorName(story) : null
+    },
+  })
+}
+
+// Server-only — see queries.ts. Only ever called from /api/story-decision,
+// never from a page, so returning contactEmail here is safe.
+export type StoryContactDetails = {
+  title: string
+  isAnonymous: boolean
+  authorName?: string
+  contactEmail?: string
+  consentContact?: boolean
+  slug?: string
+} | null
+
+export function getStoryContactDetails(id: string) {
+  return sanityFetch<StoryContactDetails>({
+    query: storyContactDetailsQuery,
+    params: { id },
+    fixture: () => {
+      const story = fixtures.stories.find((s) => s._id === id)
+      if (!story) return null
+      return {
+        title: story.title,
+        isAnonymous: story.isAnonymous,
+        authorName: story.authorName,
+        contactEmail: 'placeholder-submitter@example.com',
+        consentContact: true,
+        slug: story.slug?.current,
+      }
+    },
+  })
+}
+
+export function getAllApprovedStorySlugs() {
+  return sanityFetch<{ slug: string }[]>({
+    query: allApprovedStorySlugsQuery,
+    tags: ['story'],
+    fixture: () => fixtures.stories.filter((s) => s.slug).map((s) => ({ slug: s.slug!.current })),
+  })
+}
+
+/** Mirrors the GROQ projection's `select(isAnonymous => null, authorName)` — belt and
+ * braces alongside stories.ts's own resolveAuthorName, so this invariant can never
+ * regress silently if a fixture is edited without going through that helper. */
+function withResolvedAuthorName(story: StoryRef): StoryRef {
+  return { ...story, authorName: fixtures.resolveAuthorName(story) }
+}
+
+export function getUpcomingEvents() {
+  return sanityFetch<EventRef[]>({
+    query: upcomingEventsQuery,
+    tags: ['event'],
+    fixture: () =>
+      fixtures.events
+        .filter((e) => e.status !== 'cancelled' && !fixtures.isPastEvent(e))
+        .sort((a, b) => (a.startDateTime < b.startDateTime ? -1 : 1)),
+  })
+}
+
+export function getPastEvents() {
+  return sanityFetch<EventRef[]>({
+    query: pastEventsQuery,
+    tags: ['event'],
+    fixture: () =>
+      fixtures.events
+        .filter((e) => fixtures.isPastEvent(e))
+        .sort((a, b) => (a.startDateTime < b.startDateTime ? 1 : -1)),
+  })
+}
+
+export function getEventBySlug(slug: string) {
+  return sanityFetch<EventRef | null>({
+    query: eventBySlugQuery,
+    params: { slug },
+    tags: [`event:${slug}`],
+    fixture: () => fixtures.getEventBySlug(slug) ?? null,
+  })
+}
+
+export function getEventById(id: string) {
+  return sanityFetch<EventRef | null>({
+    query: eventByIdQuery,
+    params: { id },
+    tags: [`event:id:${id}`],
+    fixture: () => fixtures.events.find((e) => e._id === id) ?? null,
+  })
+}
+
+// Server-only — includes onlineJoinUrl. Only ever called from inside the
+// RSVP Server Action (lib/forms/actions.ts), never from a page.
+export type EventJoinDetails = {
+  title: string
+  startDateTime: string
+  endDateTime: string
+  timezone: string
+  onlineJoinUrl?: string
+  format: string
+  capacity?: number
+  venueName?: string
+  mapUrl?: string
+} | null
+
+export function getEventJoinDetails(id: string) {
+  return sanityFetch<EventJoinDetails>({
+    query: eventJoinDetailsQuery,
+    params: { id },
+    fixture: () => {
+      const e = fixtures.events.find((ev) => ev._id === id)
+      if (!e) return null
+      return {
+        title: e.title,
+        startDateTime: e.startDateTime,
+        endDateTime: e.endDateTime,
+        timezone: e.timezone,
+        onlineJoinUrl: e.onlineJoinUrl,
+        format: e.format,
+        capacity: e.capacity,
+        venueName: e.venue?.name,
+        mapUrl: e.venue?.mapUrl,
+      }
+    },
+  })
+}
+
+// Approximate in the fixture world (no real persisted RSVPs to count) —
+// always reports 0, so capacity/waitlist logic is exercised at the code
+// level but never actually blocks a local-dev submission.
+export function getEventRsvpCount(eventId: string) {
+  return sanityFetch<number>({
+    query: eventRsvpCountQuery,
+    params: { eventId },
+    fixture: () => 0,
+  })
+}
+
+export function getAllEventSlugs() {
+  return sanityFetch<{ slug: string }[]>({
+    query: allEventSlugsQuery,
+    tags: ['event'],
+    fixture: () => fixtures.events.map((e) => ({ slug: e.slug.current })),
+  })
+}
+
+export function getGlossaryTerms() {
+  return sanityFetch<GlossaryTermRef[]>({
+    query: glossaryTermsQuery,
+    tags: ['glossaryTerm'],
+    fixture: () => [...fixtures.glossaryTerms].sort((a, b) => a.term.localeCompare(b.term)),
+  })
+}
+
+export function getGlossaryTermBySlug(slug: string) {
+  return sanityFetch<GlossaryTermRef | null>({
+    query: glossaryTermBySlugQuery,
+    params: { slug },
+    tags: [`glossaryTerm:${slug}`],
+    fixture: () => fixtures.getGlossaryTermBySlug(slug) ?? null,
+  })
+}
+
+export function getAllGlossaryTermSlugs() {
+  return sanityFetch<{ slug: string }[]>({
+    query: allGlossaryTermSlugsQuery,
+    tags: ['glossaryTerm'],
+    fixture: () => fixtures.glossaryTerms.map((t) => ({ slug: t.slug.current })),
   })
 }

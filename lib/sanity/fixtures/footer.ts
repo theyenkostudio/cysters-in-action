@@ -9,7 +9,7 @@ export const footer = {
       heading: 'About',
       links: [
         routeLink('Our mission', '/about'),
-        pageLink('Community guidelines', 'community-guidelines'),
+        routeLink('Community guidelines', '/connect/guidelines'),
       ],
     },
     {
@@ -18,7 +18,15 @@ export const footer = {
         routeLink('Learn hub', '/learn'),
         categoryLink('Understanding PMOS', 'understanding-pmos'),
         categoryLink('Myth-busting', 'myth-busting'),
-        categoryLink('Talking to your doctor', 'talking-to-your-doctor'),
+        routeLink('Glossary', '/learn/glossary'),
+      ],
+    },
+    {
+      heading: 'Connect',
+      links: [
+        routeLink('Stories', '/connect/stories'),
+        routeLink('Share your story', '/connect/share-your-story'),
+        routeLink('Events', '/connect/events'),
       ],
     },
     {

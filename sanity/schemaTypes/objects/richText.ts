@@ -30,8 +30,20 @@ export const richText = defineType({
             type: 'object',
             fields: [defineField({ name: 'link', title: 'Link', type: 'link' })],
           },
-          // 'glossary-term' annotation (reference to glossaryTerm) is added in Phase 4
-          // once the Glossary schema ships — it highlights terms inline in article body.
+          {
+            name: 'glossaryTerm',
+            title: 'Glossary term',
+            type: 'object',
+            fields: [
+              defineField({
+                name: 'term',
+                title: 'Term',
+                type: 'reference',
+                to: [{ type: 'glossaryTerm' }],
+                validation: (r) => r.required(),
+              }),
+            ],
+          },
         ],
       },
     }),

@@ -6,6 +6,7 @@ import { presentationTool } from 'sanity/presentation'
 import { apiVersion, dataset, projectId } from './env'
 import { NO_CREATE_TYPES, schemaTypes, SINGLETON_TYPES } from './schemaTypes'
 import { structure } from './structure'
+import { ApproveAndPublishAction, RejectAction, RequestChangesAction } from './actions/storyActions'
 
 export default defineConfig({
   name: 'default',
@@ -37,6 +38,9 @@ export default defineConfig({
       }
       if (NO_CREATE_TYPES.has(context.schemaType)) {
         return input.filter(({ action }) => action !== 'duplicate')
+      }
+      if (context.schemaType === 'story') {
+        return [...input, ApproveAndPublishAction, RequestChangesAction, RejectAction]
       }
       return input
     },

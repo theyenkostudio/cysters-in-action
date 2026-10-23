@@ -14,11 +14,13 @@ export async function sendEmail({
   subject,
   react,
   replyTo,
+  attachments,
 }: {
   to: string
   subject: string
   react: ReactElement
   replyTo?: string
+  attachments?: { filename: string; content: string | Buffer }[]
 }) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
@@ -27,7 +29,14 @@ export async function sendEmail({
   }
 
   const resend = new Resend(apiKey)
-  const { error } = await resend.emails.send({ from: FROM_ADDRESS, to, subject, react, replyTo })
+  const { error } = await resend.emails.send({
+    from: FROM_ADDRESS,
+    to,
+    subject,
+    react,
+    replyTo,
+    attachments,
+  })
   if (error) {
     console.error('[email] Resend send failed', error)
   }

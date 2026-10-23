@@ -29,6 +29,12 @@ export function internalHref(doc: {
     }
     case 'category':
       return `/learn/${slug}`
+    case 'event':
+      return `/connect/events/${slug}`
+    case 'story':
+      return `/connect/stories/${slug}`
+    case 'glossaryTerm':
+      return `/learn/glossary/${slug}`
     case 'page':
     default:
       return `/${slug}`

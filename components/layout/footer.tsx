@@ -42,8 +42,8 @@ export function Footer({
   return (
     <footer data-theme="inverse" className="bg-canvas text-fg mt-24 px-4 py-16">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 md:grid-cols-5">
-          <div className="md:col-span-2">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-7">
+          <div className="sm:col-span-2 lg:col-span-2">
             <p className="text-fg-heading text-lg font-semibold">{siteSettings?.siteName}</p>
             {data?.blurb && <p className="text-fg-muted mt-2 max-w-sm text-sm">{data.blurb}</p>}
             <div className="text-fg-muted mt-4 space-y-1 text-sm">
@@ -75,7 +75,7 @@ export function Footer({
           ))}
 
           {data?.showNewsletter && (
-            <div className="md:col-span-5 lg:col-span-1">
+            <div className="sm:col-span-2 lg:col-span-1">
               <p className="text-fg-heading text-sm font-semibold">
                 {data.newsletterHeading ?? 'Newsletter'}
               </p>

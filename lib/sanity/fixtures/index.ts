@@ -9,11 +9,24 @@ export {
   contactPageIntro,
   contactPageSuccessMessage,
 } from './contactPage'
+export { events, getEventBySlug, isPastEvent } from './events'
 export { footer } from './footer'
+export { getGlossaryTermBySlug, glossaryTerms, letterFor } from './glossaryTerms'
 export { homePageHero, homePageSections } from './homePage'
 export { learnHubFeaturedArticles, learnHubIntroText, learnHubPageHero } from './learnHubPage'
 export { navigation } from './navigation'
 export { getPageBySlug, pages } from './pages'
+export {
+  shareStoryConsentText,
+  shareStoryPageHero,
+  shareStoryPageIntro,
+  shareStoryPrivacyNote,
+  shareStorySubmissionsOpen,
+  shareStorySuccessHeading,
+  shareStorySuccessMessage,
+  shareStoryWhatHappensNext,
+} from './shareStoryPage'
 export { siteSettings } from './siteSettings'
+export { getStoryBySlug, resolveAuthorName, stories } from './stories'
 export { teamMembers } from './teamMembers'
 export { testimonials } from './testimonials'

@@ -17,6 +17,39 @@ function paragraph(key: string, text: string): RichTextValue[number] {
   }
 }
 
+// Minimal glossary-term reference, matching glossaryTerms.ts's
+// 'glossary-transvaginal-ultrasound' fixture by _id (not imported directly —
+// glossaryTerms.ts imports *this* module for relatedArticles, so importing
+// back would be circular). The seed script matches by _id either way.
+const transvaginalUltrasoundRef = {
+  _id: 'glossary-transvaginal-ultrasound',
+  _type: 'glossaryTerm' as const,
+  term: 'Transvaginal ultrasound',
+  slug: { current: 'transvaginal-ultrasound' },
+  shortDefinition: 'An internal ultrasound scan used to look at the ovaries and uterus.',
+}
+
+/** A paragraph with one word/phrase linked to a glossary term tooltip. */
+function paragraphWithGlossaryTerm(
+  key: string,
+  before: string,
+  linkedText: string,
+  after: string,
+  term: typeof transvaginalUltrasoundRef,
+): RichTextValue[number] {
+  return {
+    _type: 'block',
+    _key: key,
+    style: 'normal',
+    markDefs: [{ _type: 'glossaryTerm', _key: `${key}-glossary`, term }],
+    children: [
+      { _type: 'span', _key: `${key}-span-1`, text: before },
+      { _type: 'span', _key: `${key}-span-2`, text: linkedText, marks: [`${key}-glossary`] },
+      { _type: 'span', _key: `${key}-span-3`, text: after },
+    ],
+  }
+}
+
 const writer = getAuthorById('author-nana-adjei')!
 const reviewer = getAuthorById('author-dr-efua-mensah')!
 const communityWriter = getAuthorById('author-kwesi-owusu')!
@@ -49,9 +82,12 @@ export const articles: ArticleFixture[] = [
         'b1',
         'PMOS is a hormonal condition that can affect periods, fertility, skin and weight. It’s common, but it still takes many people years to get a clear diagnosis — often because symptoms show up differently from person to person.',
       ),
-      paragraph(
+      paragraphWithGlossaryTerm(
         'b2',
-        'There is no single test for PMOS. Instead, a clinician usually looks at your symptoms, a physical exam, blood tests and sometimes an ultrasound together, over more than one appointment.',
+        'There is no single test for PMOS. Instead, a clinician usually looks at your symptoms, a physical exam, blood tests and sometimes a ',
+        'transvaginal ultrasound',
+        ' together, over more than one appointment.',
+        transvaginalUltrasoundRef,
       ),
       paragraph(
         'b3',
