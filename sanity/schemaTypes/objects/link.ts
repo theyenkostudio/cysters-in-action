@@ -32,9 +32,9 @@ export const link = defineType({
       name: 'internal',
       title: 'Page',
       type: 'reference',
-      // More document types (article, event, story, glossaryTerm...) are added
-      // here as each ships in its own phase.
-      to: [{ type: 'page' }],
+      // More document types (event, story, glossaryTerm...) are added here
+      // as each ships in its own phase.
+      to: [{ type: 'page' }, { type: 'article' }, { type: 'category' }],
       hidden: ({ parent }) => parent?.type !== 'internal',
     }),
     defineField({

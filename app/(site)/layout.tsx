@@ -1,29 +1,23 @@
-import { AnnouncementBar, type AnnouncementBarData } from '@/components/layout/announcement-bar'
-import { Footer, type FooterData, type SiteSettingsData } from '@/components/layout/footer'
-import { Nav, type NavData } from '@/components/layout/nav'
+import { AnnouncementBar } from '@/components/layout/announcement-bar'
+import { Footer } from '@/components/layout/footer'
+import { Nav } from '@/components/layout/nav'
 import { LenisProvider } from '@/components/motion/lenis-provider'
-import { sanityFetch } from '@/lib/sanity/fetch'
-import {
-  announcementBarQuery,
-  footerQuery,
-  navigationQuery,
-  siteSettingsQuery,
-} from '@/lib/sanity/queries'
+import { getAnnouncementBar, getFooter, getNavigation, getSiteSettings } from '@/lib/sanity/content'
+import { JsonLd, organizationJsonLd } from '@/lib/seo'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [siteSettings, navigation, footer, announcementBar] = await Promise.all([
-    sanityFetch<SiteSettingsData>({ query: siteSettingsQuery, tags: ['siteSettings'] }),
-    sanityFetch<NavData>({ query: navigationQuery, tags: ['navigation'] }),
-    sanityFetch<FooterData>({ query: footerQuery, tags: ['footer'] }),
-    sanityFetch<AnnouncementBarData>({ query: announcementBarQuery, tags: ['announcementBar'] }),
+    getSiteSettings(),
+    getNavigation(),
+    getFooter(),
+    getAnnouncementBar(),
   ])
-
-  const siteName = siteSettings?.siteName ?? 'Cysters In Action'
 
   return (
     <LenisProvider>
+      <JsonLd data={organizationJsonLd(siteSettings?.siteName ?? 'Cysters In Action')} />
       <AnnouncementBar data={announcementBar} />
-      <Nav data={navigation} siteName={siteName} />
+      <Nav data={navigation} />
       <main id="main-content" className="flex-1">
         {children}
       </main>

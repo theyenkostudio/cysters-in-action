@@ -1,8 +1,6 @@
 import { defineField, defineType } from 'sanity'
+import { pageBuilderOf } from '../blocks'
 
-// Minimal in Phase 1: just enough for nav/footer links to point somewhere and
-// for the generic /[slug] route to resolve. `hero` and `sections` (page
-// builder blocks) are added in Phase 2 once the block schemas exist.
 export const page = defineType({
   name: 'page',
   title: 'Page',
@@ -23,6 +21,8 @@ export const page = defineType({
       to: [{ type: 'page' }],
       description: 'For breadcrumbs.',
     }),
+    defineField({ name: 'hero', title: 'Hero (optional)', type: 'hero' }),
+    defineField({ name: 'sections', title: 'Sections', type: 'array', of: pageBuilderOf }),
     defineField({ name: 'seo', title: 'SEO', type: 'seo' }),
   ],
   preview: {

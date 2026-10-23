@@ -3,6 +3,7 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import NextLink from 'next/link'
 import { useEffect, useState } from 'react'
+import { Logo } from '@/components/brand/Logo'
 import { ButtonLink } from '@/components/ui/button'
 import { SmartLink } from '@/components/ui/smart-link'
 import { resolveHref, type ResolvedLink } from '@/lib/link'
@@ -17,7 +18,7 @@ export type NavData = {
   primaryCta?: { style?: string; link?: ResolvedLink }
 } | null
 
-export function Nav({ data, siteName }: { data: NavData; siteName: string }) {
+export function Nav({ data }: { data: NavData }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -38,8 +39,8 @@ export function Nav({ data, siteName }: { data: NavData; siteName: string }) {
           scrolled && 'py-1.5 shadow-md',
         )}
       >
-        <NextLink href="/" className="text-fg-heading px-2 text-sm font-semibold">
-          {siteName}
+        <NextLink href="/" className="px-2">
+          <Logo />
         </NextLink>
 
         <NavigationMenu.Root className="relative hidden md:block" delayDuration={100}>

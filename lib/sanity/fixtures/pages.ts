@@ -1,0 +1,138 @@
+import type { PageBuilderBlock, RichTextValue, SeoValue } from '../types'
+
+function paragraph(key: string, text: string): RichTextValue[number] {
+  return {
+    _type: 'block',
+    _key: key,
+    style: 'normal',
+    children: [{ _type: 'span', _key: `${key}-span`, text }],
+  }
+}
+
+function richTextSection(key: string, body: RichTextValue): PageBuilderBlock {
+  return { _type: 'richTextBlock', _key: key, content: body, width: 'narrow', animation: 'none' }
+}
+
+export type PageFixture = {
+  _id: string
+  _type: 'page'
+  _placeholder: true
+  title: string
+  slug: { current: string }
+  sections: PageBuilderBlock[]
+  seo?: SeoValue
+}
+
+export const pages: PageFixture[] = [
+  {
+    _id: 'page-privacy',
+    _type: 'page',
+    _placeholder: true,
+    title: 'Privacy Policy',
+    slug: { current: 'privacy' },
+    sections: [
+      richTextSection('s1', [
+        paragraph(
+          'p1',
+          'Placeholder privacy policy. This page must be replaced with a policy reviewed by the client’s legal counsel before launch — it is not real legal advice.',
+        ),
+        paragraph(
+          'p2',
+          'Cysters In Action collects only the information needed to run the forms on this site: newsletter sign-ups, event RSVPs, contact messages and story submissions. Processors used include Vercel (hosting), Sanity (content), and an email provider (Section 7 of the build spec).',
+        ),
+        paragraph(
+          'p3',
+          'Personal data from stories and RSVPs is kept only as long as described in the build spec’s retention schedule, and is never included in public content without consent.',
+        ),
+      ]),
+    ],
+  },
+  {
+    _id: 'page-terms',
+    _type: 'page',
+    _placeholder: true,
+    title: 'Terms of Use',
+    slug: { current: 'terms' },
+    sections: [
+      richTextSection('s1', [
+        paragraph(
+          'p1',
+          'Placeholder terms of use. Replace with real terms reviewed by legal counsel before launch.',
+        ),
+        paragraph(
+          'p2',
+          'By using this site you agree not to misuse the forms (Share Your Story, RSVP, contact, newsletter) and to provide accurate information when you submit them.',
+        ),
+      ]),
+    ],
+  },
+  {
+    _id: 'page-medical-disclaimer',
+    _type: 'page',
+    _placeholder: true,
+    title: 'Medical Disclaimer',
+    slug: { current: 'medical-disclaimer' },
+    sections: [
+      richTextSection('s1', [
+        paragraph(
+          'p1',
+          'The content on this site, including every Learn hub article, is for general information only and is not medical advice. It does not replace a consultation with a qualified healthcare provider.',
+        ),
+        paragraph(
+          'p2',
+          'Always speak with a doctor or other qualified clinician about your own diagnosis, symptoms and treatment. Medically-reviewed articles show a reviewer and a last-reviewed date — if you think something is out of date, please contact us.',
+        ),
+      ]),
+    ],
+  },
+  {
+    _id: 'page-accessibility',
+    _type: 'page',
+    _placeholder: true,
+    title: 'Accessibility Statement',
+    slug: { current: 'accessibility' },
+    sections: [
+      richTextSection('s1', [
+        paragraph(
+          'p1',
+          'Cysters In Action aims to meet WCAG 2.2 AA across this site: keyboard-operable navigation, visible focus states, alt text on every image, captions on video, and support for reduced motion.',
+        ),
+        paragraph(
+          'p2',
+          'If you hit an accessibility barrier anywhere on this site, please let us know — placeholder contact details will be added here once the Contact page ships in Phase 3.',
+        ),
+      ]),
+    ],
+  },
+  {
+    _id: 'page-community-guidelines',
+    _type: 'page',
+    _placeholder: true,
+    title: 'Community Guidelines',
+    slug: { current: 'community-guidelines' },
+    sections: [
+      richTextSection('s1', [
+        paragraph(
+          'p1',
+          'These guidelines apply to every community space on this site: shared stories, event attendance and any future comment or forum feature.',
+        ),
+        paragraph(
+          'p2',
+          'Be kind. Respect anonymity — never try to identify someone who has chosen to stay anonymous.',
+        ),
+        paragraph(
+          'p3',
+          'This is a space for support, not medical debate. If you have a medical question, bring it to a clinician, not another community member.',
+        ),
+        paragraph(
+          'p4',
+          'Moderators may edit lightly for clarity or remove content that breaks these guidelines. Share Your Story and the full moderation workflow ship in Phase 4.',
+        ),
+      ]),
+    ],
+  },
+]
+
+export function getPageBySlug(slug: string) {
+  return pages.find((p) => p.slug.current === slug)
+}

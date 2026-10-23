@@ -9,20 +9,31 @@ import { client, draftClient, hasSanityProject } from './client'
  * matching tags. Draft mode (Presentation tool) bypasses the cache entirely
  * and reads unpublished content.
  *
- * Returns `null` when no Sanity project is configured yet (see
- * NEXT_PUBLIC_SANITY_PROJECT_ID in .env.example) so pages can render their
- * empty states instead of crashing during local scaffolding.
+ * When no Sanity project is configured yet (NEXT_PUBLIC_SANITY_PROJECT_ID
+ * unset — see .env.example), returns `fixture` instead of hitting the
+ * network at all. Pass the already-shaped placeholder value (or a function
+ * of `params`, for parameterised queries like "get article by slug").
+ * Callers never see the difference between a fixture and a real result —
+ * connecting a real Sanity project later means setting the env vars, not
+ * touching any component.
  */
 export async function sanityFetch<QueryResponse>({
   query,
   params = {},
   tags = [],
+  fixture,
 }: {
   query: string
   params?: Record<string, unknown>
   tags?: string[]
-}): Promise<QueryResponse | null> {
-  if (!hasSanityProject) return null
+  fixture?: QueryResponse | ((params: Record<string, unknown>) => QueryResponse)
+}): Promise<QueryResponse> {
+  if (!hasSanityProject) {
+    if (fixture === undefined) return null as QueryResponse
+    return typeof fixture === 'function'
+      ? (fixture as (params: Record<string, unknown>) => QueryResponse)(params)
+      : fixture
+  }
 
   const { isEnabled: isDraftMode } = await draftMode()
 

@@ -1,21 +1,22 @@
-import { Eyebrow } from '@/components/ui/eyebrow'
-import { Reveal } from '@/components/motion/reveal'
+import type { Metadata } from 'next'
+import { BlockRenderer } from '@/components/blocks/block-renderer'
+import { Hero } from '@/components/blocks/hero'
+import { getHomePage } from '@/lib/sanity/content'
+import { seoToMetadata } from '@/lib/seo'
 
-export default function HomePage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const homePage = await getHomePage()
+  return seoToMetadata(homePage?.seo, { title: 'Home' })
+}
+
+export default async function HomePage() {
+  const homePage = await getHomePage()
+  if (!homePage) return null
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-24">
-      <Reveal>
-        <Eyebrow>Cysters In Action</Eyebrow>
-        <h1 className="text-fg-heading mt-4 max-w-2xl text-4xl font-semibold md:text-6xl">
-          Learn, Connect, Act.
-        </h1>
-        <p className="text-fg-muted mt-4 max-w-xl text-lg">
-          The homepage page-builder sections (hero, mission statement, pillars, stats, stories
-          carousel...) ship in Phase 2 once the block schemas and the Learn hub exist. This
-          placeholder confirms the Phase 1 shell — announcement bar, nav and footer, all driven by
-          Sanity — is wired up end to end.
-        </p>
-      </Reveal>
-    </div>
+    <>
+      <Hero data={homePage.hero} animation="exaggerated" />
+      <BlockRenderer sections={homePage.sections} />
+    </>
   )
 }

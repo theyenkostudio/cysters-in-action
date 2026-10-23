@@ -13,16 +13,34 @@ import { seo } from './objects/seo'
 import { socialLink } from './objects/socialLink'
 import { stat } from './objects/stat'
 
-import { page } from './documents/page'
+import { blockSchemaTypes } from './blocks'
 
+import { article } from './documents/article'
+import { author } from './documents/author'
+import { category } from './documents/category'
+import { page } from './documents/page'
+import { teamMember } from './documents/teamMember'
+import { testimonial } from './documents/testimonial'
+
+import { aboutPage } from './singletons/aboutPage'
 import { announcementBar } from './singletons/announcementBar'
 import { footer } from './singletons/footer'
+import { homePage } from './singletons/homePage'
+import { learnHubPage } from './singletons/learnHubPage'
 import { navigation } from './singletons/navigation'
 import { siteSettings } from './singletons/siteSettings'
 
 // Document type names that are singletons: at most one instance, no "create
 // new"/duplicate/delete in the Studio (enforced in sanity.config.ts).
-export const SINGLETON_TYPES = new Set(['siteSettings', 'navigation', 'footer', 'announcementBar'])
+export const SINGLETON_TYPES = new Set([
+  'siteSettings',
+  'navigation',
+  'footer',
+  'announcementBar',
+  'homePage',
+  'aboutPage',
+  'learnHubPage',
+])
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Objects
@@ -38,11 +56,21 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   navItem,
   stat,
   faqItem,
+  // Page-builder blocks
+  ...blockSchemaTypes,
   // Documents
   page,
+  article,
+  category,
+  author,
+  teamMember,
+  testimonial,
   // Singletons
   siteSettings,
   navigation,
   footer,
   announcementBar,
+  homePage,
+  aboutPage,
+  learnHubPage,
 ]

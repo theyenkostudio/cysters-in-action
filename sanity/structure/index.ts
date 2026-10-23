@@ -1,9 +1,21 @@
 import type { StructureResolver } from 'sanity/structure'
 import { SINGLETON_TYPES } from '../schemaTypes'
 
-// Desk structure skeleton (Phase 1): Site singletons + generic Pages.
-// Learn / Connect / Stories inbox / Inbox / People sections are added as
-// their document types ship in later phases.
+const EXCLUDED_FROM_OTHER = new Set([
+  ...SINGLETON_TYPES,
+  'page',
+  'article',
+  'category',
+  'author',
+  'teamMember',
+  'testimonial',
+])
+
+// Desk structure (Phase 1 shell + Phase 2 content): Site singletons, Pages
+// (Home/About/Learn hub singletons + generic pages), Learn (articles,
+// categories, authors), People (team), Testimonials. Connect / Stories
+// inbox / Inbox groups are added as their document types ship in later
+// phases.
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
@@ -29,9 +41,46 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.divider(),
-      S.listItem().title('Pages').child(S.documentTypeList('page').title('Pages')),
+      S.listItem()
+        .title('Pages')
+        .child(
+          S.list()
+            .title('Pages')
+            .items([
+              S.listItem()
+                .title('Home page')
+                .child(S.document().schemaType('homePage').documentId('homePage')),
+              S.listItem()
+                .title('About page')
+                .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
+              S.listItem()
+                .title('Learn hub page')
+                .child(S.document().schemaType('learnHubPage').documentId('learnHubPage')),
+              S.divider(),
+              S.listItem()
+                .title('Other pages')
+                .child(S.documentTypeList('page').title('Other pages')),
+            ]),
+        ),
+      S.listItem()
+        .title('Learn')
+        .child(
+          S.list()
+            .title('Learn')
+            .items([
+              S.listItem().title('Articles').child(S.documentTypeList('article').title('Articles')),
+              S.listItem()
+                .title('Categories')
+                .child(S.documentTypeList('category').title('Categories')),
+              S.listItem().title('Authors').child(S.documentTypeList('author').title('Authors')),
+            ]),
+        ),
+      S.listItem().title('People').child(S.documentTypeList('teamMember').title('Team members')),
+      S.listItem()
+        .title('Testimonials')
+        .child(S.documentTypeList('testimonial').title('Testimonials')),
+      S.divider(),
       ...S.documentTypeListItems().filter(
-        (item) =>
-          item.getId() && !SINGLETON_TYPES.has(item.getId() as string) && item.getId() !== 'page',
+        (item) => item.getId() && !EXCLUDED_FROM_OTHER.has(item.getId() as string),
       ),
     ])
