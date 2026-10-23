@@ -24,12 +24,14 @@ export const footer = {
     {
       heading: 'More',
       links: [
+        routeLink('Contact', '/contact'),
         pageLink('Medical disclaimer', 'medical-disclaimer'),
         pageLink('Accessibility', 'accessibility'),
       ],
     },
   ],
-  showNewsletter: false,
+  showNewsletter: true,
+  newsletterHeading: 'Newsletter',
   legalLinks: [pageLink('Privacy', 'privacy'), pageLink('Terms', 'terms')],
   copyrightText: '© {year} Cysters In Action. All rights reserved.',
   credit: {

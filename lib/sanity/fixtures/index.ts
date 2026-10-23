@@ -3,6 +3,12 @@ export { aboutPageHero, aboutPagePillars, aboutPageStory, aboutPageValues } from
 export { articles, getArticleBySlug, getArticlesByCategory } from './articles'
 export { authors, getAuthorById } from './authors'
 export { categories, getCategoryBySlug } from './categories'
+export {
+  contactPageEnquiryTypes,
+  contactPageHero,
+  contactPageIntro,
+  contactPageSuccessMessage,
+} from './contactPage'
 export { footer } from './footer'
 export { homePageHero, homePageSections } from './homePage'
 export { learnHubFeaturedArticles, learnHubIntroText, learnHubPageHero } from './learnHubPage'

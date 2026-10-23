@@ -131,6 +131,25 @@ export const pages: PageFixture[] = [
       ]),
     ],
   },
+  {
+    _id: 'page-newsletter',
+    _type: 'page',
+    _placeholder: true,
+    title: 'Newsletter',
+    slug: { current: 'newsletter' },
+    sections: [
+      {
+        _type: 'newsletterBlock',
+        _key: 'newsletter-1',
+        heading: 'Join the newsletter',
+        body: 'Occasional emails about new Learn hub articles, events and ways to get involved. No spam, unsubscribe any time.',
+        buttonLabel: 'Subscribe',
+        successMessage: 'Check your inbox to confirm your subscription.',
+        variant: 'card',
+        animation: 'subtle',
+      },
+    ],
+  },
 ]
 
 export function getPageBySlug(slug: string) {

@@ -95,6 +95,10 @@ export const learnHubPageQuery = defineQuery(`*[_type == "learnHubPage"][0]{
   sections[]${PAGE_BUILDER_BLOCK},
 }`)
 
+export const contactPageQuery = defineQuery(`*[_type == "contactPage"][0]{
+  seo${SEO}, hero${HERO}, intro, enquiryTypes, successMessage, showMap, mapEmbedUrl,
+}`)
+
 // --- Learn hub content ------------------------------------------------------
 
 export const categoriesQuery = defineQuery(`*[_type == "category"] | order(order asc)${CATEGORY}`)

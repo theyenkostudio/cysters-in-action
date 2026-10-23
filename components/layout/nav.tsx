@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Logo } from '@/components/brand/Logo'
 import { ButtonLink } from '@/components/ui/button'
 import { SmartLink } from '@/components/ui/smart-link'
+import { NewsletterModalTrigger } from './newsletter-modal'
 import { resolveHref, type ResolvedLink } from '@/lib/link'
 import { cn } from '@/lib/utils'
 import { MobileMenu } from './mobile-menu'
@@ -15,7 +16,7 @@ export type NavGroupData = { label: string; link?: ResolvedLink; items?: NavItem
 export type NavData = {
   mainNav?: NavGroupData[]
   secondaryLink?: ResolvedLink
-  primaryCta?: { style?: string; link?: ResolvedLink }
+  primaryCta?: { style?: string; action?: string; link?: ResolvedLink }
 } | null
 
 export function Nav({ data }: { data: NavData }) {
@@ -86,15 +87,18 @@ export function Nav({ data }: { data: NavData }) {
               {data.secondaryLink.label}
             </SmartLink>
           )}
-          {data?.primaryCta?.link && (
-            <ButtonLink
-              href={resolveHref(data.primaryCta.link)}
-              variant="solid"
-              className="text-sm"
-            >
-              {data.primaryCta.link.label}
-            </ButtonLink>
-          )}
+          {data?.primaryCta?.link &&
+            (data.primaryCta.action === 'openNewsletter' ? (
+              <NewsletterModalTrigger label={data.primaryCta.link.label} className="text-sm" />
+            ) : (
+              <ButtonLink
+                href={resolveHref(data.primaryCta.link)}
+                variant="solid"
+                className="text-sm"
+              >
+                {data.primaryCta.link.label}
+              </ButtonLink>
+            ))}
         </div>
 
         <MobileMenu data={data} />

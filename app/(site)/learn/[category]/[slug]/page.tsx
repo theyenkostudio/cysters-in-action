@@ -7,6 +7,7 @@ import { ArticleToc } from '@/components/learn/article-toc'
 import { ARTICLE_TYPE_LABELS } from '@/components/learn/article-type-badge'
 import { DoctorQuestionsChecklist } from '@/components/learn/doctor-questions-checklist'
 import { MythFactList } from '@/components/learn/myth-fact-list'
+import { NewsletterForm } from '@/components/forms/newsletter-form'
 import { RichText } from '@/components/portable-text'
 import { Badge } from '@/components/ui/badge'
 import { Reveal } from '@/components/motion/reveal'
@@ -187,6 +188,18 @@ export default async function ArticlePage({
           </div>
         </section>
       )}
+
+      <Reveal className="rounded-card border-default mx-auto mt-16 max-w-xl border p-8 text-center">
+        <h2 className="font-display text-fg-heading text-xl font-semibold">
+          Enjoyed this article?
+        </h2>
+        <p className="text-fg-muted mt-2 text-sm">
+          Get new Learn hub articles in your inbox, occasionally.
+        </p>
+        <div className="mt-4">
+          <NewsletterForm source="article" compact />
+        </div>
+      </Reveal>
     </article>
   )
 }

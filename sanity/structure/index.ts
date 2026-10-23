@@ -9,13 +9,14 @@ const EXCLUDED_FROM_OTHER = new Set([
   'author',
   'teamMember',
   'testimonial',
+  'contactSubmission',
 ])
 
-// Desk structure (Phase 1 shell + Phase 2 content): Site singletons, Pages
-// (Home/About/Learn hub singletons + generic pages), Learn (articles,
-// categories, authors), People (team), Testimonials. Connect / Stories
-// inbox / Inbox groups are added as their document types ship in later
-// phases.
+// Desk structure (Phase 1 shell + Phase 2 content + Phase 3 forms): Site
+// singletons, Pages (Home/About/Learn hub/Contact singletons + generic
+// pages), Learn (articles, categories, authors), People (team),
+// Testimonials, Inbox (contact submissions). Connect / Stories inbox
+// groups are added as their document types ship in Phase 4.
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
@@ -56,6 +57,9 @@ export const structure: StructureResolver = (S) =>
               S.listItem()
                 .title('Learn hub page')
                 .child(S.document().schemaType('learnHubPage').documentId('learnHubPage')),
+              S.listItem()
+                .title('Contact page')
+                .child(S.document().schemaType('contactPage').documentId('contactPage')),
               S.divider(),
               S.listItem()
                 .title('Other pages')
@@ -79,6 +83,18 @@ export const structure: StructureResolver = (S) =>
       S.listItem()
         .title('Testimonials')
         .child(S.documentTypeList('testimonial').title('Testimonials')),
+      S.divider(),
+      S.listItem()
+        .title('Inbox')
+        .child(
+          S.list()
+            .title('Inbox')
+            .items([
+              S.listItem()
+                .title('Contact submissions')
+                .child(S.documentTypeList('contactSubmission').title('Contact submissions')),
+            ]),
+        ),
       S.divider(),
       ...S.documentTypeListItems().filter(
         (item) => item.getId() && !EXCLUDED_FROM_OTHER.has(item.getId() as string),

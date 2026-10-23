@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { ButtonLink } from '@/components/ui/button'
 import { SmartLink } from '@/components/ui/smart-link'
 import { resolveHref } from '@/lib/link'
+import { NewsletterModalTrigger } from './newsletter-modal'
 import type { NavData } from './nav'
 
 export function MobileMenu({ data }: { data: NavData }) {
@@ -87,15 +88,18 @@ export function MobileMenu({ data }: { data: NavData }) {
                 {data.secondaryLink.label}
               </SmartLink>
             )}
-            {data?.primaryCta?.link && (
-              <ButtonLink
-                href={resolveHref(data.primaryCta.link)}
-                variant="solid"
-                className="w-full"
-              >
-                {data.primaryCta.link.label}
-              </ButtonLink>
-            )}
+            {data?.primaryCta?.link &&
+              (data.primaryCta.action === 'openNewsletter' ? (
+                <NewsletterModalTrigger label={data.primaryCta.link.label} className="w-full" />
+              ) : (
+                <ButtonLink
+                  href={resolveHref(data.primaryCta.link)}
+                  variant="solid"
+                  className="w-full"
+                >
+                  {data.primaryCta.link.label}
+                </ButtonLink>
+              ))}
           </div>
         </Dialog.Content>
       </Dialog.Portal>

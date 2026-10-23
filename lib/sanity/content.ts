@@ -12,6 +12,7 @@ import {
   articlesByCategoryQuery,
   categoriesQuery,
   categoryBySlugQuery,
+  contactPageQuery,
   featuredArticlesQuery,
   footerQuery,
   homePageQuery,
@@ -127,6 +128,30 @@ export function getLearnHubPage() {
       doctorGuidesHeading: 'Questions for your doctor',
       featuredArticles: fixtures.learnHubFeaturedArticles,
       sections: [],
+    },
+  })
+}
+
+export type ContactPageData = {
+  seo?: SeoValue
+  hero: HeroValue
+  intro?: string
+  enquiryTypes: { label: string; value: string; routeToEmail?: string }[]
+  successMessage?: string
+  showMap?: boolean
+  mapEmbedUrl?: string
+} | null
+
+export function getContactPage() {
+  return sanityFetch<ContactPageData>({
+    query: contactPageQuery,
+    tags: ['contactPage'],
+    fixture: {
+      hero: fixtures.contactPageHero,
+      intro: fixtures.contactPageIntro,
+      enquiryTypes: fixtures.contactPageEnquiryTypes,
+      successMessage: fixtures.contactPageSuccessMessage,
+      showMap: false,
     },
   })
 }

@@ -3,11 +3,13 @@ import { CtaBlock, type CtaBlockData } from './cta-block'
 import { FaqBlock } from './faq-block'
 import type { FaqItemValue } from '@/lib/sanity/types'
 import { FeaturedArticlesBlock, type FeaturedArticlesData } from './featured-articles-block'
+import { FormBlock, type FormBlockData } from './form-block'
 import { HeroBlock } from './hero-block'
 import { ImageTextBlock, type ImageTextData } from './image-text-block'
 import { LogoCloudBlock, type LogoCloudData } from './logo-cloud-block'
 import { MediaBlock } from './media-block'
 import { MissionStatementBlock, type MissionStatementData } from './mission-statement-block'
+import { NewsletterBlock, type NewsletterBlockData } from './newsletter-block'
 import { PillarsBlock, type PillarsBlockData } from './pillars-block'
 import { ProblemSolutionBlock, type ProblemSolutionData } from './problem-solution-block'
 import { RichTextBlock } from './rich-text-block'
@@ -102,6 +104,12 @@ export function BlockRenderer({ sections }: { sections?: PageBuilderBlock[] }) {
                 data={block as unknown as { testimonials: TestimonialRef[] }}
               />
             )
+          case 'newsletterBlock':
+            return (
+              <NewsletterBlock key={block._key} data={block as unknown as NewsletterBlockData} />
+            )
+          case 'formBlock':
+            return <FormBlock key={block._key} data={block as unknown as FormBlockData} />
           default:
             return null
         }

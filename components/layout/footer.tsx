@@ -1,3 +1,4 @@
+import { NewsletterForm } from '@/components/forms/newsletter-form'
 import { SmartLink } from '@/components/ui/smart-link'
 import type { ResolvedLink } from '@/lib/link'
 
@@ -5,6 +6,8 @@ export type FooterColumn = { heading: string; links?: ResolvedLink[] }
 export type FooterData = {
   blurb?: string
   columns?: FooterColumn[]
+  showNewsletter?: boolean
+  newsletterHeading?: string
   legalLinks?: ResolvedLink[]
   copyrightText?: string
   credit?: ResolvedLink
@@ -70,6 +73,17 @@ export function Footer({
               </ul>
             </div>
           ))}
+
+          {data?.showNewsletter && (
+            <div className="md:col-span-5 lg:col-span-1">
+              <p className="text-fg-heading text-sm font-semibold">
+                {data.newsletterHeading ?? 'Newsletter'}
+              </p>
+              <div className="mt-3">
+                <NewsletterForm source="footer" />
+              </div>
+            </div>
+          )}
         </div>
 
         {siteSettings?.medicalDisclaimer ? (

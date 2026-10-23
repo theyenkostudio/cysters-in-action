@@ -18,12 +18,14 @@ import { blockSchemaTypes } from './blocks'
 import { article } from './documents/article'
 import { author } from './documents/author'
 import { category } from './documents/category'
+import { contactSubmission } from './documents/contactSubmission'
 import { page } from './documents/page'
 import { teamMember } from './documents/teamMember'
 import { testimonial } from './documents/testimonial'
 
 import { aboutPage } from './singletons/aboutPage'
 import { announcementBar } from './singletons/announcementBar'
+import { contactPage } from './singletons/contactPage'
 import { footer } from './singletons/footer'
 import { homePage } from './singletons/homePage'
 import { learnHubPage } from './singletons/learnHubPage'
@@ -40,7 +42,12 @@ export const SINGLETON_TYPES = new Set([
   'homePage',
   'aboutPage',
   'learnHubPage',
+  'contactPage',
 ])
+
+// Document types only ever created by the site itself (Server Actions with
+// a write token) — never by an editor via Studio's "New document" menu.
+export const NO_CREATE_TYPES = new Set(['contactSubmission'])
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Objects
@@ -65,6 +72,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   author,
   teamMember,
   testimonial,
+  contactSubmission,
   // Singletons
   siteSettings,
   navigation,
@@ -73,4 +81,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   homePage,
   aboutPage,
   learnHubPage,
+  contactPage,
 ]

@@ -46,8 +46,10 @@ export const navigation = {
     // Connect and Act groups are added in Phase 4 and Phase 6, once stories/
     // events and volunteer/donate exist to link to.
   ],
+  secondaryLink: routeLink('Get support', '/contact'),
   primaryCta: {
     style: 'solid',
-    link: routeLink('Explore the Learn hub', '/learn'),
+    action: 'openNewsletter' as const,
+    link: routeLink('Join the newsletter', '/newsletter'),
   },
 }
