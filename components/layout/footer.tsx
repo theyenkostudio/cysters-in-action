@@ -40,7 +40,7 @@ export function Footer({
   ).replace('{year}', String(year))
 
   return (
-    <footer data-theme="inverse" className="bg-canvas text-fg mt-24 px-4 py-16">
+    <footer className="bg-canvas text-fg border-default mt-24 border-t px-4 py-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-7">
           <div className="sm:col-span-2 lg:col-span-2">

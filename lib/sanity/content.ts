@@ -1,6 +1,7 @@
 import type { AnnouncementBarData } from '@/components/layout/announcement-bar'
 import type { FooterData } from '@/components/layout/footer'
 import type { NavData } from '@/components/layout/nav'
+import { assertHomePageReady } from './content-guards'
 import * as fixtures from './fixtures'
 import { sanityFetch } from './fetch'
 import {
@@ -91,12 +92,14 @@ export function getAnnouncementBar() {
 
 export type HomePageData = { seo?: SeoValue; hero: HeroValue; sections: PageBuilderBlock[] } | null
 
-export function getHomePage() {
-  return sanityFetch<HomePageData>({
+export async function getHomePage() {
+  const data = await sanityFetch<HomePageData>({
     query: homePageQuery,
     tags: ['homePage'],
     fixture: { hero: fixtures.homePageHero, sections: fixtures.homePageSections },
   })
+  assertHomePageReady(data?.sections)
+  return data
 }
 
 export type AboutPageData = {

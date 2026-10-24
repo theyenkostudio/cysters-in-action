@@ -20,6 +20,7 @@
   --color-muted: var(--color-bg-muted);
   --color-highlight: var(--color-bg-highlight);
   --color-deep: var(--color-bg-deep);
+  --color-surface: var(--color-bg-surface);
 
   /* Text */
   --color-fg: var(--color-fg-default);
@@ -162,6 +163,9 @@
 
   html {
     scroll-behavior: smooth;
+    /* Nudges every rem-based size (nearly all type and spacing in this
+       project) up uniformly — 16px base felt small across the board. */
+    font-size: 112.5%;
   }
 
   body {

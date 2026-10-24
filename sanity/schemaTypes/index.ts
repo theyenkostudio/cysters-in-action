@@ -1,5 +1,6 @@
 import type { SchemaTypeDefinition } from 'sanity'
 
+import { aboutStat } from './objects/aboutStat'
 import { address } from './objects/address'
 import { cta } from './objects/cta'
 import { faqItem } from './objects/faqItem'
@@ -12,6 +13,7 @@ import { richText } from './objects/richText'
 import { seo } from './objects/seo'
 import { socialLink } from './objects/socialLink'
 import { stat } from './objects/stat'
+import { waysWeShowUpCard } from './objects/waysWeShowUpCard'
 
 import { blockSchemaTypes } from './blocks'
 
@@ -68,6 +70,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   navGroup,
   navItem,
   stat,
+  aboutStat,
+  waysWeShowUpCard,
   faqItem,
   // Page-builder blocks
   ...blockSchemaTypes,

@@ -1,9 +1,40 @@
-import type { HeroValue, PageBuilderBlock } from '../types'
+import type { AboutStatValue, HeroValue, PageBuilderBlock } from '../types'
 import { routeLink } from './links'
 import { testimonials } from './testimonials'
+import { waysWeShowUpCards } from './waysWeShowUp'
+
+// NOT real impact figures — see the Studio warning + required `source` on
+// aboutStat, and the production-build guard in lib/sanity/content.ts, which
+// is designed to fail a real production build while any of these ships with
+// `_placeholder: true`.
+const aboutIntroStats: (AboutStatValue & { _placeholder: true })[] = [
+  {
+    value: 120,
+    decimals: 0,
+    plusSign: true,
+    label: 'Community members',
+    source: 'Placeholder — not a real figure yet',
+    _placeholder: true,
+  },
+  {
+    value: 18,
+    decimals: 0,
+    plusSign: true,
+    label: 'Stories shared',
+    source: 'Placeholder — not a real figure yet',
+    _placeholder: true,
+  },
+  {
+    value: 6,
+    decimals: 0,
+    plusSign: false,
+    label: 'Events hosted',
+    source: 'Placeholder — not a real figure yet',
+    _placeholder: true,
+  },
+]
 
 export const homePageHero: HeroValue = {
-  eyebrow: 'Cysters In Action',
   headline: 'You are not alone\nwith PMOS.\nLet’s act on it together.',
   subline:
     'Reliable health information, genuine community and collective action for people living with PMOS.',
@@ -11,8 +42,8 @@ export const homePageHero: HeroValue = {
     mediaType: 'image',
     image: {
       url: '/placeholder/hero.jpg',
-      alt: 'A calm sunrise over a cloud-streaked horizon',
-      credit: 'Tuğba / Pexels',
+      alt: 'A diverse group of women standing together in solidarity',
+      credit: 'RDNE Stock project / Pexels',
     },
   },
   overlayStrength: 55,
@@ -31,59 +62,23 @@ export const homePageHero: HeroValue = {
 
 export const homePageSections: PageBuilderBlock[] = [
   {
-    _type: 'missionStatementBlock',
-    _key: 'home-mission',
-    eyebrow: 'Our story',
-    statement:
-      'Cysters In Action exists because too many people spend years chasing a diagnosis alone. We Learn together by making health information clear and trustworthy. We Connect through stories and events that remind you you’re not the only one. And we Act, turning that community into collective pressure for better care.',
-    highlightWords: [
-      { word: 'Learn', colour: 'teal' },
-      { word: 'Connect', colour: 'orchid' },
-      { word: 'Act', colour: 'lagoon' },
-    ],
+    _type: 'aboutIntroBlock',
+    _key: 'home-about-intro',
+    eyebrow: 'About us',
+    heading: 'Together, we turn PMOS questions into action.',
+    body: 'Cysters In Action exists because too many people spend years chasing a PMOS diagnosis alone. We Learn together by making health information clear and medically reviewed. We Connect through stories and events that remind you you’re not the only one. And we Act, turning that community into collective pressure for better care — one conversation, one shared story, one question answered at a time.',
+    cta: { style: 'outline', action: 'navigate', link: routeLink('Our mission', '/about') },
+    stats: aboutIntroStats,
     animation: 'exaggerated',
   },
   {
-    _type: 'pillarsBlock',
-    _key: 'home-pillars',
-    heading: 'Three ways we show up',
-    pillars: [
-      {
-        title: 'Learn',
-        icon: 'learn',
-        body: 'Explainers, myth-busters and doctor-question checklists, medically reviewed and kept up to date.',
-        link: routeLink('Visit the Learn hub', '/learn'),
-      },
-      {
-        title: 'Connect',
-        icon: 'connect',
-        body: 'Stories from people living with PMOS, and events where you can meet others going through it.',
-        link: routeLink('Share your story', '/connect/share-your-story'),
-      },
-      {
-        title: 'Act',
-        icon: 'act',
-        body: 'Turning community into collective action — volunteering, partnerships and advocacy.',
-        link: routeLink('Get involved', '/about'),
-      },
-    ],
-    animation: 'exaggerated',
-  },
-  {
-    _type: 'statsBlock',
-    _key: 'home-stats',
-    heading: 'Our impact so far',
-    stats: [
-      {
-        value: 6,
-        suffix: '',
-        label: 'Learn hub articles published',
-        source: 'Placeholder — not real figures yet',
-      },
-      { value: 5, label: 'Founding Circle members', source: 'Placeholder — not real figures yet' },
-      { value: 4, label: 'Health topics covered', source: 'Placeholder — not real figures yet' },
-    ],
-    background: 'brand',
+    _type: 'waysWeShowUpBlock',
+    _key: 'home-ways-we-show-up',
+    eyebrowNumber: '01',
+    eyebrow: 'Ways we show up',
+    heading: 'THREE WAYS\nWE SHOW UP',
+    cards: waysWeShowUpCards,
+    showSticker: true,
     animation: 'exaggerated',
   },
   {

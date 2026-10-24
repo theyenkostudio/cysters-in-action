@@ -1,4 +1,5 @@
 import type { SchemaTypeDefinition } from 'sanity'
+import { aboutIntroBlock } from './aboutIntroBlock'
 import { ctaBlock } from './ctaBlock'
 import { faqBlock } from './faqBlock'
 import { featuredArticlesBlock } from './featuredArticlesBlock'
@@ -7,7 +8,6 @@ import { heroBlock } from './heroBlock'
 import { imageTextBlock } from './imageTextBlock'
 import { logoCloudBlock } from './logoCloudBlock'
 import { mediaBlock } from './mediaBlock'
-import { missionStatementBlock } from './missionStatementBlock'
 import { newsletterBlock } from './newsletterBlock'
 import { pillarsBlock } from './pillarsBlock'
 import { problemSolutionBlock } from './problemSolutionBlock'
@@ -17,10 +17,12 @@ import { storiesCarouselBlock } from './storiesCarouselBlock'
 import { teamGridBlock } from './teamGridBlock'
 import { testimonialBlock } from './testimonialBlock'
 import { upcomingEventsBlock } from './upcomingEventsBlock'
+import { waysWeShowUpBlock } from './waysWeShowUpBlock'
 
 export const blockSchemaTypes: SchemaTypeDefinition[] = [
   heroBlock,
-  missionStatementBlock,
+  aboutIntroBlock,
+  waysWeShowUpBlock,
   pillarsBlock,
   statsBlock,
   problemSolutionBlock,

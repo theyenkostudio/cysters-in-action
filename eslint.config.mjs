@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Point-in-time file snapshots, not live code.
+    "_backup/**",
   ]),
 ]);
 

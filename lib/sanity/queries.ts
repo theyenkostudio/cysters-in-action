@@ -82,7 +82,10 @@ const EVENT_FULL = `{
 const PAGE_BUILDER_BLOCK = `{
   ...,
   _type == "heroBlock" => { hero${HERO} },
-  _type == "missionStatementBlock" => { cta${CTA} },
+  _type == "aboutIntroBlock" => { cta${CTA} },
+  _type == "waysWeShowUpBlock" => {
+    cards[]{ ..., "image": image${IMAGE}, link${LINK} },
+  },
   _type == "pillarsBlock" => { pillars[]{ ..., link${LINK} } },
   _type == "problemSolutionBlock" => { "image": image${IMAGE} },
   _type == "featuredArticlesBlock" => {

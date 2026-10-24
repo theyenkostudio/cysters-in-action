@@ -44,6 +44,9 @@ const pairs: Pair[] = [
   { label: 'fg-default on bg-canvas', fg: 'neutral-950', bg: 'neutral-0', min: AA_BODY },
   { label: 'fg-heading on bg-canvas', fg: 'teal-800', bg: 'neutral-0', min: AA_BODY },
   { label: 'fg-muted on bg-canvas', fg: 'neutral-700', bg: 'neutral-0', min: AA_BODY },
+  // bg-surface (pure white, about-intro stat cards on the cream canvas)
+  { label: 'fg-default on bg-surface', fg: 'neutral-950', bg: '#FFFFFF', min: AA_BODY },
+  { label: 'fg-muted on bg-surface', fg: 'neutral-700', bg: '#FFFFFF', min: AA_BODY },
   {
     label: 'fg-subtle on bg-canvas (meta/caption only)',
     fg: 'neutral-600',

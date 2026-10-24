@@ -95,6 +95,7 @@
   --color-bg-subtle: var(--blush-50);
   --color-bg-muted: var(--lilac-100);
   --color-bg-highlight: var(--blush-200);
+  --color-bg-surface: #FFFFFF;
   --color-fg-default: var(--neutral-950);
   --color-fg-heading: var(--teal-800);
   --color-fg-muted: var(--neutral-700);
@@ -123,6 +124,8 @@
   --color-fg-default: var(--neutral-0);
   --color-fg-heading: var(--neutral-0);
   --color-fg-muted: var(--blush-200);
+  --color-fg-link: var(--lagoon-300);
+  --color-fg-link-hover: var(--neutral-0);
   --color-accent-lagoon: var(--lagoon-300);
   --color-accent-orchid: var(--orchid-300);
   --color-action-primary-bg: var(--neutral-0);
@@ -134,6 +137,9 @@
   --color-bg-canvas: var(--teal-800);
   --color-fg-default: #FFFFFF;
   --color-fg-heading: #FFFFFF;
+  --color-fg-muted: var(--teal-100);
+  --color-fg-link: var(--lagoon-300);
+  --color-fg-link-hover: #FFFFFF;
   --color-action-primary-bg: var(--lagoon-300);
   --color-action-primary-fg: var(--plum-950);
 }

@@ -30,13 +30,13 @@ export function Nav({ data }: { data: NavData }) {
   }, [])
 
   return (
-    <header className="sticky top-4 z-50 mx-auto w-full max-w-5xl px-4">
+    <header className="sticky top-4 z-50 mx-auto mt-3 w-full max-w-5xl px-4">
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
       <div
         className={cn(
-          'border-default bg-canvas/90 flex items-center justify-between rounded-[var(--radius-pill)] border px-4 py-2 backdrop-blur-md transition-all',
+          'border-default bg-canvas/90 flex items-center justify-between rounded-[var(--radius-input)] border px-4 py-2 backdrop-blur-md transition-all',
           scrolled && 'py-1.5 shadow-md',
         )}
       >

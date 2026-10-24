@@ -1,14 +1,14 @@
 import type { PageBuilderBlock } from '@/lib/sanity/types'
+import { AboutIntroBlock } from './about-intro-block'
 import { CtaBlock, type CtaBlockData } from './cta-block'
 import { FaqBlock } from './faq-block'
-import type { FaqItemValue } from '@/lib/sanity/types'
+import type { AboutIntroBlockData, FaqItemValue } from '@/lib/sanity/types'
 import { FeaturedArticlesBlock, type FeaturedArticlesData } from './featured-articles-block'
 import { FormBlock, type FormBlockData } from './form-block'
 import { HeroBlock } from './hero-block'
 import { ImageTextBlock, type ImageTextData } from './image-text-block'
 import { LogoCloudBlock, type LogoCloudData } from './logo-cloud-block'
 import { MediaBlock } from './media-block'
-import { MissionStatementBlock, type MissionStatementData } from './mission-statement-block'
 import { NewsletterBlock, type NewsletterBlockData } from './newsletter-block'
 import { PillarsBlock, type PillarsBlockData } from './pillars-block'
 import { ProblemSolutionBlock, type ProblemSolutionData } from './problem-solution-block'
@@ -18,7 +18,14 @@ import { StoriesCarouselBlock, type StoriesCarouselData } from './stories-carous
 import { TeamGridBlock, type TeamGridData } from './team-grid-block'
 import { TestimonialBlock } from './testimonial-block'
 import { UpcomingEventsBlock, type UpcomingEventsData } from './upcoming-events-block'
-import type { HeroValue, HeroMediaValue, RichTextValue, TestimonialRef } from '@/lib/sanity/types'
+import { WaysWeShowUpBlock } from './WaysWeShowUp'
+import type {
+  HeroValue,
+  HeroMediaValue,
+  RichTextValue,
+  TestimonialRef,
+  WaysWeShowUpBlockData,
+} from '@/lib/sanity/types'
 
 export function BlockRenderer({ sections }: { sections?: PageBuilderBlock[] }) {
   if (!sections || sections.length === 0) return null
@@ -39,11 +46,15 @@ export function BlockRenderer({ sections }: { sections?: PageBuilderBlock[] }) {
                 }
               />
             )
-          case 'missionStatementBlock':
+          case 'aboutIntroBlock':
             return (
-              <MissionStatementBlock
+              <AboutIntroBlock key={block._key} data={block as unknown as AboutIntroBlockData} />
+            )
+          case 'waysWeShowUpBlock':
+            return (
+              <WaysWeShowUpBlock
                 key={block._key}
-                data={block as unknown as MissionStatementData}
+                data={block as unknown as WaysWeShowUpBlockData}
               />
             )
           case 'pillarsBlock':

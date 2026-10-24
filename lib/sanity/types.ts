@@ -61,6 +61,47 @@ export type StatValue = {
   source?: string
 }
 
+/** Stat card in `aboutIntroBlock` — see sanity/schemaTypes/objects/aboutStat.ts. */
+export type AboutStatValue = {
+  value: number
+  decimals?: number
+  unitSuffix?: string
+  plusSign?: boolean
+  label: string
+  source: string
+  _placeholder?: boolean
+}
+
+export type AboutIntroBlockData = {
+  eyebrow?: string
+  heading: string
+  body: string
+  cta?: CtaValue
+  stats: AboutStatValue[]
+  animation?: 'none' | 'subtle' | 'exaggerated'
+}
+
+/** `learn` | `connect` | `act` — drives colour (theme.config.ts `pillars`). */
+export type PillarKey = 'learn' | 'connect' | 'act'
+
+/** Card in `waysWeShowUpBlock` — see sanity/schemaTypes/objects/waysWeShowUpCard.ts. */
+export type WaysWeShowUpCardValue = {
+  word: string
+  pillar: PillarKey
+  image: SanityImage
+  description: RichTextValue
+  link?: ResolvedLinkValue
+}
+
+export type WaysWeShowUpBlockData = {
+  eyebrowNumber?: string
+  eyebrow?: string
+  heading: string
+  cards: WaysWeShowUpCardValue[]
+  showSticker?: boolean
+  animation?: 'none' | 'subtle' | 'exaggerated'
+}
+
 export type FaqItemValue = {
   question: string
   answer: RichTextValue

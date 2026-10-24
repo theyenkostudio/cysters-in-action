@@ -66,7 +66,11 @@ export function Hero({
       ref={sectionRef}
       data-theme="inverse"
       className={cn(
-        'bg-canvas relative flex items-end overflow-hidden',
+        // Nav is `position: sticky`, which still reserves its own box in
+        // normal flow — this negative margin pulls the hero up to collapse
+        // through <main>'s top edge so the hero's background (not plain
+        // canvas) fills the area the floating nav pill sits over.
+        'bg-canvas relative -mt-20 flex items-end overflow-hidden',
         HEIGHT_CLASSES[data.height ?? 'large'],
       )}
     >
