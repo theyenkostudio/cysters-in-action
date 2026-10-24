@@ -1,4 +1,5 @@
 import 'server-only'
+import { logError } from '@/lib/log-error'
 
 const VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
@@ -25,7 +26,7 @@ export async function verifyTurnstile(token: string): Promise<boolean> {
     const data = (await res.json()) as { success: boolean }
     return data.success
   } catch (err) {
-    console.error('[turnstile] verification request failed', err)
+    logError('turnstile', err)
     return false
   }
 }

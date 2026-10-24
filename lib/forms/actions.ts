@@ -9,6 +9,7 @@ import { RsvpConfirmationEmail } from '@/lib/email/templates/rsvp-confirmation'
 import { StoryConfirmationEmail } from '@/lib/email/templates/story-confirmation'
 import { StoryModeratorAlertEmail } from '@/lib/email/templates/story-moderator-alert'
 import { sendEmail } from '@/lib/email/send'
+import { logError } from '@/lib/log-error'
 import { getContactPage, getEventJoinDetails, getEventRsvpCount } from '@/lib/sanity/content'
 import { sanityCreate, sanityUploadImage } from '@/lib/sanity/write'
 import { siteUrl } from '@/lib/seo'
@@ -56,7 +57,7 @@ export async function subscribeToNewsletter(raw: unknown): Promise<ActionResult>
     })
     return { success: true, message: 'Check your inbox to confirm your subscription.' }
   } catch (err) {
-    console.error('[subscribeToNewsletter] failed', err instanceof Error ? err.message : err)
+    logError('subscribeToNewsletter', err)
     return { success: false, error: 'Something went wrong. Please try again shortly.' }
   }
 }
@@ -117,7 +118,7 @@ export async function submitContactForm(raw: unknown): Promise<ActionResult> {
       message: contactPage?.successMessage || 'Thanks — we’ll be in touch soon.',
     }
   } catch (err) {
-    console.error('[submitContactForm] failed', err instanceof Error ? err.message : err)
+    logError('submitContactForm', err)
     return { success: false, error: 'Something went wrong. Please try again shortly.' }
   }
 }
@@ -202,7 +203,7 @@ export async function submitStory(raw: unknown): Promise<ActionResult> {
       message: 'Thank you for sharing. A moderator will read your story soon.',
     }
   } catch (err) {
-    console.error('[submitStory] failed', err instanceof Error ? err.message : err)
+    logError('submitStory', err)
     return { success: false, error: 'Something went wrong. Please try again shortly.' }
   }
 }
@@ -311,7 +312,7 @@ export async function submitRsvp(raw: unknown): Promise<RsvpResult> {
       joinUrl,
     }
   } catch (err) {
-    console.error('[submitRsvp] failed', err instanceof Error ? err.message : err)
+    logError('submitRsvp', err)
     return { success: false, error: 'Something went wrong. Please try again shortly.' }
   }
 }

@@ -1,6 +1,7 @@
 import 'server-only'
 import { Resend } from 'resend'
 import type { ReactElement } from 'react'
+import { logError } from '@/lib/log-error'
 
 const FROM_ADDRESS = 'Cysters In Action <notifications@cystersinaction.org>'
 
@@ -38,6 +39,6 @@ export async function sendEmail({
     attachments,
   })
   if (error) {
-    console.error('[email] Resend send failed', error)
+    logError('email.send', error, { subject })
   }
 }

@@ -22,11 +22,10 @@ export function CountUp({
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const reducedMotion = useReducedMotion()
-  const [display, setDisplay] = useState(reducedMotion ? value : 0)
+  const [display, setDisplay] = useState(0)
 
   useEffect(() => {
-    // Under reduced motion `display` already starts at `value` (lazy init below).
-    if (!inView || reducedMotion) return
+    if (reducedMotion || !inView) return
 
     const controls = animate(0, value, {
       duration: 1.4,
@@ -37,10 +36,16 @@ export function CountUp({
     return () => controls.stop()
   }, [inView, reducedMotion, value])
 
+  // Reading `value` directly here (not setting it into `display` from an
+  // effect) matters: useReducedMotion reports `false` during SSR/hydration
+  // regardless of the real preference, correcting itself client-side a
+  // moment later — a stateful approach would need to catch that correction
+  // and re-set the display value, but a plain render-time substitution is
+  // always current and needs no effect to do it.
   return (
     <span ref={ref} className={className}>
       {prefix}
-      {display}
+      {reducedMotion ? value : display}
       {suffix}
     </span>
   )

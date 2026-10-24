@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { StoryDecisionEmail } from '@/lib/email/templates/story-decision'
 import { sendEmail } from '@/lib/email/send'
+import { logError } from '@/lib/log-error'
 import { getStoryContactDetails } from '@/lib/sanity/content'
 import { siteUrl } from '@/lib/seo'
 
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ sent: true })
   } catch (err) {
-    console.error('[story-decision] failed', err)
+    logError('story-decision', err)
     return NextResponse.json({ sent: false }, { status: 500 })
   }
 }
