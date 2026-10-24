@@ -63,6 +63,10 @@ export const themeConfig = {
       'bg-surface': '#FFFFFF',
       'fg-default': 'neutral-950',
       'fg-heading': 'teal-800',
+      // Not redefined per-theme (unlike fg-heading): bg-highlight itself
+      // never changes with data-theme, so its paired text colour must stay
+      // fixed too, or the pill fails contrast inside inverse/brand sections.
+      'fg-on-highlight': 'teal-800',
       'fg-muted': 'neutral-700',
       'fg-subtle': 'neutral-600',
       'fg-link': 'teal-700',

@@ -27,6 +27,7 @@ export default async function GlossaryPage() {
       </Reveal>
 
       <div className="mt-10">
+        <h2 className="sr-only">Terms</h2>
         <GlossaryAzList terms={terms} />
       </div>
     </div>

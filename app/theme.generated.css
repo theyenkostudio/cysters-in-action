@@ -98,6 +98,7 @@
   --color-bg-surface: #FFFFFF;
   --color-fg-default: var(--neutral-950);
   --color-fg-heading: var(--teal-800);
+  --color-fg-on-highlight: var(--teal-800);
   --color-fg-muted: var(--neutral-700);
   --color-fg-subtle: var(--neutral-600);
   --color-fg-link: var(--teal-700);

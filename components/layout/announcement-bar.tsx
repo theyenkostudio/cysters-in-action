@@ -29,6 +29,8 @@ export function AnnouncementBar({ data }: { data: AnnouncementBarData }) {
     <AnimatePresence initial={false}>
       <motion.div
         key="announcement-bar"
+        role="region"
+        aria-label="Site announcement"
         initial={{ height: 'auto' }}
         exit={{ height: 0 }}
         className={cn('overflow-hidden text-sm', TONE_CLASSES[data.tone ?? 'brand'])}

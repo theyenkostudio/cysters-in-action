@@ -1,6 +1,5 @@
 'use client'
 
-import * as Tabs from '@radix-ui/react-tabs'
 import { useMemo, useState } from 'react'
 import { EventCalendar } from './event-calendar'
 import { EventCard } from './event-card'
@@ -31,28 +30,37 @@ export function EventsListing({ events }: { events: EventRef[] }) {
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
         {types.length > 1 && (
-          <Tabs.Root
-            value={typeFilter}
-            onValueChange={(v) => setTypeFilter(v as EventType | 'all')}
+          <div
+            role="group"
+            aria-label="Filter events by type"
+            className="rounded-pill border-default flex gap-1 border p-1"
           >
-            <Tabs.List className="rounded-pill border-default flex gap-1 border p-1">
-              <Tabs.Trigger
-                value="all"
-                className="rounded-pill text-fg data-[state=active]:bg-primary data-[state=active]:text-on-primary px-3 py-1.5 text-sm font-medium"
+            <button
+              type="button"
+              aria-pressed={typeFilter === 'all'}
+              onClick={() => setTypeFilter('all')}
+              className={cn(
+                'rounded-pill px-3 py-1.5 text-sm font-medium',
+                typeFilter === 'all' ? 'bg-primary text-on-primary' : 'text-fg',
+              )}
+            >
+              All
+            </button>
+            {types.map((t) => (
+              <button
+                key={t}
+                type="button"
+                aria-pressed={typeFilter === t}
+                onClick={() => setTypeFilter(t)}
+                className={cn(
+                  'rounded-pill px-3 py-1.5 text-sm font-medium',
+                  typeFilter === t ? 'bg-primary text-on-primary' : 'text-fg',
+                )}
               >
-                All
-              </Tabs.Trigger>
-              {types.map((t) => (
-                <Tabs.Trigger
-                  key={t}
-                  value={t}
-                  className="rounded-pill text-fg data-[state=active]:bg-primary data-[state=active]:text-on-primary px-3 py-1.5 text-sm font-medium"
-                >
-                  {EVENT_TYPE_LABELS[t]}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
-          </Tabs.Root>
+                {EVENT_TYPE_LABELS[t]}
+              </button>
+            ))}
+          </div>
         )}
 
         <div className="rounded-pill border-default flex gap-1 border p-1">

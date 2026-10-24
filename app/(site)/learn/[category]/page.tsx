@@ -47,6 +47,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         )}
       </Reveal>
       <div className="mt-10">
+        <h2 className="sr-only">Articles</h2>
         <CategoryArticleList articles={articles} />
       </div>
     </div>

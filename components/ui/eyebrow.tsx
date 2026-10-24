@@ -10,7 +10,7 @@ export function Eyebrow({
   return (
     <span
       className={cn(
-        'rounded-pill bg-highlight text-fg-heading inline-block px-3 py-1 text-xs font-semibold tracking-wide uppercase',
+        'rounded-pill bg-highlight text-fg-on-highlight inline-block px-3 py-1 text-xs font-semibold tracking-wide uppercase',
         className,
       )}
     >

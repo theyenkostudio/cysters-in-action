@@ -27,11 +27,15 @@ export default async function AboutPage() {
       </Reveal>
 
       {aboutPage.pillars?.length > 0 && (
-        <PillarsBlock data={{ pillars: aboutPage.pillars, animation: 'subtle' }} />
+        <>
+          <h2 className="sr-only">What we focus on</h2>
+          <PillarsBlock data={{ pillars: aboutPage.pillars, animation: 'subtle' }} />
+        </>
       )}
 
       {aboutPage.values?.length > 0 && (
         <section className="mx-auto max-w-5xl px-4 py-16 sm:px-8">
+          <h2 className="sr-only">Our values</h2>
           <Stagger className="grid gap-6 sm:grid-cols-3">
             {aboutPage.values.map((value, i) => (
               <Reveal key={i} className="rounded-card border-default border p-6">

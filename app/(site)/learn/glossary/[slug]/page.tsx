@@ -62,9 +62,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
 
       {term.relatedTerms && term.relatedTerms.length > 0 && (
         <div className="border-default mt-10 border-t pt-6">
-          <p className="text-fg-subtle text-sm font-semibold tracking-wide uppercase">
+          <h2 className="text-fg-subtle text-sm font-semibold tracking-wide uppercase">
             Related terms
-          </p>
+          </h2>
           <div className="mt-2 flex flex-wrap gap-2">
             {term.relatedTerms.map((t) => (
               <NextLink
@@ -81,9 +81,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
 
       {term.relatedArticles && term.relatedArticles.length > 0 && (
         <div className="border-default mt-10 border-t pt-6">
-          <p className="text-fg-subtle text-sm font-semibold tracking-wide uppercase">
+          <h2 className="text-fg-subtle text-sm font-semibold tracking-wide uppercase">
             Related articles
-          </p>
+          </h2>
           <div className="mt-4 grid gap-6 sm:grid-cols-2">
             {term.relatedArticles.map((a) => (
               <ArticleCard key={a._id} article={a} />

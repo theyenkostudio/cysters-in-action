@@ -28,6 +28,7 @@ export default async function EventsPage() {
       </Reveal>
 
       <div className="mt-10">
+        <h2 className="sr-only">Upcoming events</h2>
         {upcoming.length > 0 ? (
           <EventsListing events={upcoming} />
         ) : (
