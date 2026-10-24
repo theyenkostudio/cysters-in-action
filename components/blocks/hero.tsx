@@ -1,13 +1,22 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'motion/react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { ButtonLink } from '@/components/ui/button'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { Parallax } from '@/components/motion/parallax'
-import { SplitHeadline } from '@/components/motion/split-headline'
 import { useReducedMotion } from '@/components/motion/use-reduced-motion'
+
+// GSAP only ships to the browser on pages that actually render this
+// exaggerated moment (Section 8's JS budget: "GSAP only on pages with
+// exaggerated moments") — a static import here would put it in every
+// page's bundle, since Hero renders on nearly all of them regardless of
+// `animation`.
+const SplitHeadline = dynamic(() =>
+  import('@/components/motion/split-headline').then((m) => m.SplitHeadline),
+)
 import { resolveHref } from '@/lib/link'
 import type { HeroValue } from '@/lib/sanity/types'
 import { cn } from '@/lib/utils'

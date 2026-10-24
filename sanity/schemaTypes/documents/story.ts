@@ -159,6 +159,14 @@ export const story = defineType({
       readOnly: true,
     }),
     defineField({
+      name: 'rejectedAt',
+      title: 'Rejected at',
+      type: 'datetime',
+      group: 'moderation',
+      readOnly: true,
+      description: 'Drives the 90-day automated cleanup (Section 7).',
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured (homepage carousel)',
       type: 'boolean',

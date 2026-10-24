@@ -1,8 +1,13 @@
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { ButtonLink } from '@/components/ui/button'
 import { Icon } from '@/components/ui/icon'
-import { ScrollPin } from '@/components/motion/scroll-pin'
 import { Stagger, Reveal } from '@/components/motion/reveal'
+
+// See hero.tsx's SplitHeadline for why this is dynamic rather than a plain
+// import — ScrollPin pulls in GSAP, and the non-exaggerated grid layout
+// below (used by About's "subtle" pillars) never needs it.
+const ScrollPin = dynamic(() => import('@/components/motion/scroll-pin').then((m) => m.ScrollPin))
 import { resolveHref } from '@/lib/link'
 import type { ResolvedLinkValue, SanityImage } from '@/lib/sanity/types'
 import { cn } from '@/lib/utils'

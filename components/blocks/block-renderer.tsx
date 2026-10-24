@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import type { PageBuilderBlock } from '@/lib/sanity/types'
 import { AboutIntroBlock } from './about-intro-block'
 import { CtaBlock, type CtaBlockData } from './cta-block'
@@ -18,7 +19,6 @@ import { StoriesCarouselBlock, type StoriesCarouselData } from './stories-carous
 import { TeamGridBlock, type TeamGridData } from './team-grid-block'
 import { TestimonialBlock } from './testimonial-block'
 import { UpcomingEventsBlock, type UpcomingEventsData } from './upcoming-events-block'
-import { WaysWeShowUpBlock } from './WaysWeShowUp'
 import type {
   HeroValue,
   HeroMediaValue,
@@ -26,6 +26,11 @@ import type {
   TestimonialRef,
   WaysWeShowUpBlockData,
 } from '@/lib/sanity/types'
+
+// GSAP (via CardStack's shuffle timeline) only ships to pages that render a
+// waysWeShowUpBlock section — BlockRenderer is shared by every page-builder
+// page, and a static import here would put it in all of their bundles.
+const WaysWeShowUpBlock = dynamic(() => import('./WaysWeShowUp').then((m) => m.WaysWeShowUpBlock))
 
 export function BlockRenderer({ sections }: { sections?: PageBuilderBlock[] }) {
   if (!sections || sections.length === 0) return null

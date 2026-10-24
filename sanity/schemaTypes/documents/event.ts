@@ -130,6 +130,20 @@ export const event = defineType({
       initialValue: 'scheduled',
     }),
     defineField({ name: 'seo', title: 'SEO', type: 'seo' }),
+    defineField({
+      name: 'reminder24hSentAt',
+      title: '24h reminder sent at',
+      type: 'datetime',
+      readOnly: true,
+      description: 'Set automatically by the reminder cron job (Section 7).',
+    }),
+    defineField({
+      name: 'reminder1hSentAt',
+      title: '1h reminder sent at',
+      type: 'datetime',
+      readOnly: true,
+      description: 'Set automatically by the reminder cron job (Section 7).',
+    }),
   ],
   preview: {
     select: { title: 'title', startDateTime: 'startDateTime', status: 'status' },

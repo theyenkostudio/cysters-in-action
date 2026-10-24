@@ -253,3 +253,38 @@ export const allGlossaryTermSlugsQuery = defineQuery(
 export const eventRsvpCountQuery = defineQuery(
   `count(*[_type == "eventRsvp" && event._ref == $eventId && attendance == "attending"])`,
 )
+
+// Server-only — reminder cron job (app/api/cron/event-reminders). Events
+// whose start falls inside the current run's window and haven't had that
+// tier's reminder sent yet.
+export const eventsNeeding24hReminderQuery = defineQuery(`*[
+  _type == "event" && status == "scheduled" && rsvpEnabled == true &&
+  startDateTime >= $windowStart && startDateTime < $windowEnd &&
+  !defined(reminder24hSentAt)
+]{ _id, title, startDateTime, endDateTime, timezone, onlineJoinUrl, format, "venueName": venue.name }`)
+
+export const eventsNeeding1hReminderQuery = defineQuery(`*[
+  _type == "event" && status == "scheduled" && rsvpEnabled == true &&
+  startDateTime >= $windowStart && startDateTime < $windowEnd &&
+  !defined(reminder1hSentAt)
+]{ _id, title, startDateTime, endDateTime, timezone, onlineJoinUrl, format, "venueName": venue.name }`)
+
+// Server-only — who to notify for a given event's reminder.
+export const attendingRsvpsForEventQuery = defineQuery(
+  `*[_type == "eventRsvp" && event._ref == $eventId && attendance == "attending"]{ name, email }`,
+)
+
+// Server-only — data-retention cleanup job (app/api/cron/retention-cleanup),
+// per Section 7: contact submissions 12 months, RSVPs 6 months after the
+// event, rejected stories 90 days.
+export const staleContactSubmissionIdsQuery = defineQuery(
+  `*[_type == "contactSubmission" && createdAt < $cutoff]._id`,
+)
+
+export const staleEventRsvpIdsQuery = defineQuery(
+  `*[_type == "eventRsvp" && event->startDateTime < $cutoff]._id`,
+)
+
+export const staleRejectedStoryIdsQuery = defineQuery(
+  `*[_type == "story" && status == "rejected" && rejectedAt < $cutoff]._id`,
+)

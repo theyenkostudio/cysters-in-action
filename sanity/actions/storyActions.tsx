@@ -79,7 +79,7 @@ export const RejectAction: DocumentActionComponent = (props) => {
   const [confirming, setConfirming] = useState(false)
 
   const handle = useCallback(() => {
-    patch.execute([{ set: { status: 'rejected' } }])
+    patch.execute([{ set: { status: 'rejected', rejectedAt: new Date().toISOString() } }])
     notifyDecision(props.id, 'rejected')
     setConfirming(false)
     props.onComplete()

@@ -10,6 +10,7 @@ import { NewsletterModalTrigger } from './newsletter-modal'
 import { resolveHref, type ResolvedLink } from '@/lib/link'
 import { cn } from '@/lib/utils'
 import { MobileMenu } from './mobile-menu'
+import { SearchTrigger } from './search-trigger'
 
 export type NavItemData = { title: string; description?: string; icon?: string; link: ResolvedLink }
 export type NavGroupData = { label: string; link?: ResolvedLink; items?: NavItemData[] }
@@ -79,6 +80,7 @@ export function Nav({ data }: { data: NavData }) {
         </NavigationMenu.Root>
 
         <div className="hidden items-center gap-4 md:flex">
+          <SearchTrigger />
           {data?.secondaryLink && (
             <SmartLink
               link={data.secondaryLink}
@@ -101,7 +103,10 @@ export function Nav({ data }: { data: NavData }) {
             ))}
         </div>
 
-        <MobileMenu data={data} />
+        <div className="flex items-center md:hidden">
+          <SearchTrigger />
+          <MobileMenu data={data} />
+        </div>
       </div>
     </header>
   )

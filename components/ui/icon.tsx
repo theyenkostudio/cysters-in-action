@@ -14,6 +14,7 @@ const PATHS: Record<string, string> = {
     'M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1zM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zM9 12h6M9 16h6',
   heart: 'M12 20s-7-4.4-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 5c-2.5 4.6-9.5 9-9.5 9z',
   'arrow-right': 'M5 12h14M13 6l6 6-6 6',
+  search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.35-4.35',
 }
 
 export function Icon({
