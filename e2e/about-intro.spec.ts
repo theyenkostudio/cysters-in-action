@@ -3,6 +3,11 @@ import { expect, test, type Page } from '@playwright/test'
 
 const HEADING_TEXT = 'Together, we turn PMOS questions into action.'
 
+// The stats row is parked (SHOW_STATS = false in about-intro-block.tsx) while
+// the numbers get a new home. Tests that need the stat cards are skipped, not
+// deleted: flip this to false when the row comes back.
+const STATS_PARKED = true
+
 async function scrollAboutIntroIntoView(page: Page) {
   await page.goto('/')
   const heading = page.getByRole('heading', { level: 2, name: HEADING_TEXT })
@@ -22,7 +27,7 @@ async function scrollAboutIntroIntoView(page: Page) {
 async function settleAboutIntroAnimations(page: Page) {
   await scrollAboutIntroIntoView(page)
   const statsRow = page.locator('[data-stat-card]').first()
-  await statsRow.scrollIntoViewIfNeeded()
+  if (!STATS_PARKED) await statsRow.scrollIntoViewIfNeeded()
   await page.mouse.wheel(0, 600)
   await page.waitForTimeout(2800)
 }
@@ -30,6 +35,7 @@ async function settleAboutIntroAnimations(page: Page) {
 test.describe('aboutIntroBlock', () => {
   for (const width of [1024, 1280, 1440, 768]) {
     test(`renders the reference layout at ${width}px`, async ({ page }) => {
+      test.skip(STATS_PARKED, 'reference screenshots include the stats row, which is parked')
       await page.setViewportSize({ width, height: 1000 })
       await scrollAboutIntroIntoView(page)
       // Scroll a little further so the stats row (below the fold at this
@@ -46,6 +52,7 @@ test.describe('aboutIntroBlock', () => {
   }
 
   test('final stat values are present for screen readers', async ({ page }) => {
+    test.skip(STATS_PARKED, 'stats row is parked')
     await scrollAboutIntroIntoView(page)
 
     const srStats = page.locator('li .sr-only')
@@ -70,12 +77,13 @@ test.describe('aboutIntroBlock', () => {
     await expect(heading).toHaveAttribute('aria-label', HEADING_TEXT)
     // The visible, possibly-SplitText-mangled content is hidden from AT —
     // only the sr-only sibling (or the heading's own aria-label) is read.
-    await expect(heading.locator('[aria-hidden="true"]')).toBeVisible()
+    await expect(heading.locator('[aria-hidden="true"]').first()).toBeVisible()
   })
 
   test('with reduced motion, final numbers are visible immediately — no count-up', async ({
     page,
   }) => {
+    test.skip(STATS_PARKED, 'stats row is parked')
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await scrollAboutIntroIntoView(page)
     // Deliberately short wait — long enough for the (skipped) count-up
@@ -106,10 +114,10 @@ test.describe('aboutIntroBlock', () => {
   test('axe has no violations on the about-intro section', async ({ page }) => {
     await settleAboutIntroAnimations(page)
 
-    // Scoped to this block's own section (via its data-stat-card descendant)
+    // Scoped to this block's own section (via its heading)
     // so a pre-existing issue elsewhere on the page can't fail this test.
     const results = await new AxeBuilder({ page })
-      .include('section:has([data-stat-card])')
+      .include(`section:has(h2[aria-label="${HEADING_TEXT}"])`)
       .withTags(['wcag2a', 'wcag2aa'])
       .analyze()
 
@@ -117,6 +125,7 @@ test.describe('aboutIntroBlock', () => {
   })
 
   test('no meaningful layout shift during the stat count-up (CLS ≈ 0)', async ({ page }) => {
+    test.skip(STATS_PARKED, 'stats row is parked')
     await page.goto('/')
     await page.evaluate(() => {
       ;(window as unknown as { __shifts: number[] }).__shifts = []

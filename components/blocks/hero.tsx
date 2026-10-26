@@ -123,6 +123,17 @@ export function Hero({
         }}
       />
 
+      {/* Bottom scrim: the direction-based overlay above fades to transparent
+          on the far side, which leaves the subline sitting on bare photo. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5"
+        style={{
+          background:
+            'linear-gradient(to top, color-mix(in srgb, var(--plum-950) 70%, transparent) 0%, transparent 100%)',
+        }}
+      />
+
       <div
         className={cn(
           'relative z-10 w-full px-4 pt-32 pb-16 sm:px-8',
@@ -161,7 +172,7 @@ export function Hero({
               initial={exaggerated ? { opacity: 0, y: 12 } : undefined}
               animate={exaggerated ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 1.1, duration: 0.6 }}
-              className="text-fg-muted mt-5 max-w-xl text-lg"
+              className="text-fg mt-5 max-w-xl text-lg font-medium [text-shadow:0_1px_12px_rgb(0_0_0/0.45)] sm:text-xl"
             >
               {data.subline}
             </motion.p>
@@ -178,7 +189,7 @@ export function Hero({
                 <ButtonLink
                   key={i}
                   href={resolveHref(cta.link)}
-                  variant={cta.style === 'outline' ? 'outline' : 'on-dark'}
+                  variant={cta.style === 'outline' ? 'on-dark-outline' : 'on-dark'}
                 >
                   {cta.link.label}
                 </ButtonLink>

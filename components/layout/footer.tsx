@@ -42,7 +42,7 @@ export function Footer({
   return (
     <footer className="bg-canvas text-fg border-default mt-24 border-t px-4 py-16">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-7">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-6">
           <div className="sm:col-span-2 lg:col-span-2">
             <p className="text-fg-heading text-lg font-semibold">{siteSettings?.siteName}</p>
             {data?.blurb && <p className="text-fg-muted mt-2 max-w-sm text-sm">{data.blurb}</p>}
@@ -73,24 +73,24 @@ export function Footer({
               </ul>
             </div>
           ))}
-
-          {data?.showNewsletter && (
-            <div className="sm:col-span-2 lg:col-span-1">
-              <p className="text-fg-heading text-sm font-semibold">
-                {data.newsletterHeading ?? 'Newsletter'}
-              </p>
-              <div className="mt-3">
-                <NewsletterForm source="footer" />
-              </div>
-            </div>
-          )}
         </div>
 
-        {siteSettings?.medicalDisclaimer ? (
-          <p className="text-fg-muted mt-10 max-w-3xl text-xs">
-            This site provides health information, not medical advice.
-          </p>
-        ) : null}
+        {(siteSettings?.medicalDisclaimer || data?.showNewsletter) && (
+          <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            {siteSettings?.medicalDisclaimer ? (
+              <p className="text-fg-muted max-w-3xl text-xs">
+                This site provides health information, not medical advice.
+              </p>
+            ) : (
+              <span />
+            )}
+            {data?.showNewsletter && (
+              <div className="w-full sm:max-w-sm lg:w-96 lg:shrink-0">
+                <NewsletterForm source="footer" variant="pill" />
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="border-default text-fg-muted mt-10 flex flex-col items-center justify-between gap-4 border-t pt-6 text-xs md:flex-row">
           <p>{copyright}</p>

@@ -1,6 +1,12 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // Lets the dev server accept asset/HMR requests when the app is viewed
+  // through a Cloudflare quick tunnel instead of localhost — otherwise
+  // Next.js's cross-origin dev check silently blocks JS/CSS chunks, which
+  // shows up as unstyled text, dead animations, and client sections that
+  // never mount.
+  allowedDevOrigins: ['*.trycloudflare.com'],
   turbopack: {
     rules: {
       '*.css': {

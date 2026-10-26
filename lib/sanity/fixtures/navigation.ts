@@ -5,6 +5,13 @@ export const navigation = {
   mainNav: [
     {
       label: 'About',
+      featured: {
+        eyebrow: 'Our story',
+        title: 'Why Cysters In Action exists',
+        description: 'Too many people chase a PMOS diagnosis alone. We are changing that.',
+        image: { url: '/placeholder/about-hero.jpg', alt: 'Close-up of hands held together' },
+        link: routeLink('Read our mission', '/about'),
+      },
       items: [
         {
           title: 'Our mission',
@@ -25,6 +32,13 @@ export const navigation = {
     },
     {
       label: 'Learn',
+      featured: {
+        eyebrow: 'Start here',
+        title: 'The Learn hub',
+        description: 'Medically reviewed explainers, myth-busters and doctor guides.',
+        image: { url: '/placeholder/learn-hub-hero.jpg', alt: 'A stack of books on a table' },
+        link: routeLink('Explore the Learn hub', '/learn'),
+      },
       items: [
         {
           title: 'Learn hub',
@@ -50,6 +64,16 @@ export const navigation = {
     },
     {
       label: 'Connect',
+      featured: {
+        eyebrow: 'You are not the only one',
+        title: 'Real stories, real people',
+        description: 'Shared by people living with PMOS, named or anonymous.',
+        image: {
+          url: '/placeholder/wwsu-connect.jpg',
+          alt: 'Two hands of different skin tones reaching toward each other',
+        },
+        link: routeLink('Read the stories', '/connect/stories'),
+      },
       items: [
         {
           title: 'Stories',

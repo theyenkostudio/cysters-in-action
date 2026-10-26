@@ -31,8 +31,8 @@ export function MobileMenu({ data }: { data: NavData }) {
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/40" />
-        <Dialog.Content className="bg-canvas fixed inset-0 z-50 flex flex-col p-6">
+        <Dialog.Overlay className="mobile-menu-overlay fixed inset-0 z-50 bg-black/40" />
+        <Dialog.Content className="mobile-menu-panel bg-canvas border-default fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col border-l p-6 shadow-2xl">
           <div className="flex justify-end">
             <Dialog.Close aria-label="Close menu" className="rounded-pill text-fg p-2">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -56,12 +56,27 @@ export function MobileMenu({ data }: { data: NavData }) {
                 className="border-default border-b"
               >
                 <Accordion.Header>
-                  <Accordion.Trigger className="text-fg-heading flex w-full items-center justify-between py-4 text-left text-lg font-medium">
+                  <Accordion.Trigger className="group text-fg-heading flex w-full items-center justify-between py-4 text-left text-lg font-medium">
                     {group.label}
-                    <span aria-hidden>+</span>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                      className="transition-transform duration-300 group-data-[state=open]:rotate-180"
+                    >
+                      <path
+                        d="M2 4.25L6 8l4-3.75"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </Accordion.Trigger>
                 </Accordion.Header>
-                <Accordion.Content className="pb-4">
+                <Accordion.Content className="accordion-content overflow-hidden pb-4">
                   <ul className="flex flex-col gap-3">
                     {(group.items ?? []).map((item) => (
                       <li key={item.title}>

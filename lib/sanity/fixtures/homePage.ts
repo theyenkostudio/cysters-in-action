@@ -1,6 +1,5 @@
 import type { AboutStatValue, HeroValue, PageBuilderBlock } from '../types'
 import { routeLink } from './links'
-import { testimonials } from './testimonials'
 import { waysWeShowUpCards } from './waysWeShowUp'
 
 // NOT real impact figures — see the Studio warning + required `source` on
@@ -134,39 +133,13 @@ export const homePageSections: PageBuilderBlock[] = [
     animation: 'exaggerated',
   },
   {
-    _type: 'testimonialBlock',
-    _key: 'home-testimonial',
-    testimonials,
-    layout: 'single',
-    animation: 'subtle',
-  },
-  {
     _type: 'newsletterBlock',
     _key: 'home-newsletter',
-    heading: 'Join the newsletter',
-    body: 'Occasional emails about new Learn hub articles, events and ways to get involved.',
-    buttonLabel: 'Subscribe',
-    variant: 'band',
-    animation: 'subtle',
-  },
-  {
-    _type: 'ctaBlock',
-    _key: 'home-closing-cta',
-    heading: 'Ready to take action?',
-    body: 'Whichever way you want to show up — reading, sharing, or getting involved — there’s a place for you here.',
-    image: {
-      url: '/placeholder/cta-closing.jpg',
-      alt: 'Close-up of several hands held together',
-      credit: 'Shane / Pexels',
-    },
-    ctas: [
-      {
-        link: routeLink('Share your story', '/connect/share-your-story'),
-        style: 'solid',
-        action: 'navigate',
-      },
-    ],
-    background: 'dark',
-    animation: 'subtle',
+    eyebrow: 'Join us',
+    heading: 'Join the community.',
+    body: 'Meet others living with PMOS and be among the first in as we build this together. Every cell in the hive is a member, a story or a question.',
+    buttonLabel: 'Join',
+    variant: 'hive',
+    animation: 'exaggerated',
   },
 ]

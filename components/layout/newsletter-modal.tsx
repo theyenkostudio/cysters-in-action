@@ -8,16 +8,18 @@ import { NewsletterForm } from '@/components/forms/newsletter-form'
 export function NewsletterModalTrigger({
   label,
   className,
+  size,
 }: {
   label: string
   className?: string
+  size?: 'md' | 'sm'
 }) {
   const [open, setOpen] = useState(false)
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <Button variant="solid" className={className}>
+        <Button variant="solid" size={size} className={className}>
           {label}
         </Button>
       </Dialog.Trigger>

@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'motion/react'
-import NextLink from 'next/link'
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
+import { ButtonLink } from '@/components/ui/button'
 import { useReducedMotion } from '@/components/motion/use-reduced-motion'
 import { resolveHref } from '@/lib/link'
 import type { AboutIntroBlockData, AboutStatValue } from '@/lib/sanity/types'
@@ -16,6 +16,11 @@ const ACCENT_VARS = [
   'var(--color-orchid-text)',
   'var(--color-lagoon-text)',
 ]
+
+// Stats row is parked for now (the boxed-card look is being redesigned and the
+// numbers may move elsewhere). StatCard and its entrance animation below are
+// kept intact: flip this to true to bring the row back as it was.
+const SHOW_STATS = false
 
 function formatStatNumber(value: number, decimals: number) {
   return value.toFixed(decimals)
@@ -38,30 +43,9 @@ function AboutCtaButton({ cta }: { cta: NonNullable<AboutIntroBlockData['cta']> 
   if (!cta.link) return null
 
   return (
-    <motion.span className="inline-block" initial="rest" whileHover="hover">
-      <NextLink
-        href={resolveHref(cta.link)}
-        className="border-input focus-visible:ring-focus-ring rounded-pill relative inline-flex h-9 items-center justify-center overflow-hidden border px-[18px] text-[13px] font-medium focus-visible:ring-2 focus-visible:outline-none"
-      >
-        <motion.span
-          aria-hidden
-          className="bg-primary absolute inset-0"
-          style={{ originY: 1 }}
-          variants={{ rest: { scaleY: 0 }, hover: { scaleY: 1 } }}
-          transition={{ duration: 0.25 }}
-        />
-        <motion.span
-          className="relative z-10"
-          variants={{
-            rest: { color: 'var(--color-fg-default)' },
-            hover: { color: 'var(--color-action-primary-fg)' },
-          }}
-          transition={{ duration: 0.25 }}
-        >
-          {cta.link.label}
-        </motion.span>
-      </NextLink>
-    </motion.span>
+    <ButtonLink href={resolveHref(cta.link)} variant="outline" size="sm">
+      {cta.link.label}
+    </ButtonLink>
   )
 }
 
@@ -129,7 +113,10 @@ export function AboutIntroBlock({ data }: { data: AboutIntroBlockData }) {
   const animation = data.animation ?? 'exaggerated'
   const playsAnimation = animation !== 'none' && !reducedMotion
 
-  useEffect(() => {
+  // useLayoutEffect so the SplitText revert in cleanup runs before React removes
+  // DOM nodes on unmount — passive cleanups run after, and removeChild then
+  // throws because SplitText has re-parented React's text nodes.
+  useLayoutEffect(() => {
     if (!playsAnimation || !sectionRef.current) return
 
     let cancelled = false
@@ -369,11 +356,13 @@ export function AboutIntroBlock({ data }: { data: AboutIntroBlockData }) {
               </div>
             )}
 
-            <ul ref={statsRowRef} className={cn('mt-14 grid grid-cols-1 gap-4', statsGridCols)}>
-              {data.stats.map((stat, i) => (
-                <StatCard key={i} stat={stat} index={i} />
-              ))}
-            </ul>
+            {SHOW_STATS && (
+              <ul ref={statsRowRef} className={cn('mt-14 grid grid-cols-1 gap-4', statsGridCols)}>
+                {data.stats.map((stat, i) => (
+                  <StatCard key={i} stat={stat} index={i} />
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

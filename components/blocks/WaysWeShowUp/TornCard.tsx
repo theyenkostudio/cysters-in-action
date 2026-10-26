@@ -58,7 +58,25 @@ export const TornCard = forwardRef<HTMLDivElement, TornCardProps>(function TornC
           priority={priority}
           sizes="(min-width: 768px) 520px, 88vw"
           className="object-cover"
-          style={{ filter: 'grayscale(1) contrast(1.15)' }}
+          style={{ filter: 'grayscale(1) contrast(1.12) brightness(0.82)' }}
+        />
+        {/* Depth shading: tweened via opacity (compositor-friendly) instead of
+            animating a CSS filter on the card, which repainted every frame and
+            also overwrote the card's drop-shadow filter. */}
+        <div
+          data-card-dim
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-black opacity-0"
+        />
+        {/* Soft dark pool behind the stamped word so it reads on light photos
+            (white paper, pale skin) without flattening the whole image. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 45% at 50% 50%, rgb(0 0 0 / 0.42), transparent 75%)',
+          }}
         />
         <div
           data-card-word

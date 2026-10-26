@@ -74,7 +74,7 @@ for (const { label, viewport } of [
 
       // Pin length is (cards-1) * stepVh of the viewport height — step
       // through roughly one step's worth of scroll at a time.
-      const stepPx = Math.round((viewport.height * (label === 'mobile' ? 60 : 80)) / 100)
+      const stepPx = Math.round((viewport.height * (label === 'mobile' ? 55 : 70)) / 100)
 
       await scrollAndSettle(page, stepPx)
       const afterStep1 = await activeState(page)

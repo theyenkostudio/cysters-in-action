@@ -6,6 +6,7 @@ export const newsletterBlock = defineType({
   title: 'Newsletter',
   type: 'object',
   fields: [
+    defineField({ name: 'eyebrow', title: 'Eyebrow (hive variant)', type: 'string' }),
     defineField({
       name: 'heading',
       title: 'Heading',
@@ -24,7 +25,7 @@ export const newsletterBlock = defineType({
       name: 'variant',
       title: 'Variant',
       type: 'string',
-      options: { list: ['band', 'card'] },
+      options: { list: ['band', 'card', 'hive'] },
       initialValue: 'band',
     }),
     animationField(),

@@ -1,6 +1,4 @@
-import { StoriesCarousel } from '@/components/connect/stories-carousel'
-import { ButtonLink } from '@/components/ui/button'
-import { Reveal } from '@/components/motion/reveal'
+import { StoryPostcards } from '@/components/blocks/stories/StoryPostcards'
 import { getApprovedStories, getFeaturedStories } from '@/lib/sanity/content'
 import { resolveHref } from '@/lib/link'
 import type { CtaValue, StoryRef } from '@/lib/sanity/types'
@@ -31,24 +29,15 @@ export async function StoriesCarouselBlock({ data }: { data: StoriesCarouselData
   if (stories.length === 0) return null
 
   return (
-    <section className="mx-auto max-w-5xl px-4 py-16 sm:px-8">
-      {data.heading && (
-        <Reveal>
-          <h2 className="font-display text-fg-heading text-center text-3xl font-semibold">
-            {data.heading}
-          </h2>
-        </Reveal>
-      )}
-      <div className="mt-8">
-        <StoriesCarousel stories={stories} exaggerated={data.animation === 'exaggerated'} />
-      </div>
-      {data.cta?.link && (
-        <div className="mt-8 text-center">
-          <ButtonLink href={resolveHref(data.cta.link)} variant="solid">
-            {data.cta.link.label}
-          </ButtonLink>
-        </div>
-      )}
-    </section>
+    <StoryPostcards
+      stories={stories}
+      label={data.heading}
+      animated={data.animation !== 'none'}
+      cta={
+        data.cta?.link
+          ? { label: data.cta.link.label, href: resolveHref(data.cta.link) }
+          : undefined
+      }
+    />
   )
 }

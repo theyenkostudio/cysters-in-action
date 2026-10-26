@@ -166,12 +166,19 @@
     /* Nudges every rem-based size (nearly all type and spacing in this
        project) up uniformly — 16px base felt small across the board. */
     font-size: 112.5%;
+    /* Reserves the scrollbar's track permanently so locking/unlocking body
+       scroll (the mobile menu dialog, any future modal) never changes the
+       viewport width — without this, the page shifts and a sliver of
+       horizontal overflow appears on the right when the lock lifts. */
+    scrollbar-gutter: stable;
+    overflow-x: hidden;
   }
 
   body {
     background: var(--color-bg-canvas);
     color: var(--color-fg-default);
     font-family: var(--font-body);
+    overflow-x: hidden;
   }
 
   h1,
@@ -221,4 +228,138 @@
       scroll-behavior: auto !important;
     }
   }
+}
+
+/* Header mega-menu: panel eases in from the pill, its children rise in order. */
+@keyframes nav-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes nav-panel-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.99);
+  }
+}
+@keyframes nav-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.nav-panel[data-state='open'] {
+  animation: nav-panel-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.nav-panel[data-state='closed'] {
+  animation: nav-panel-out 0.18s ease-in both;
+}
+.nav-panel[data-state='open'] .nav-rise {
+  animation: nav-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms + 90ms);
+}
+
+/* Mobile menu: overlay fades, panel slides in/out as a right-side drawer, and
+   each accordion section eases its height open/closed instead of snapping. */
+@keyframes mobile-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mobile-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes mobile-panel-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes mobile-panel-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+.mobile-menu-overlay[data-state='open'] {
+  animation: mobile-overlay-in 0.25s ease-out both;
+}
+.mobile-menu-overlay[data-state='closed'] {
+  animation: mobile-overlay-out 0.2s ease-in both;
+}
+.mobile-menu-panel[data-state='open'] {
+  animation: mobile-panel-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.mobile-menu-panel[data-state='closed'] {
+  animation: mobile-panel-out 0.2s ease-in both;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+.accordion-content[data-state='open'] {
+  animation: accordion-down 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accordion-content[data-state='closed'] {
+  animation: accordion-up 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Newsletter stage: two slow colour fields behind the form. */
+@keyframes nl-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-60px, 40px, 0) scale(1.12);
+  }
+}
+@keyframes nl-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(70px, -30px, 0) scale(1.08);
+  }
+}
+.nl-drift-a {
+  animation: nl-drift-a 16s ease-in-out infinite;
+}
+.nl-drift-b {
+  animation: nl-drift-b 20s ease-in-out infinite;
 }

@@ -51,3 +51,6 @@ next-env.d.ts
 # editors
 .vscode/*
 !.vscode/extensions.json
+
+
+dev

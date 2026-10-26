@@ -16,12 +16,15 @@ export function NewsletterForm({
   buttonLabel = 'Subscribe',
   successMessage,
   compact = false,
+  variant = 'stacked',
   onSuccess,
 }: {
   source: NewsletterInput['source']
   buttonLabel?: string
   successMessage?: string
   compact?: boolean
+  /** `pill`: one rounded field with the button inside it. */
+  variant?: 'stacked' | 'pill'
   onSuccess?: () => void
 }) {
   const {
@@ -47,6 +50,40 @@ export function NewsletterForm({
   })
 
   if (status?.success) return <FormSuccess message={status.message} />
+
+  if (variant === 'pill') {
+    return (
+      <form onSubmit={onSubmit} noValidate className="space-y-3">
+        <div className="border-input bg-canvas focus-within:ring-focus-ring rounded-pill flex items-center gap-2 border p-1.5 pl-5 shadow-sm focus-within:ring-2">
+          <label htmlFor={`newsletter-email-${source}`} className="sr-only">
+            Email address
+          </label>
+          <input
+            id={`newsletter-email-${source}`}
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            className="text-fg placeholder:text-fg-subtle min-w-0 flex-1 bg-transparent py-2.5 text-sm focus-visible:outline-none"
+            {...register('email')}
+          />
+          <Button type="submit" disabled={isSubmitting} className="flex-shrink-0">
+            {isSubmitting ? 'Subscribing…' : buttonLabel}
+          </Button>
+        </div>
+        <FieldError message={errors.email?.message} />
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute h-0 w-0 opacity-0"
+          {...register('honeypot')}
+        />
+        <TurnstileWidget onToken={(token) => setValue('turnstileToken', token)} />
+        {status && !status.success && <FormError message={status.message} />}
+      </form>
+    )
+  }
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-3">

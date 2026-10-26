@@ -58,10 +58,18 @@ export function DistressedWord({ word }: { word: string }) {
       style={{
         fontSize: 'clamp(3rem, 14vw, 6.25rem)',
         lineHeight: 0.85,
-        filter: 'url(#distressed-ink)',
       }}
     >
-      {word}
+      {/* The SVG displacement/speckle filter lives on this inner span, not on
+          the element GSAP scales and fades: filtering an animating element
+          makes the browser re-run the turbulence every frame. Here it renders
+          once and the result is just composited while the outer one moves. */}
+      <span
+        className="block"
+        style={{ filter: 'url(#distressed-ink) drop-shadow(0 2px 10px rgb(0 0 0 / 0.45))' }}
+      >
+        {word}
+      </span>
     </span>
   )
 }

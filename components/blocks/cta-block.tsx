@@ -48,7 +48,7 @@ export function CtaBlock({ data }: { data: CtaBlockData }) {
                 <ButtonLink
                   key={i}
                   href={resolveHref(cta.link)}
-                  variant={cta.style === 'outline' ? 'outline' : 'on-dark'}
+                  variant={cta.style === 'outline' ? 'on-dark-outline' : 'on-dark'}
                 >
                   {cta.link.label}
                 </ButtonLink>

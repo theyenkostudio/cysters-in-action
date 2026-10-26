@@ -1,16 +1,31 @@
+import { HiveNewsletter } from '@/components/blocks/hive-newsletter'
 import { NewsletterForm } from '@/components/forms/newsletter-form'
 import { Reveal } from '@/components/motion/reveal'
 import { cn } from '@/lib/utils'
 
 export type NewsletterBlockData = {
+  eyebrow?: string
   heading?: string
   body?: string
   buttonLabel?: string
   successMessage?: string
-  variant?: 'band' | 'card'
+  variant?: 'band' | 'card' | 'hive'
+  animation?: 'none' | 'subtle' | 'exaggerated'
 }
 
 export function NewsletterBlock({ data }: { data: NewsletterBlockData }) {
+  if (data.variant === 'hive') {
+    return (
+      <HiveNewsletter
+        eyebrow={data.eyebrow}
+        heading={data.heading}
+        body={data.body}
+        buttonLabel={data.buttonLabel}
+        successMessage={data.successMessage}
+        animated={data.animation !== 'none'}
+      />
+    )
+  }
   const isBand = data.variant !== 'card'
 
   return (

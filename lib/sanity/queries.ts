@@ -110,7 +110,7 @@ export const siteSettingsQuery = defineQuery(`*[_type == "siteSettings"][0]{
 }`)
 
 export const navigationQuery = defineQuery(`*[_type == "navigation"][0]{
-  mainNav[]{ label, link${LINK}, items[]{ title, description, icon, link${LINK} } },
+  mainNav[]{ label, link${LINK}, featured{ eyebrow, title, description, "image": image${IMAGE}, link${LINK} }, items[]{ title, description, icon, link${LINK} } },
   secondaryLink${LINK},
   primaryCta${CTA},
 }`)

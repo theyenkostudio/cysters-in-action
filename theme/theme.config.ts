@@ -125,9 +125,9 @@ export const themeConfig = {
 
   fonts: {
     display: {
-      family: env('NEXT_PUBLIC_FONT_DISPLAY', 'Bricolage Grotesque'),
+      family: env('NEXT_PUBLIC_FONT_DISPLAY', 'Instrument Serif'),
       source: 'google',
-      weights: [500, 700],
+      weights: [400],
     },
     body: {
       family: env('NEXT_PUBLIC_FONT_BODY', 'Figtree'),
