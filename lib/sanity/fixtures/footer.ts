@@ -8,7 +8,7 @@ export const footer = {
     {
       heading: 'About',
       links: [
-        routeLink('Our mission', '/about'),
+        routeLink('Our mission', '/about#mission'),
         routeLink('Community guidelines', '/connect/guidelines'),
       ],
     },

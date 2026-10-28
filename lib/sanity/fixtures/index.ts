@@ -1,5 +1,12 @@
 export { announcementBar } from './announcementBar'
-export { aboutPageHero, aboutPagePillars, aboutPageStory, aboutPageValues } from './aboutPage'
+export {
+  aboutPageHero,
+  aboutPagePillars,
+  aboutPageSections,
+  aboutPageStory,
+  aboutPageStoryImage,
+  aboutPageValues,
+} from './aboutPage'
 export { articles, getArticleBySlug, getArticlesByCategory } from './articles'
 export { authors, getAuthorById } from './authors'
 export { categories, getCategoryBySlug } from './categories'

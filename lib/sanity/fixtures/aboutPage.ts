@@ -1,8 +1,8 @@
-import type { HeroValue, RichTextValue } from '../types'
+import type { HeroValue, PageBuilderBlock, RichTextValue, SanityImage } from '../types'
 
 export const aboutPageHero: HeroValue = {
   eyebrow: 'About us',
-  headline: 'Why we started\nCysters In Action',
+  headline: 'We are Cysters In Action',
   subline: 'A community built by people who’ve lived through a PMOS diagnosis themselves.',
   heroMedia: {
     mediaType: 'image',
@@ -45,21 +45,45 @@ export const aboutPageStory: RichTextValue = [
   },
 ]
 
+// Same photo as this page's own Hero (aboutPageHero above) — no dedicated
+// "our story" photo exists yet, so this reuses it rather than inventing a
+// new placeholder image.
+export const aboutPageStoryImage: SanityImage = {
+  url: '/placeholder/about-hero.jpg',
+  alt: 'Close-up of several hands held together in a show of unity',
+  credit: 'Thirdman / Pexels',
+}
+
 export const aboutPagePillars = [
   {
     title: 'Learn',
     icon: 'learn' as const,
     body: 'Clear, medically-reviewed health information, kept up to date.',
+    image: {
+      url: '/placeholder/pillar-learn.jpg',
+      alt: 'Woman reading her notes',
+      credit: 'Pixabay / Pexels',
+    } satisfies SanityImage,
   },
   {
     title: 'Connect',
     icon: 'connect' as const,
     body: 'Stories and events that remind you you’re not the only one.',
+    image: {
+      url: '/placeholder/pillar-connect.jpg',
+      alt: 'Photo of women sitting while talking',
+      credit: 'RF._.studio / Pexels',
+    } satisfies SanityImage,
   },
   {
     title: 'Act',
     icon: 'act' as const,
     body: 'Turning community into pressure for better care, together.',
+    image: {
+      url: '/placeholder/pillar-act.jpg',
+      alt: 'Smiling woman carrying a donation box',
+      credit: 'Gustavo Fring / Pexels',
+    } satisfies SanityImage,
   },
 ]
 
@@ -72,5 +96,22 @@ export const aboutPageValues = [
   {
     title: 'Nothing about us without us',
     body: 'People living with PMOS shape what we publish and how we run events.',
+  },
+]
+
+// Same `hive` component as the homepage's closing section, with About-
+// specific heading/body — HiveNewsletter already takes these as props
+// (eyebrow/heading/body), so no component changes were needed, just
+// different fixture copy.
+export const aboutPageSections: PageBuilderBlock[] = [
+  {
+    _type: 'newsletterBlock',
+    _key: 'about-newsletter',
+    eyebrow: 'Join us',
+    heading: 'Want to be part of this?',
+    body: 'Join the newsletter to hear from the community, get first word on events, and stay close to what we’re building.',
+    buttonLabel: 'Join',
+    variant: 'hive',
+    animation: 'exaggerated',
   },
 ]

@@ -10,13 +10,13 @@ export const navigation = {
         title: 'Why Cysters In Action exists',
         description: 'Too many people chase a PMOS diagnosis alone. We are changing that.',
         image: { url: '/placeholder/about-hero.jpg', alt: 'Close-up of hands held together' },
-        link: routeLink('Read our mission', '/about'),
+        link: routeLink('Read our mission', '/about#mission'),
       },
       items: [
         {
           title: 'Our mission',
           description: 'Who we are and why we started.',
-          link: routeLink('Our mission', '/about'),
+          link: routeLink('Our mission', '/about#mission'),
         },
         {
           title: 'Founding Circle',

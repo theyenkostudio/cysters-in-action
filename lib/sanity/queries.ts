@@ -133,7 +133,9 @@ export const homePageQuery = defineQuery(`*[_type == "homePage"][0]{
 }`)
 
 export const aboutPageQuery = defineQuery(`*[_type == "aboutPage"][0]{
-  seo${SEO}, hero${HERO}, story, pillars, values, foundingCircleHeading,
+  seo${SEO}, hero${HERO}, story, "storyImage": storyImage${IMAGE},
+  "pillars": pillars[]{ title, icon, body, "image": image${IMAGE} },
+  values, foundingCircleHeading,
   "foundingCircle": foundingCircle[]->{ _id, _type, name, role, group, "photo": photo${IMAGE}, bio, quote, order },
   sections[]${PAGE_BUILDER_BLOCK},
 }`)

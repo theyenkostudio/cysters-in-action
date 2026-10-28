@@ -178,7 +178,13 @@
     background: var(--color-bg-canvas);
     color: var(--color-fg-default);
     font-family: var(--font-body);
-    overflow-x: hidden;
+    /* Not overflow-x: hidden here too: that forces this element's
+       overflow-y to compute to `auto` (CSS overflow spec), making body
+       its own scroll container. The page actually scrolls at the html
+       level, so body then never registers as "scrolled" — any
+       `position: sticky` descendant picks body as its nearest scrolling
+       ancestor and never sticks. html's overflow-x: hidden above already
+       clips horizontal overflow at the real (viewport) scroll container. */
   }
 
   h1,
@@ -362,4 +368,14 @@
 }
 .nl-drift-b {
   animation: nl-drift-b 20s ease-in-out infinite;
+}
+
+/* Hides the scrollbar on horizontal overflow sliders (e.g. the About page's
+   Founding Circle) while keeping the element natively scrollable/swipeable. */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

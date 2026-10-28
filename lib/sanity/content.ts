@@ -47,6 +47,7 @@ import type {
   HeroValue,
   PageBuilderBlock,
   RichTextValue,
+  SanityImage,
   SeoValue,
   StoryRef,
   TeamMemberRef,
@@ -106,7 +107,13 @@ export type AboutPageData = {
   seo?: SeoValue
   hero: HeroValue
   story: RichTextValue
-  pillars: { title: string; icon?: 'learn' | 'connect' | 'act'; body?: string }[]
+  storyImage?: SanityImage
+  pillars: {
+    title: string
+    icon?: 'learn' | 'connect' | 'act'
+    body?: string
+    image?: SanityImage
+  }[]
   values: { title: string; body?: string }[]
   foundingCircleHeading?: string
   foundingCircle: TeamMemberRef[]
@@ -120,11 +127,12 @@ export function getAboutPage() {
     fixture: {
       hero: fixtures.aboutPageHero,
       story: fixtures.aboutPageStory,
+      storyImage: fixtures.aboutPageStoryImage,
       pillars: fixtures.aboutPagePillars,
       values: fixtures.aboutPageValues,
       foundingCircleHeading: 'The Founding Circle',
       foundingCircle: fixtures.teamMembers.filter((m) => m.group === 'foundingCircle'),
-      sections: [],
+      sections: fixtures.aboutPageSections,
     },
   })
 }

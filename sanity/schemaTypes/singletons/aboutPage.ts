@@ -10,6 +10,13 @@ export const aboutPage = defineType({
     defineField({ name: 'hero', title: 'Hero', type: 'hero' }),
     defineField({ name: 'story', title: 'Our story', type: 'richText' }),
     defineField({
+      name: 'storyImage',
+      title: 'Our story image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
+    }),
+    defineField({
       name: 'pillars',
       title: 'Pillars',
       type: 'array',
@@ -33,6 +40,13 @@ export const aboutPage = defineType({
               options: { list: ['learn', 'connect', 'act'] },
             }),
             defineField({ name: 'body', title: 'Body', type: 'text' }),
+            defineField({
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: { hotspot: true },
+              fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
+            }),
           ],
         },
       ],
