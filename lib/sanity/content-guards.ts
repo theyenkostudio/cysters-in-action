@@ -27,6 +27,9 @@ export function assertAboutStatsReady(stats: AboutStatValue[] | undefined): void
 /** Runs the guard above against whichever section is the homepage's aboutIntroBlock, if any. */
 export function assertHomePageReady(sections: PageBuilderBlock[] | undefined): void {
   if (process.env.NODE_ENV !== 'production') return
+  // Escape hatch for client-review deploys that still run on fixture content.
+  // Leave unset for the real launch so the guard stays active.
+  if (process.env.ALLOW_PLACEHOLDER_CONTENT === 'true') return
   const aboutIntro = sections?.find((section) => section._type === 'aboutIntroBlock')
   assertAboutStatsReady(aboutIntro?.stats as AboutStatValue[] | undefined)
 }
