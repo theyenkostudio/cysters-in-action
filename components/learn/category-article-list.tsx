@@ -53,7 +53,7 @@ export function CategoryArticleList({ articles }: { articles: ArticleRef[] }) {
       {filtered.length === 0 ? (
         <p className="text-fg-muted mt-10">No articles match these filters yet.</p>
       ) : (
-        <div className="mt-8 grid gap-6 sm:grid-cols-3">
+        <div className="mt-8 grid items-stretch gap-6 sm:grid-cols-3">
           {filtered.map((article) => (
             <ArticleCard key={article._id} article={article} />
           ))}

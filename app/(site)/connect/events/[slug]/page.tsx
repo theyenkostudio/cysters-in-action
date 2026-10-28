@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import NextLink from 'next/link'
 import { AddToCalendarMenu } from '@/components/connect/add-to-calendar-menu'
 import { RsvpForm } from '@/components/connect/rsvp-form'
 import { RichText } from '@/components/portable-text'
 import { Badge } from '@/components/ui/badge'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { ButtonLink } from '@/components/ui/button'
 import { Reveal } from '@/components/motion/reveal'
 import { isPastEvent } from '@/lib/events'
@@ -87,11 +87,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         }}
       />
 
-      <nav aria-label="Breadcrumb" className="text-fg-muted text-sm">
-        <NextLink href="/connect/events" className="hover:text-fg-link">
-          Events
-        </NextLink>
-      </nav>
+      <Breadcrumb items={[{ label: 'Events', href: '/connect/events' }, { label: event.title }]} />
 
       {event.status !== 'scheduled' && (
         <div className="rounded-card bg-warning-bg text-warning-text mt-4 p-3 text-sm font-medium">

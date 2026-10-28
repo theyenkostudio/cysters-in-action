@@ -5,7 +5,7 @@ import type { TeamMemberRef } from '@/lib/sanity/types'
 export function TeamMemberCard({ member }: { member: TeamMemberRef }) {
   return (
     <div className="rounded-card border-default bg-canvas h-full border p-3">
-      <div className="bg-muted relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-[18px]">
+      <div className="bg-muted rounded-input relative flex aspect-[4/5] items-center justify-center overflow-hidden">
         {member.photo ? (
           <Image
             src={member.photo.url}

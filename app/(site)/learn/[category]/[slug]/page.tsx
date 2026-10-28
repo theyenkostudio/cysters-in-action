@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import NextLink from 'next/link'
 import { ArticleCard } from '@/components/learn/article-card'
 import { ArticleToc } from '@/components/learn/article-toc'
 import { ARTICLE_TYPE_LABELS } from '@/components/learn/article-type-badge'
@@ -10,6 +9,7 @@ import { MythFactList } from '@/components/learn/myth-fact-list'
 import { NewsletterForm } from '@/components/forms/newsletter-form'
 import { RichText } from '@/components/portable-text'
 import { Badge } from '@/components/ui/badge'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Reveal } from '@/components/motion/reveal'
 import { getAllArticles, getArticleBySlug } from '@/lib/sanity/content'
 import { estimateReadingTime } from '@/lib/reading-time'
@@ -67,15 +67,13 @@ export default async function ArticlePage({
         ])}
       />
 
-      <nav aria-label="Breadcrumb" className="text-fg-muted text-sm">
-        <NextLink href="/learn" className="hover:text-fg-link">
-          Learn
-        </NextLink>{' '}
-        /{' '}
-        <NextLink href={`/learn/${categorySlug}`} className="hover:text-fg-link">
-          {article.category.title}
-        </NextLink>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: 'Learn', href: '/learn' },
+          { label: article.category.title, href: `/learn/${categorySlug}` },
+          { label: article.title },
+        ]}
+      />
 
       <Reveal className="mt-4 max-w-3xl">
         <div className="flex items-center gap-2">
@@ -175,7 +173,7 @@ export default async function ArticlePage({
       </div>
 
       {article.relatedArticles && article.relatedArticles.length > 0 && (
-        <section className="border-default mt-16 border-t pt-12">
+        <section className="mt-16">
           <Reveal>
             <h2 className="font-display text-fg-heading text-2xl font-semibold">
               Related articles
@@ -189,15 +187,17 @@ export default async function ArticlePage({
         </section>
       )}
 
-      <Reveal className="rounded-card border-default mx-auto mt-16 max-w-xl border p-8 text-center">
-        <h2 className="font-display text-fg-heading text-xl font-semibold">
-          Enjoyed this article?
-        </h2>
-        <p className="text-fg-muted mt-2 text-sm">
-          Get new Learn hub articles in your inbox, occasionally.
-        </p>
-        <div className="mt-4">
-          <NewsletterForm source="article" compact />
+      <Reveal className="border-default mt-16 flex flex-col gap-6 border-t pt-10 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-display text-fg-heading text-xl font-semibold">
+            Enjoyed this article?
+          </h2>
+          <p className="text-fg-muted mt-1 text-sm">
+            Get new Learn hub articles in your inbox, occasionally.
+          </p>
+        </div>
+        <div className="w-full sm:max-w-sm">
+          <NewsletterForm source="article" variant="pill" />
         </div>
       </Reveal>
     </article>

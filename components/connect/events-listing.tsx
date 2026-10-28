@@ -14,17 +14,28 @@ const EVENT_TYPE_LABELS: Record<EventType, string> = {
   other: 'Other',
 }
 
-export function EventsListing({ events }: { events: EventRef[] }) {
+export function EventsListing({
+  events,
+  calendarEvents,
+  rsvpCounts,
+}: {
+  /** Upcoming only — the list view and its "no events" message are about
+   *  what's coming up, not the full history. */
+  events: EventRef[]
+  /** Upcoming + past — the calendar is a real month view, so past events
+   *  stay visible on their actual date instead of disappearing. */
+  calendarEvents: EventRef[]
+  rsvpCounts: Record<string, number>
+}) {
   const [typeFilter, setTypeFilter] = useState<EventType | 'all'>('all')
   const [view, setView] = useState<'list' | 'calendar'>('list')
-  const [calendarDay, setCalendarDay] = useState<Date | null>(null)
 
   const types = useMemo(() => Array.from(new Set(events.map((e) => e.eventType))), [events])
 
-  const byType = typeFilter === 'all' ? events : events.filter((e) => e.eventType === typeFilter)
-  const visible = calendarDay
-    ? byType.filter((e) => new Date(e.startDateTime).toDateString() === calendarDay.toDateString())
-    : byType
+  const visibleList =
+    typeFilter === 'all' ? events : events.filter((e) => e.eventType === typeFilter)
+  const visibleCalendar =
+    typeFilter === 'all' ? calendarEvents : calendarEvents.filter((e) => e.eventType === typeFilter)
 
   return (
     <div>
@@ -87,17 +98,15 @@ export function EventsListing({ events }: { events: EventRef[] }) {
         </div>
       </div>
 
-      {view === 'calendar' && (
-        <div className="mt-6 max-w-sm">
-          <EventCalendar events={byType} onSelectDay={setCalendarDay} />
+      {view === 'calendar' ? (
+        <div className="mt-6">
+          <EventCalendar events={visibleCalendar} rsvpCounts={rsvpCounts} />
         </div>
-      )}
-
-      {visible.length === 0 ? (
+      ) : visibleList.length === 0 ? (
         <p className="text-fg-muted mt-10">No events match these filters right now.</p>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
-          {visible.map((event) => (
+          {visibleList.map((event) => (
             <EventCard key={event._id} event={event} />
           ))}
         </div>

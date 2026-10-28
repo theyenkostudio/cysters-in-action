@@ -55,9 +55,9 @@ export async function FeaturedArticlesBlock({ data }: { data: FeaturedArticlesDa
           </ButtonLink>
         )}
       </div>
-      <Stagger className="mt-8 grid gap-6 sm:grid-cols-3">
+      <Stagger className="mt-8 grid items-stretch gap-6 sm:grid-cols-3">
         {articles.map((article) => (
-          <Reveal key={article._id}>
+          <Reveal key={article._id} className="h-full">
             <ArticleCard article={article} />
           </Reveal>
         ))}

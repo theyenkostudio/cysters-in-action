@@ -33,7 +33,7 @@ export function AddToCalendarMenu({ event }: { event: EventRef }) {
               href={googleCalendarUrl(common)}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-fg hover:bg-muted block rounded-lg px-3 py-2 text-sm"
+              className="text-fg hover:bg-muted rounded-input block px-3 py-2 text-sm"
             >
               Google Calendar
             </a>
@@ -43,7 +43,7 @@ export function AddToCalendarMenu({ event }: { event: EventRef }) {
               href={outlookCalendarUrl(common)}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-fg hover:bg-muted block rounded-lg px-3 py-2 text-sm"
+              className="text-fg hover:bg-muted rounded-input block px-3 py-2 text-sm"
             >
               Outlook
             </a>
@@ -51,7 +51,7 @@ export function AddToCalendarMenu({ event }: { event: EventRef }) {
           <DropdownMenu.Item asChild>
             <a
               href={`/api/ics/${event._id}`}
-              className="text-fg hover:bg-muted block rounded-lg px-3 py-2 text-sm"
+              className="text-fg hover:bg-muted rounded-input block px-3 py-2 text-sm"
             >
               Apple / other (.ics)
             </a>

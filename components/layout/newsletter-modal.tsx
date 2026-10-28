@@ -25,7 +25,7 @@ export function NewsletterModalTrigger({
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/40" />
-        <Dialog.Content className="rounded-card bg-canvas fixed top-1/2 left-1/2 z-50 w-[min(28rem,90vw)] -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg">
+        <Dialog.Content className="rounded-dialog bg-canvas fixed top-1/2 left-1/2 z-50 w-[min(28rem,90vw)] -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg">
           <Dialog.Title className="font-display text-fg-heading text-xl font-semibold">
             Join the newsletter
           </Dialog.Title>

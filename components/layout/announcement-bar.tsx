@@ -37,7 +37,7 @@ export function AnnouncementBar({ data }: { data: AnnouncementBarData }) {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-3 text-center">
           {data.label && (
-            <span className="rounded-[var(--radius-pill)] bg-black/10 px-2 py-0.5 text-xs font-semibold uppercase">
+            <span className="rounded-pill bg-black/10 px-2 py-0.5 text-xs font-semibold uppercase">
               {data.label}
             </span>
           )}

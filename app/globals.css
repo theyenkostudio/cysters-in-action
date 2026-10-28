@@ -150,10 +150,15 @@
   --color-neutral-900: var(--neutral-900);
   --color-neutral-950: var(--neutral-950);
 
-  /* Radius (Section 4: pill for buttons/nav, 24px cards, 12px inputs) */
+  /* Radius (Section 4: pill for buttons/nav, 24px cards, 12px inputs).
+     `dialog` (8px) was added alongside these three for floating modal
+     surfaces (event RSVP dialog, newsletter modal) — noticeably tighter
+     than a content card's 24px reads better for something that pops up
+     and sits on top of the page, rather than living inline in the flow. */
   --radius-pill: 999px;
   --radius-card: 24px;
   --radius-input: 12px;
+  --radius-dialog: 8px;
 }
 
 @layer base {

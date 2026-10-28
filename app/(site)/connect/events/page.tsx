@@ -3,7 +3,7 @@ import { EventCard } from '@/components/connect/event-card'
 import { EventsListing } from '@/components/connect/events-listing'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { Reveal } from '@/components/motion/reveal'
-import { getPastEvents, getUpcomingEvents } from '@/lib/sanity/content'
+import { getEventRsvpCount, getPastEvents, getUpcomingEvents } from '@/lib/sanity/content'
 import { seoToMetadata } from '@/lib/seo'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,6 +17,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function EventsPage() {
   const [upcoming, past] = await Promise.all([getUpcomingEvents(), getPastEvents()])
 
+  // Only upcoming events can take an RSVP, so that's the only set worth the
+  // extra round trip — past events in the calendar dialog just show a
+  // recording link (or nothing) instead of capacity.
+  const rsvpCounts = Object.fromEntries(
+    await Promise.all(
+      upcoming.map(async (event) => [event._id, await getEventRsvpCount(event._id)] as const),
+    ),
+  )
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8">
       <Reveal>
@@ -29,8 +38,12 @@ export default async function EventsPage() {
 
       <div className="mt-10">
         <h2 className="sr-only">Upcoming events</h2>
-        {upcoming.length > 0 ? (
-          <EventsListing events={upcoming} />
+        {upcoming.length > 0 || past.length > 0 ? (
+          <EventsListing
+            events={upcoming}
+            calendarEvents={[...upcoming, ...past]}
+            rsvpCounts={rsvpCounts}
+          />
         ) : (
           <p className="text-fg-muted">No upcoming events right now — check back soon.</p>
         )}

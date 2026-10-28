@@ -55,7 +55,7 @@ function StatCard({ stat, index }: { stat: AboutStatValue; index: number }) {
   return (
     <li data-stat-card>
       <motion.div
-        className="bg-surface border-default flex h-full min-h-[88px] flex-row items-center justify-between rounded-[10px] border p-6 md:min-h-[136px] md:flex-col md:items-stretch md:justify-between md:p-[24px_28px]"
+        className="bg-surface border-default rounded-card flex h-full min-h-[88px] flex-row items-center justify-between border p-6 md:min-h-[136px] md:flex-col md:items-stretch md:justify-between md:p-[24px_28px]"
         whileHover={{ y: -3, backgroundColor: 'var(--color-bg-subtle)' }}
         transition={{ duration: 0.2 }}
       >

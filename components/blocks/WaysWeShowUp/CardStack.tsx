@@ -207,7 +207,7 @@ export function CardStack({
         <div aria-hidden="true" className="mt-12 sm:mt-14">
           <DistressedInkFilterDefs />
           {stack('relative mx-auto aspect-[16/9] w-[min(100%,700px,calc(36svh*1.78))]')}
-          <div className="bg-canvas relative z-30 mx-auto -mt-10 w-[min(94%,620px)] rounded-[24px] px-6 py-6 text-center shadow-[0_28px_60px_-24px_rgb(19_77_100/0.45)] sm:-mt-16 sm:px-9 sm:py-8">
+          <div className="bg-canvas rounded-card relative z-30 mx-auto -mt-10 w-[min(94%,620px)] px-6 py-6 text-center shadow-[0_28px_60px_-24px_rgb(19_77_100/0.45)] sm:-mt-16 sm:px-9 sm:py-8">
             {copy(
               'text-fg-default relative text-[15px] leading-[1.4] sm:text-[clamp(18px,1.5vw,22px)] sm:leading-[1.42]',
               'line-clamp-10 sm:line-clamp-none',

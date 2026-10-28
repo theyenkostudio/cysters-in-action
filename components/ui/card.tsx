@@ -5,7 +5,7 @@ export function Card({ className, children }: { className?: string; children: Re
   return (
     <div
       className={cn(
-        'group rounded-card border-default bg-canvas overflow-hidden border transition-transform hover:-translate-y-1',
+        'group rounded-card border-default bg-canvas flex h-full flex-col overflow-hidden border transition-transform hover:-translate-y-1',
         className,
       )}
     >

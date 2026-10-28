@@ -10,9 +10,9 @@ export function ArticleCard({ article }: { article: ArticleRef }) {
 
   return (
     <Card>
-      <NextLink href={href} className="block">
+      <NextLink href={href} className="flex h-full flex-col">
         {article.mainImage && <CardImage src={article.mainImage.url} alt={article.mainImage.alt} />}
-        <div className="p-5">
+        <div className="flex flex-1 flex-col p-5">
           <span className="text-fg-subtle text-xs font-semibold tracking-wide uppercase">
             {ARTICLE_TYPE_LABELS[article.articleType]}
           </span>
@@ -20,7 +20,7 @@ export function ArticleCard({ article }: { article: ArticleRef }) {
             {article.title}
           </h3>
           {article.standfirst && <p className="text-fg-muted mt-2 text-sm">{article.standfirst}</p>}
-          <span className="text-fg-link mt-3 inline-flex items-center gap-1 text-sm font-medium">
+          <span className="text-fg-link mt-auto inline-flex items-center gap-1 pt-3 text-sm font-medium">
             Read article
             <Icon
               name="arrow-right"

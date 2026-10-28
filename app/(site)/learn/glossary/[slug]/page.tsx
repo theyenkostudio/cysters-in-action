@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import NextLink from 'next/link'
 import { ArticleCard } from '@/components/learn/article-card'
 import { RichText } from '@/components/portable-text'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Reveal } from '@/components/motion/reveal'
 import { getAllGlossaryTermSlugs, getGlossaryTermBySlug } from '@/lib/sanity/content'
 import { JsonLd, seoToMetadata, siteUrl } from '@/lib/seo'
@@ -45,11 +46,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ s
         }}
       />
 
-      <nav aria-label="Breadcrumb" className="text-fg-muted text-sm">
-        <NextLink href="/learn/glossary" className="hover:text-fg-link">
-          Glossary
-        </NextLink>
-      </nav>
+      <Breadcrumb items={[{ label: 'Glossary', href: '/learn/glossary' }, { label: term.term }]} />
 
       <Reveal className="mt-4">
         <h1 className="font-display text-fg-heading text-4xl font-semibold">{term.term}</h1>

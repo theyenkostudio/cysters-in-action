@@ -135,7 +135,7 @@ export function StoryReadAlong({ stories }: { stories: StoryRef[] }) {
                         type="button"
                         aria-current={i === index}
                         onClick={() => setIndex(i)}
-                        className={`focus-visible:ring-focus-ring w-full rounded-lg py-1.5 text-left text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+                        className={`focus-visible:ring-focus-ring rounded-input w-full py-1.5 text-left text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none ${
                           i === index
                             ? 'text-fg-heading font-medium'
                             : 'text-fg-muted hover:text-fg'

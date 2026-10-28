@@ -5,13 +5,14 @@ import type { ReactNode } from 'react'
 import { useReducedMotion } from './use-reduced-motion'
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, filter: 'blur(8px)', y: 6 },
+  visible: { opacity: 1, filter: 'blur(0px)', y: 0 },
 }
 
 /**
- * Subtle section-entry animation (Section 4): fade + rise 16px. Children can
- * be staggered by wrapping them in <Stagger> and giving each a Reveal.
+ * Subtle section-entry animation (Section 4): blur focus — arrives
+ * softly out of focus, settles sharp. Children can be staggered by
+ * wrapping them in <Stagger> and giving each a Reveal.
  */
 export function Reveal({
   children,
@@ -35,7 +36,7 @@ export function Reveal({
       whileInView="visible"
       viewport={{ once: true, margin: '-80px' }}
       variants={variants}
-      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, delay, ease: 'easeOut' }}
     >
       {children}
     </motion.div>

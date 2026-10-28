@@ -38,7 +38,7 @@ function FeaturedCard({ featured }: { featured: NavFeaturedData }) {
   return (
     <SmartLink
       link={featured.link}
-      className="group/card nav-rise relative isolate flex min-h-[260px] flex-col justify-end overflow-hidden rounded-[20px] p-6 text-white md:col-span-5"
+      className="group/card nav-rise rounded-input relative isolate flex min-h-[260px] flex-col justify-end overflow-hidden p-6 text-white md:col-span-5"
     >
       {featured.image && (
         <Image
@@ -125,7 +125,7 @@ export function Nav({ data }: { data: NavData }) {
           <NavigationMenu.List className="flex items-center gap-1">
             {(data?.mainNav ?? []).map((group) => (
               <NavigationMenu.Item key={group.label}>
-                <NavigationMenu.Trigger className="group text-fg hover:bg-muted data-[state=open]:bg-muted flex items-center gap-1.5 rounded-[var(--radius-pill)] px-3 py-2 text-sm font-medium transition-colors">
+                <NavigationMenu.Trigger className="group text-fg hover:bg-muted data-[state=open]:bg-muted rounded-pill flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors">
                   {group.label}
                   <svg
                     width="10"
@@ -146,7 +146,7 @@ export function Nav({ data }: { data: NavData }) {
                 </NavigationMenu.Trigger>
                 {group.items && group.items.length > 0 && (
                   <NavigationMenu.Content className="nav-panel">
-                    <div className="border-default bg-canvas grid gap-3 rounded-[28px] border p-3 shadow-[0_32px_70px_-24px_rgb(19_77_100/0.45)] md:grid-cols-12">
+                    <div className="border-default bg-canvas rounded-card grid gap-3 border p-3 shadow-[0_32px_70px_-24px_rgb(19_77_100/0.45)] md:grid-cols-12">
                       {group.featured && <FeaturedCard featured={group.featured} />}
                       <ul
                         className={cn(
@@ -162,7 +162,7 @@ export function Nav({ data }: { data: NavData }) {
                           >
                             <SmartLink
                               link={item.link}
-                              className="group/item hover:bg-muted focus-visible:bg-muted flex items-center justify-between gap-6 rounded-2xl px-4 py-3.5 transition-colors"
+                              className="group/item hover:bg-muted focus-visible:bg-muted rounded-input flex items-center justify-between gap-6 px-4 py-3.5 transition-colors"
                             >
                               <span>
                                 <span className="text-fg-heading font-display block text-base font-semibold">

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import NextLink from 'next/link'
 import { ContentWarning } from '@/components/connect/content-warning'
 import { StoryCard } from '@/components/connect/story-card'
 import { RichText } from '@/components/portable-text'
 import { ButtonLink } from '@/components/ui/button'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { Reveal } from '@/components/motion/reveal'
 import { getAllApprovedStorySlugs, getApprovedStories, getStoryBySlug } from '@/lib/sanity/content'
 import { seoToMetadata } from '@/lib/seo'
@@ -47,11 +47,9 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-8">
-      <nav aria-label="Breadcrumb" className="text-fg-muted text-sm">
-        <NextLink href="/connect/stories" className="hover:text-fg-link">
-          Community stories
-        </NextLink>
-      </nav>
+      <Breadcrumb
+        items={[{ label: 'Community stories', href: '/connect/stories' }, { label: story.title }]}
+      />
 
       <Reveal className="mt-4">
         <h1 className="font-display text-fg-heading text-4xl font-semibold">{story.title}</h1>
