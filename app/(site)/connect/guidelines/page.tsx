@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { BlockRenderer } from '@/components/blocks/block-renderer'
+import { GuidelinesToc } from '@/components/connect/guidelines-toc'
 import { Reveal } from '@/components/motion/reveal'
+import { RichText } from '@/components/portable-text'
 import { getPageBySlug } from '@/lib/sanity/content'
 import { seoToMetadata } from '@/lib/seo'
+import type { RichTextValue } from '@/lib/sanity/types'
+import { extractHeadings } from '@/lib/toc'
 
 // Lives at /connect/guidelines per Section 5's IA — the underlying content
 // document's slug stays "community-guidelines" (that's where it's been
@@ -21,12 +24,25 @@ export default async function GuidelinesPage() {
   const page = await getPageBySlug(SLUG)
   if (!page) notFound()
 
+  const richText = page.sections?.find((s) => s._type === 'richTextBlock') as
+    { content?: RichTextValue } | undefined
+  const content = richText?.content ?? []
+  const entries = extractHeadings(content).filter((e) => e.level === 2)
+
   return (
-    <>
-      <Reveal className="mx-auto max-w-3xl px-4 pt-20 pb-4 sm:px-8">
-        <h1 className="font-display text-fg-heading text-4xl font-semibold">{page.title}</h1>
+    <div className="mx-auto max-w-6xl px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
+      <Reveal>
+        <h1 className="font-display text-fg-heading text-4xl font-semibold sm:text-5xl">
+          {page.title}
+        </h1>
       </Reveal>
-      <BlockRenderer sections={page.sections} />
-    </>
+
+      <div className="mt-10 grid gap-16 lg:grid-cols-[minmax(0,42rem)_1fr]">
+        <div id="guidelines-content" className="[&_h2]:scroll-mt-28 [&>h2:first-child]:mt-0">
+          <RichText value={content} />
+        </div>
+        <GuidelinesToc entries={entries} />
+      </div>
+    </div>
   )
 }

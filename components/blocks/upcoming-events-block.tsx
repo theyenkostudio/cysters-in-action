@@ -1,5 +1,5 @@
 import { EventsLedger } from '@/components/connect/events-ledger'
-import { getUpcomingEvents } from '@/lib/sanity/content'
+import { getEventRsvpCount, getUpcomingEvents } from '@/lib/sanity/content'
 import { resolveHref } from '@/lib/link'
 import type { CtaValue, EventType } from '@/lib/sanity/types'
 
@@ -19,9 +19,16 @@ export async function UpcomingEventsBlock({ data }: { data: UpcomingEventsData }
 
   if (events.length === 0) return null
 
+  const rsvpCounts = Object.fromEntries(
+    await Promise.all(
+      events.map(async (event) => [event._id, await getEventRsvpCount(event._id)] as const),
+    ),
+  )
+
   return (
     <EventsLedger
       events={events}
+      rsvpCounts={rsvpCounts}
       heading={data.heading}
       cta={
         data.cta?.link

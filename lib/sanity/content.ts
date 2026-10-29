@@ -85,7 +85,6 @@ export function getAnnouncementBar() {
   return sanityFetch<AnnouncementBarData>({
     query: announcementBarQuery,
     tags: ['announcementBar'],
-    fixture: fixtures.announcementBar as AnnouncementBarData,
   })
 }
 

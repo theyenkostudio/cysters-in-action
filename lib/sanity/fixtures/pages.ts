@@ -9,6 +9,15 @@ function paragraph(key: string, text: string): RichTextValue[number] {
   }
 }
 
+function heading(key: string, text: string): RichTextValue[number] {
+  return {
+    _type: 'block',
+    _key: key,
+    style: 'h2',
+    children: [{ _type: 'span', _key: `${key}-span`, text }],
+  }
+}
+
 function richTextSection(key: string, body: RichTextValue): PageBuilderBlock {
   return { _type: 'richTextBlock', _key: key, content: body, width: 'narrow', animation: 'none' }
 }
@@ -112,21 +121,59 @@ export const pages: PageFixture[] = [
     slug: { current: 'community-guidelines' },
     sections: [
       richTextSection('s1', [
+        heading('h-purpose', 'Why these guidelines exist'),
         paragraph(
           'p1',
           'These guidelines apply to every community space on this site: shared stories, event attendance and any future comment or forum feature.',
         ),
         paragraph(
+          'p1b',
+          'Living with cysts can feel isolating. This is a place to feel heard, so everyone here is asked to help keep it that way.',
+        ),
+        heading('h-kind', 'Be kind'),
+        paragraph(
           'p2',
-          'Be kind. Respect anonymity — never try to identify someone who has chosen to stay anonymous.',
+          'Treat every member with respect and assume good intent. Disagreement is fine; dismissiveness, mockery and personal attacks are not.',
         ),
         paragraph(
+          'p2b',
+          'Everyone’s experience is different. What worked, or didn’t work, for one person says nothing about what is true for someone else.',
+        ),
+        heading('h-privacy', 'Respect privacy and anonymity'),
+        paragraph(
           'p3',
+          'Never try to identify someone who has chosen to stay anonymous, and never share another person’s story, name or details outside this community without their permission.',
+        ),
+        paragraph(
+          'p3b',
+          'Take care with your own details too. Avoid posting contact information, addresses or anything you wouldn’t want kept public.',
+        ),
+        heading('h-medical', 'Support, not medical advice'),
+        paragraph(
+          'p4',
           'This is a space for support, not medical debate. If you have a medical question, bring it to a clinician, not another community member.',
         ),
         paragraph(
-          'p4',
-          'Moderators may edit lightly for clarity or remove content that breaks these guidelines. Share Your Story and the full moderation workflow ship in Phase 4.',
+          'p4b',
+          'Share what you’ve experienced, but please don’t recommend treatments, doses or changes to someone else’s care.',
+        ),
+        heading('h-share', 'Sharing stories and content'),
+        paragraph(
+          'p5',
+          'Stories can touch on difficult subjects. Add a content warning where it’s appropriate, and keep descriptions factual rather than graphic.',
+        ),
+        paragraph(
+          'p5b',
+          'Only share what is yours to share. Do not post copyrighted material, advertising or links to products.',
+        ),
+        heading('h-moderation', 'How moderation works'),
+        paragraph(
+          'p6',
+          'Moderators may edit lightly for clarity or remove content that breaks these guidelines.',
+        ),
+        paragraph(
+          'p6b',
+          'If something doesn’t feel right, let us know through the contact page and a moderator will take a look.',
         ),
       ]),
     ],

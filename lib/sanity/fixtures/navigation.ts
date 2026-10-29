@@ -97,7 +97,7 @@ export const navigation = {
   secondaryLink: routeLink('Get support', '/contact'),
   primaryCta: {
     style: 'solid',
-    action: 'openNewsletter' as const,
-    link: routeLink('Join the newsletter', '/newsletter'),
+    action: 'navigate' as const,
+    link: routeLink('Donate now', '/act/donate'),
   },
 }
