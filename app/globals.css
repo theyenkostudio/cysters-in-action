@@ -326,6 +326,40 @@
   animation: mobile-panel-out 0.2s ease-in both;
 }
 
+/* Event RSVP dialog: below `sm` it's a bottom sheet that slides up/down;
+   at `sm` and up it's the original centered dialog with no slide, matching
+   how it already behaved before the sheet treatment existed. */
+@keyframes rsvp-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes rsvp-sheet-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@media not all and (min-width: 640px) {
+  .rsvp-dialog-panel[data-state='open'] {
+    animation: rsvp-sheet-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .rsvp-dialog-panel[data-state='closed'] {
+    animation: rsvp-sheet-out 0.22s ease-in both;
+  }
+  .rsvp-dialog-overlay[data-state='open'] {
+    animation: mobile-overlay-in 0.25s ease-out both;
+  }
+  .rsvp-dialog-overlay[data-state='closed'] {
+    animation: mobile-overlay-out 0.2s ease-in both;
+  }
+}
+
 @keyframes accordion-down {
   from {
     height: 0;

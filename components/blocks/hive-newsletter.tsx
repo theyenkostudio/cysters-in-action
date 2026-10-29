@@ -122,7 +122,7 @@ export function HiveNewsletter({
 
   return (
     <section ref={ref} className="bg-canvas px-4 py-16 sm:px-8 sm:py-24">
-      <div className="mx-auto grid max-w-[1240px] grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-x-[clamp(56px,7vw,112px)]">
+      <div className="mx-auto grid max-w-310 grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-x-[clamp(56px,7vw,112px)]">
         <div className="min-w-0 lg:col-span-5">
           <p data-fade className="text-orchid-text text-xs font-medium tracking-[0.2em] uppercase">
             {eyebrow}
@@ -134,11 +134,11 @@ export function HiveNewsletter({
             {heading}
           </h2>
           {body && (
-            <p data-fade className="text-fg-muted mt-6 max-w-[34rem] text-lg leading-relaxed">
+            <p data-fade className="text-fg-muted mt-6 max-w-136 text-lg leading-relaxed">
               {body}
             </p>
           )}
-          <div data-fade className="mt-8 max-w-[34rem]">
+          <div data-fade className="mt-8 max-w-136">
             <NewsletterForm
               source="newsletterBlock"
               variant="pill"

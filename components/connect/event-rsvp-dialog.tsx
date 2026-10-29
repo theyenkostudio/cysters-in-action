@@ -56,15 +56,19 @@ export function EventRsvpDialog({
   return (
     <Dialog.Root open={event !== null} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/40" />
+        <Dialog.Overlay className="rsvp-dialog-overlay fixed inset-0 z-50 bg-black/40" />
         {/* The frame (fixed, positioned, max-height) and the scroll region
             are deliberately separate elements — putting overflow-y-auto
             directly on the positioned/transformed element was clipping
             content with no visible way to scroll to it. Here the frame
             only sizes and positions the dialog; the inner div is the only
             thing that scrolls, and the close button sits outside it so it
-            stays put regardless of scroll position. */}
-        <Dialog.Content className="bg-canvas rounded-dialog fixed top-1/2 left-1/2 z-50 flex max-h-[85vh] w-[min(36rem,94vw)] -translate-x-1/2 -translate-y-1/2 flex-col shadow-lg">
+            stays put regardless of scroll position.
+
+            Below `sm`, it's pinned to the bottom edge as a full-width sheet
+            (top corners only); at `sm` and up it's the original centered
+            dialog, unchanged. */}
+        <Dialog.Content className="rsvp-dialog-panel bg-canvas rounded-t-dialog sm:rounded-dialog fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] w-full flex-col pb-[env(safe-area-inset-bottom)] shadow-lg sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-[min(36rem,94vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:pb-0">
           {/* data-lenis-prevent: tells Lenis to ignore wheel/touch here and
               leave it to native overflow scrolling — without it, Lenis's
               global listener keeps trying to scroll the page even when the
