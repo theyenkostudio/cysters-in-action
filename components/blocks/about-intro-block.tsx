@@ -3,6 +3,7 @@
 import { motion } from 'motion/react'
 import { useLayoutEffect, useRef } from 'react'
 import { ButtonLink } from '@/components/ui/button'
+import { refreshOnReady } from '@/components/motion/use-gsap-scope'
 import { useReducedMotion } from '@/components/motion/use-reduced-motion'
 import { resolveHref } from '@/lib/link'
 import type { AboutIntroBlockData, AboutStatValue } from '@/lib/sanity/types'
@@ -122,6 +123,7 @@ export function AboutIntroBlock({ data }: { data: AboutIntroBlockData }) {
     let cancelled = false
     let ctx: { revert: () => void } | null = null
     let resizeTimer: ReturnType<typeof setTimeout> | null = null
+    let detachRefresh: (() => void) | null = null
     // gsap.context() only tracks tweens/ScrollTriggers for cleanup, not
     // SplitText instances — reverted explicitly below so React Strict
     // Mode's mount→cleanup→mount doesn't split already-split markup again.
@@ -141,7 +143,13 @@ export function AboutIntroBlock({ data }: { data: AboutIntroBlockData }) {
         import('gsap/SplitText'),
       ])
       gsap.registerPlugin(ScrollTrigger, SplitText)
+      ScrollTrigger.config({ ignoreMobileResize: true })
       if (cancelled || !sectionRef.current) return
+
+      // Content above this section (hero) settling late — a font swap, an
+      // image finishing layout — can shift it after this section's own
+      // ScrollTriggers measured their start positions.
+      detachRefresh = refreshOnReady(() => ScrollTrigger.refresh())
 
       ctx = gsap.context(() => {
         // --- 1. Eyebrow: dot overshoot, label slides in, then a slow pulse ---
@@ -294,6 +302,7 @@ export function AboutIntroBlock({ data }: { data: AboutIntroBlockData }) {
       cancelled = true
       window.removeEventListener('resize', onResize)
       if (resizeTimer) clearTimeout(resizeTimer)
+      detachRefresh?.()
       // Order matters: kill tweens/ScrollTriggers touching the split nodes
       // before SplitText restores the original, unsplit text.
       ctx?.revert()

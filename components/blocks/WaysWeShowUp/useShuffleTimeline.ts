@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { settleOnSteps } from '@/components/motion/use-gsap-scope'
+import { refreshOnReady, settleOnSteps } from '@/components/motion/use-gsap-scope'
 import type { RefObject } from 'react'
 import { PILLAR_SOLID_VAR } from './pillar-colors'
 import type { PillarKey } from '@/lib/sanity/types'
@@ -77,11 +77,15 @@ export function useShuffleTimeline({
     let resizeTimer: ReturnType<typeof setTimeout> | null = null
     let detachLenis: (() => void) | null = null
     let detachSnap: (() => void) | null = null
+    let detachRefresh: (() => void) | null = null
 
     const onResize = () => {
       if (resizeTimer) clearTimeout(resizeTimer)
       resizeTimer = setTimeout(() => {
-        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => ScrollTrigger.refresh())
+        if (cancelled) return
+        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+          if (!cancelled) ScrollTrigger.refresh()
+        })
       }, 200)
     }
 
@@ -91,7 +95,18 @@ export function useShuffleTimeline({
         import('gsap/ScrollTrigger'),
       ])
       gsap.registerPlugin(ScrollTrigger)
+      ScrollTrigger.config({ ignoreMobileResize: true })
       if (cancelled || !sectionRef.current || !stackRef.current) return
+
+      // The pin's `start: 'top top'` is recorded in document coordinates at
+      // setup time, below content (hero, about-intro) whose height can still
+      // shift afterwards — a web font swapping in, or an image above this
+      // section finishing layout. Window `resize` doesn't fire for that, so
+      // without this the pin's start/end can go stale and trap native
+      // wheel/touch scroll just past it (a scrollbar drag forces a resync,
+      // which is why that "unsticks" it). `invalidateOnRefresh` on the
+      // ScrollTrigger below means a refresh recomputes from current layout.
+      detachRefresh = refreshOnReady(() => ScrollTrigger.refresh())
 
       // Bridges Lenis's smoothed scroll events into ScrollTrigger so pin/
       // scrub/snap stay in sync with it, without this hook owning Lenis's
@@ -349,6 +364,7 @@ export function useShuffleTimeline({
       if (resizeTimer) clearTimeout(resizeTimer)
       detachLenis?.()
       detachSnap?.()
+      detachRefresh?.()
       ctx?.revert()
     }
     return () => {

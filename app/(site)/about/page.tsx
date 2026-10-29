@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import { FoundingCircleRow } from '@/components/about/founding-circle-row'
 import { StoryImage } from '@/components/about/story-image'
-import { TeamMemberCard } from '@/components/about/team-member-card'
 import { BlockRenderer } from '@/components/blocks/block-renderer'
 import { Hero } from '@/components/blocks/hero'
 import { PillarsBlock } from '@/components/blocks/pillars-block'
@@ -98,23 +98,7 @@ export default async function AboutPage() {
               </SectionEyebrow>
             </Reveal>
           </div>
-          {/* No scroll-snap: it fought the page's own vertical scroll
-              (visible as jank/shake) and made the row jump between fixed
-              stops instead of just sitting there and scrolling freely. No
-              per-card entrance animation either, for the same reason. */}
-          <div
-            className="scrollbar-hide mt-8 flex gap-5 overflow-x-auto py-2 pl-4 sm:pl-[max(2rem,calc((100vw-72rem)/2+2rem))]"
-            style={{ touchAction: 'pan-x' }}
-          >
-            {aboutPage.foundingCircle.map((member) => (
-              <div
-                key={member._id}
-                className="w-[88%] max-w-[380px] shrink-0 sm:w-[31vw] sm:max-w-[480px] sm:min-w-[340px]"
-              >
-                <TeamMemberCard member={member} />
-              </div>
-            ))}
-          </div>
+          <FoundingCircleRow members={aboutPage.foundingCircle} />
         </section>
       )}
 

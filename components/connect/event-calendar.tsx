@@ -71,8 +71,8 @@ export function EventCalendar({
   }
 
   return (
-    <div className="rounded-card border-default w-full border p-4 sm:p-6">
-      <div className="flex items-center justify-between">
+    <div className="rounded-card border-default w-full border sm:p-6">
+      <div className="flex items-center justify-between p-4 md:p-0">
         <Button
           type="button"
           variant="ghost"
@@ -96,7 +96,7 @@ export function EventCalendar({
         </Button>
       </div>
 
-      <div className="text-fg-subtle mt-5 grid grid-cols-7 gap-px text-center text-xs font-medium">
+      <div className="text-fg-subtle grid grid-cols-7 gap-px text-center text-xs font-medium sm:mt-5">
         {WEEKDAYS.map((d) => (
           <div key={d} className="py-1">
             {d}
@@ -104,7 +104,7 @@ export function EventCalendar({
         ))}
       </div>
 
-      <div className="border-default bg-default rounded-input mt-1 grid grid-cols-7 gap-px overflow-hidden border">
+      <div className="border-default bg-default rounded-b-input md:rounded-input grid grid-cols-7 gap-px overflow-hidden border sm:mt-1">
         {days.map((day, i) => {
           if (!day) return <div key={i} className="bg-canvas min-h-24 sm:min-h-32" />
 
@@ -116,10 +116,7 @@ export function EventCalendar({
           const isToday = sameDay(day, today)
 
           return (
-            <div
-              key={i}
-              className="bg-canvas flex min-h-24 flex-col gap-1 p-1.5 sm:min-h-32 sm:p-2"
-            >
+            <div key={i} className="bg-canvas flex min-h-24 flex-col sm:min-h-32 sm:gap-1 sm:p-2">
               <span
                 className={cn(
                   'flex h-6 w-6 shrink-0 items-center justify-center self-start rounded-full text-xs font-medium',
@@ -129,7 +126,7 @@ export function EventCalendar({
                 {day.getDate()}
               </span>
 
-              <div className="flex min-w-0 flex-1 flex-col gap-1">
+              <div className="flex min-w-0 flex-1 flex-col sm:gap-1">
                 {visibleEvents.map((event) => {
                   const past = isPastEvent(event.startDateTime)
                   return (

@@ -95,10 +95,20 @@ export function Nav({ data }: { data: NavData }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
-    onScroll()
+    let frame = 0
+    const apply = () => {
+      frame = 0
+      setScrolled(window.scrollY > 80)
+    }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(apply)
+    }
+    apply()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
   }, [])
 
   return (

@@ -99,7 +99,6 @@ export function HiveNewsletter({
       const fades = q('[data-fade]')
       gsap.set(cells, { scale: 0, rotate: -28, opacity: 0, transformOrigin: '50% 50%' })
       gsap.set(fades, { opacity: 0, y: 18 })
-      let breathe: gsap.core.Tween[] = []
       ScrollTrigger.create({
         trigger: ref.current,
         start: 'top 68%',
@@ -113,22 +112,9 @@ export function HiveNewsletter({
             duration: 0.9,
             ease: 'back.out(1.6)',
             stagger: { each: 0.05, from: CENTER_INDEX },
-            onComplete: () => {
-              breathe = cells.map((c, i) =>
-                gsap.to(c, {
-                  scale: 1.025,
-                  duration: 2.4 + (i % 5) * 0.35,
-                  delay: (i % 7) * 0.3,
-                  ease: 'sine.inOut',
-                  yoyo: true,
-                  repeat: -1,
-                }),
-              )
-            },
           })
         },
       })
-      return () => breathe.forEach((t) => t.kill())
     },
     animated && !reduced,
     [],

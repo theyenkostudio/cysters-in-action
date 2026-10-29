@@ -6,6 +6,29 @@ type Gsap = typeof import('gsap').default
 type ScrollTriggerStatic = typeof import('gsap/ScrollTrigger').ScrollTrigger
 
 /**
+ * Calls `refresh` once fonts and the window `load` event have settled, so a
+ * ScrollTrigger's start/end — measured once at setup, in document
+ * coordinates — isn't left stale by content above it reflowing afterwards (a
+ * font swap, an image finishing layout). Without this, native wheel/touch
+ * scroll can get trapped right at a pin's now-wrong boundary until something
+ * else (a scrollbar drag) forces a resync. Returns a cleanup that detaches
+ * the pending `load` listener, if one was added.
+ */
+export function refreshOnReady(refresh: () => void): () => void {
+  let onLoad: (() => void) | null = null
+  if (document.readyState === 'complete') {
+    refresh()
+  } else {
+    onLoad = refresh
+    window.addEventListener('load', onLoad)
+  }
+  document.fonts?.ready.then(refresh)
+  return () => {
+    if (onLoad) window.removeEventListener('load', onLoad)
+  }
+}
+
+/**
  * Runs `setup` inside a gsap.context scoped to `scopeRef`, with GSAP and
  * ScrollTrigger lazy-imported (same bundle-split reasoning as the live block)
  * and Lenis bridged into ScrollTrigger. Everything is torn down with
@@ -24,6 +47,7 @@ export function useGsapScope(
     let ctx: { revert: () => void } | null = null
     let extraCleanup: void | (() => void)
     let detachLenis: (() => void) | null = null
+    let detachRefresh: (() => void) | null = null
 
     ;(async () => {
       const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
@@ -31,6 +55,10 @@ export function useGsapScope(
         import('gsap/ScrollTrigger'),
       ])
       gsap.registerPlugin(ScrollTrigger)
+      // The mobile address bar showing/hiding resizes the viewport without
+      // any content actually reflowing — without this, that resize alone
+      // triggers a ScrollTrigger refresh for no reason.
+      ScrollTrigger.config({ ignoreMobileResize: true })
       if (cancelled || !scopeRef.current) return
 
       const lenis = window.__lenis
@@ -39,6 +67,7 @@ export function useGsapScope(
         lenis.on('scroll', onScroll)
         detachLenis = () => lenis.off('scroll', onScroll)
       }
+      detachRefresh = refreshOnReady(() => ScrollTrigger.refresh())
 
       ctx = gsap.context(() => {
         extraCleanup = setup({ gsap, ScrollTrigger })
@@ -48,6 +77,7 @@ export function useGsapScope(
     return () => {
       cancelled = true
       detachLenis?.()
+      detachRefresh?.()
       if (typeof extraCleanup === 'function') extraCleanup()
       ctx?.revert()
     }

@@ -7,7 +7,6 @@ import { resolveHref } from '@/lib/link'
 import type { WaysWeShowUpCardValue } from '@/lib/sanity/types'
 import { tornCardClipPoints } from './torn-edge'
 import { DistressedInkFilterDefs, DistressedWord } from './DistressedWord'
-import { Sticker } from './Sticker'
 import { PILLAR_TEXT_VAR } from './pillar-colors'
 
 function components(pillar: WaysWeShowUpCardValue['pillar']): PortableTextComponents {
@@ -23,58 +22,64 @@ function components(pillar: WaysWeShowUpCardValue['pillar']): PortableTextCompon
 }
 
 /**
- * `animation: "subtle"` — no scroll-pin. A single active card crossfades
- * to the next every 4s while the section is in view, pausing on hover and
- * while off-screen, plus a real Pause/Play button (WCAG 2.2.2: this is the
- * one piece of content on the site that moves on its own for more than 5s,
- * so mouse-hover alone isn't enough — keyboard and touch users need a way
- * to stop it too). Deliberately simpler than the exaggerated stack's GSAP
- * master timeline (no multi-card depth stacking/word punch/sticker wobble)
- * — a lighter-weight CSS-transition crossfade.
+ * `animation: "subtle"` — no scroll-pin, no timer: the active card is read
+ * straight off the container's own position in the viewport, recomputed on
+ * scroll/resize. Nothing runs in the background — stop scrolling and it
+ * stops moving, because there's no interval or tween driving it on its own.
+ * A window scroll listener is only attached while the section is actually
+ * near the viewport (gated by IntersectionObserver), so it costs nothing
+ * for the rest of the page's scroll lifetime either.
  */
-export function SubtleAutoShuffle({
-  cards,
-  showSticker,
-}: {
-  cards: WaysWeShowUpCardValue[]
-  showSticker: boolean
-}) {
+export function SubtleAutoShuffle({ cards }: { cards: WaysWeShowUpCardValue[] }) {
   const [active, setActive] = useState(0)
-  const [hoverPaused, setHoverPaused] = useState(false)
-  const [manuallyPaused, setManuallyPaused] = useState(false)
-  const [inView, setInView] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  const paused = hoverPaused || manuallyPaused
 
   useEffect(() => {
     const el = containerRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
-      threshold: 0.4,
-    })
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+    if (!el || cards.length < 2) return
 
-  useEffect(() => {
-    if (paused || !inView || cards.length < 2) return
-    const id = setInterval(() => setActive((i) => (i + 1) % cards.length), 4000)
-    return () => clearInterval(id)
-  }, [paused, inView, cards.length])
+    let ticking = false
+    const update = () => {
+      ticking = false
+      const rect = el.getBoundingClientRect()
+      const span = window.innerHeight + rect.height
+      const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / span))
+      setActive(Math.min(cards.length - 1, Math.floor(progress * cards.length)))
+    }
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          update()
+          window.addEventListener('scroll', onScroll, { passive: true })
+          window.addEventListener('resize', onScroll)
+        } else {
+          window.removeEventListener('scroll', onScroll)
+          window.removeEventListener('resize', onScroll)
+        }
+      },
+      { rootMargin: '50% 0px' },
+    )
+    observer.observe(el)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [cards.length])
 
   const card = cards[active]
 
   return (
-    <div
-      ref={containerRef}
-      onMouseEnter={() => setHoverPaused(true)}
-      onMouseLeave={() => setHoverPaused(false)}
-    >
+    <div ref={containerRef}>
       {/* aria-hidden: AccessibleList is the one place a screen reader gets
-         this content — see the same note on CardStack's root. The pause
-         button below is the one real control in this subtree (WCAG 2.2.2:
-         this auto-advances indefinitely, so it needs a keyboard/touch-
-         reachable pause, not just mouse-hover). */}
+         this content — see the same note on CardStack's root. */}
       <div aria-hidden="true">
         <DistressedInkFilterDefs />
         <div className="relative mx-auto aspect-[3/2] w-[88vw] max-w-[520px] sm:w-[520px]">
@@ -120,7 +125,6 @@ export function SubtleAutoShuffle({
               </div>
             )
           })}
-          {showSticker && <Sticker pillar={card.pillar} />}
         </div>
 
         <div
@@ -158,30 +162,6 @@ export function SubtleAutoShuffle({
           </div>
         </div>
       </div>
-
-      {cards.length > 1 && (
-        <div className="mt-4 flex justify-center">
-          <button
-            type="button"
-            data-testid="shuffle-pause-button"
-            onClick={() => setManuallyPaused((p) => !p)}
-            aria-pressed={manuallyPaused}
-            aria-label={manuallyPaused ? 'Resume automatic preview' : 'Pause automatic preview'}
-            className="text-fg-muted hover:text-fg flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs"
-          >
-            {manuallyPaused ? (
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M6 4l15 8-15 8z" />
-              </svg>
-            ) : (
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
-              </svg>
-            )}
-            {manuallyPaused ? 'Play' : 'Pause'}
-          </button>
-        </div>
-      )}
     </div>
   )
 }

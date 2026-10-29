@@ -7,6 +7,7 @@ import { useReducedMotion } from './use-reduced-motion'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
+  ScrollTrigger.config({ ignoreMobileResize: true })
 }
 
 /**

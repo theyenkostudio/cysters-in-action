@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { SubtleAutoShuffle } from './SubtleAutoShuffle'
 import type { WaysWeShowUpCardValue } from '@/lib/sanity/types'
@@ -10,17 +10,13 @@ vi.mock('next/image', () => ({
   },
 }))
 
+let intersectionCallback: IntersectionObserverCallback = () => {}
+
 class MockIntersectionObserver {
-  callback: IntersectionObserverCallback
   constructor(callback: IntersectionObserverCallback) {
-    this.callback = callback
+    intersectionCallback = callback
   }
-  observe() {
-    this.callback(
-      [{ isIntersecting: true } as IntersectionObserverEntry],
-      this as unknown as IntersectionObserver,
-    )
-  }
+  observe() {}
   disconnect() {}
   unobserve() {}
   takeRecords() {
@@ -38,39 +34,98 @@ function makeCard(i: number): WaysWeShowUpCardValue {
   } as unknown as WaysWeShowUpCardValue
 }
 
-describe('SubtleAutoShuffle pause button', () => {
+function setRectTop(el: Element, top: number, height: number) {
+  vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+    top,
+    height,
+    bottom: top + height,
+    left: 0,
+    right: 0,
+    width: 0,
+    x: 0,
+    y: top,
+    toJSON() {
+      return {}
+    },
+  })
+}
+
+function nextFrame() {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+}
+
+describe('SubtleAutoShuffle', () => {
   beforeEach(() => {
-    vi.useFakeTimers({ shouldAdvanceTime: true })
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver)
+    Object.defineProperty(window, 'innerHeight', { value: 800, configurable: true })
   })
 
   afterEach(() => {
     cleanup()
-    vi.useRealTimers()
     vi.unstubAllGlobals()
+    vi.restoreAllMocks()
   })
 
-  it('toggles aria-pressed and stops auto-advance on click', async () => {
+  it('derives the active card from scroll position and does not move on its own', async () => {
     const cards = [makeCard(1), makeCard(2), makeCard(3)]
-    render(<SubtleAutoShuffle cards={cards} showSticker={false} />)
-
-    const button = screen.getByTestId('shuffle-pause-button')
-    expect(button).toHaveAttribute('aria-pressed', 'false')
-    expect(button).toHaveAccessibleName('Pause automatic preview')
-
-    fireEvent.click(button)
-
-    expect(button).toHaveAttribute('aria-pressed', 'true')
-    expect(button).toHaveAccessibleName('Resume automatic preview')
-
+    const { container } = render(<SubtleAutoShuffle cards={cards} />)
+    const root = container.firstElementChild as HTMLElement
     const indexMatcher = /\d{2}\s*\/\s*\d{2}/
-    const indexBefore = screen.getByText(indexMatcher).textContent
-    await vi.advanceTimersByTimeAsync(10_000)
-    const indexAfter = screen.getByText(indexMatcher).textContent
-    expect(indexAfter).toBe(indexBefore)
 
-    fireEvent.click(button)
-    expect(button).toHaveAttribute('aria-pressed', 'false')
-    expect(button).toHaveAccessibleName('Pause automatic preview')
+    // Section just entering at the bottom of the viewport: progress ~0.
+    setRectTop(root, 800, 400)
+    await act(async () => {
+      intersectionCallback(
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        null as unknown as IntersectionObserver,
+      )
+      await nextFrame()
+    })
+    expect(screen.getByText(indexMatcher).textContent).toBe('01 / 03')
+
+    // Idle with no scroll event: the active card must not change by itself.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+    expect(screen.getByText(indexMatcher).textContent).toBe('01 / 03')
+
+    // Scrolled roughly halfway through the section.
+    setRectTop(root, 200, 400)
+    await act(async () => {
+      window.dispatchEvent(new Event('scroll'))
+      await nextFrame()
+    })
+    expect(screen.getByText(indexMatcher).textContent).toBe('02 / 03')
+
+    // Scrolled all the way past: clamps to the last card.
+    setRectTop(root, -400, 400)
+    await act(async () => {
+      window.dispatchEvent(new Event('scroll'))
+      await nextFrame()
+    })
+    expect(screen.getByText(indexMatcher).textContent).toBe('03 / 03')
+  })
+
+  it('stops listening to scroll once the section leaves the viewport', async () => {
+    const cards = [makeCard(1), makeCard(2), makeCard(3)]
+    const { container } = render(<SubtleAutoShuffle cards={cards} />)
+    const root = container.firstElementChild as HTMLElement
+    const indexMatcher = /\d{2}\s*\/\s*\d{2}/
+
+    setRectTop(root, 800, 400)
+    await act(async () => {
+      intersectionCallback(
+        [{ isIntersecting: false } as IntersectionObserverEntry],
+        null as unknown as IntersectionObserver,
+      )
+      await nextFrame()
+    })
+
+    setRectTop(root, 200, 400)
+    await act(async () => {
+      window.dispatchEvent(new Event('scroll'))
+      await nextFrame()
+    })
+    expect(screen.getByText(indexMatcher).textContent).toBe('01 / 03')
   })
 })

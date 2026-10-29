@@ -105,7 +105,7 @@ export function WaysWeShowUpBlock({
           {showStaticList ? (
             <SimpleCardList cards={data.cards} />
           ) : animation === 'subtle' ? (
-            <SubtleAutoShuffle cards={data.cards} showSticker={showSticker} />
+            <SubtleAutoShuffle cards={data.cards} />
           ) : (
             <CardStack
               sectionRef={sectionRef}
