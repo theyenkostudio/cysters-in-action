@@ -1,6 +1,6 @@
 'use client'
 
-import { Heart } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Heart } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { tornCardClipPoints } from '@/components/blocks/WaysWeShowUp/torn-edge'
 import { useGsapScope } from '@/components/motion/use-gsap-scope'
@@ -13,9 +13,10 @@ const PAPER = [
   'color-mix(in srgb, var(--orchid-500) 9%, var(--color-canvas))',
   'color-mix(in srgb, var(--color-canvas) 100%, white)',
   'color-mix(in srgb, var(--lagoon-500) 9%, var(--color-canvas))',
+  'color-mix(in srgb, var(--orchid-500) 5%, var(--color-canvas))',
 ]
-const TILT = [-2.4, 1.6, -1.2]
-const LIFT = ['lg:translate-y-0', 'lg:translate-y-8', 'lg:translate-y-2']
+const TILT = [-2.4, 1.6, -1.2, 2.1]
+const LIFT = ['lg:translate-y-0', 'lg:translate-y-8', 'lg:translate-y-2', 'lg:translate-y-6']
 
 type Api = { flip: (from: number | null, to: number | null) => void }
 
@@ -41,10 +42,38 @@ export function StoryPostcards({
   const reducedMotion = useReducedMotion()
   const reduced = reducedMotion || !animated
   const ref = useRef<HTMLElement>(null)
+  const scrollerRef = useRef<HTMLUListElement>(null)
   const apiRef = useRef<Api | null>(null)
   const prevRef = useRef<number | null>(null)
   const [open, setOpen] = useState<number | null>(null)
-  const cards = stories.slice(0, 3)
+  const [canPrev, setCanPrev] = useState(false)
+  const [canNext, setCanNext] = useState(false)
+  const cards = stories
+
+  useEffect(() => {
+    const el = scrollerRef.current
+    if (!el) return
+    function update() {
+      if (!el) return
+      setCanPrev(el.scrollLeft > 4)
+      setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
+    }
+    update()
+    el.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      el.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [cards.length])
+
+  function scrollByCard(direction: 1 | -1) {
+    const el = scrollerRef.current
+    if (!el) return
+    const card = el.querySelector<HTMLElement>('[data-card]')
+    const step = card ? card.offsetWidth + 40 : el.clientWidth * 0.9
+    el.scrollBy({ left: direction * step, behavior: 'smooth' })
+  }
 
   useGsapScope(
     ref,
@@ -54,7 +83,7 @@ export function StoryPostcards({
       const inners = q('[data-inner]')
       const fades = q('[data-fade]')
       gsap.set(inners, { rotationY: 0, transformPerspective: 1400 })
-      gsap.set(cardEls, { y: 70, opacity: 0, rotate: (i: number) => TILT[i] * 4 })
+      gsap.set(cardEls, { y: 70, opacity: 0, rotate: (i: number) => TILT[i % TILT.length] * 4 })
       gsap.set(fades, { opacity: 0, y: 14 })
       ScrollTrigger.create({
         trigger: ref.current,
@@ -65,7 +94,7 @@ export function StoryPostcards({
           gsap.to(cardEls, {
             y: 0,
             opacity: 1,
-            rotate: (i: number) => TILT[i],
+            rotate: (i: number) => TILT[i % TILT.length],
             duration: 1.1,
             stagger: 0.14,
             ease: 'expo.out',
@@ -107,157 +136,203 @@ export function StoryPostcards({
   if (cards.length === 0) return null
 
   return (
-    <section ref={ref} className="bg-canvas px-4 py-20 sm:px-[clamp(32px,5vw,80px)] sm:py-28">
-      <div className="mx-auto max-w-[1240px]">
-        <h2
-          data-fade
-          className="text-fg-default flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase sm:text-[12px]"
-        >
-          <span aria-hidden="true" className="bg-accent-orchid inline-block h-2 w-2 rounded-full" />
-          {label}
-        </h2>
-        <p
-          data-fade
-          className="font-display text-fg-heading mt-5 max-w-[22ch] text-[clamp(30px,3.6vw,52px)] leading-[1.06] font-semibold tracking-[-0.025em] text-balance"
-        >
-          {intro}
-        </p>
+    <section
+      ref={ref}
+      className="bg-canvas py-20 [--story-gutter:1rem] sm:py-28 sm:[--story-gutter:clamp(32px,5vw,80px)]"
+    >
+      <div className="mx-auto max-w-[1240px] px-[var(--story-gutter)]">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <h2
+              data-fade
+              className="text-fg-default flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase sm:text-[12px]"
+            >
+              <span
+                aria-hidden="true"
+                className="bg-accent-orchid inline-block h-2 w-2 rounded-full"
+              />
+              {label}
+            </h2>
+            <p
+              data-fade
+              className="font-display text-fg-heading mt-5 max-w-[22ch] text-[clamp(30px,3.6vw,52px)] leading-[1.06] font-semibold tracking-[-0.025em] text-balance"
+            >
+              {intro}
+            </p>
+          </div>
 
-        <ul
-          className={`mt-14 grid gap-10 md:grid-cols-2 lg:gap-8 ${
-            cards.length >= 3 ? 'lg:grid-cols-3' : 'lg:mx-auto lg:max-w-[860px]'
-          }`}
-        >
-          {cards.map((story, i) => {
-            const isOpen = open === i
-            const paras = storyParagraphs(story)
-            const clipId = `story-torn-${i}`
-            return (
-              <li
-                key={story._id}
-                data-card
-                className={`group mx-auto w-full max-w-[400px] [perspective:1400px] ${LIFT[i]}`}
+          {(canPrev || canNext) && (
+            <div data-fade className="flex items-center gap-2">
+              <button
+                type="button"
+                aria-label="Previous story"
+                disabled={!canPrev}
+                onClick={() => scrollByCard(-1)}
+                className="border-fg-default/20 text-fg-default hover:bg-fg-default/5 focus-visible:ring-focus-ring flex h-10 w-10 items-center justify-center rounded-full border transition-colors focus-visible:ring-4 focus-visible:outline-none disabled:opacity-30"
               >
-                <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
-                  <defs>
-                    <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-                      <polygon points={tornCardClipPoints(i + 11)} />
-                    </clipPath>
-                  </defs>
-                </svg>
+                <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next story"
+                disabled={!canNext}
+                onClick={() => scrollByCard(1)}
+                className="border-fg-default/20 text-fg-default hover:bg-fg-default/5 focus-visible:ring-focus-ring flex h-10 w-10 items-center justify-center rounded-full border transition-colors focus-visible:ring-4 focus-visible:outline-none disabled:opacity-30"
+              >
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
 
-                <div className="[filter:drop-shadow(0_18px_26px_rgb(19_77_100/0.22))] transition-transform duration-500 group-hover:-translate-y-2">
+      <style>{`.story-scroller::-webkit-scrollbar{display:none}`}</style>
+      <ul
+        ref={scrollerRef}
+        className="story-scroller bg-canvas mt-14 flex gap-10 overflow-x-auto scroll-smooth pb-4 sm:gap-8"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <li
+          aria-hidden="true"
+          className="shrink-0"
+          style={{
+            width: 'max(var(--story-gutter), calc((100vw - 1240px) / 2 + var(--story-gutter)))',
+          }}
+        />
+        {cards.map((story, i) => {
+          const isOpen = open === i
+          const paras = storyParagraphs(story)
+          const clipId = `story-torn-${i}`
+          return (
+            <li
+              key={story._id}
+              data-card
+              className={`group w-[85vw] max-w-[400px] shrink-0 [perspective:1400px] sm:w-[400px] ${LIFT[i % LIFT.length]}`}
+            >
+              <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
+                <defs>
+                  <clipPath id={clipId} clipPathUnits="objectBoundingBox">
+                    <polygon points={tornCardClipPoints(i + 11)} />
+                  </clipPath>
+                </defs>
+              </svg>
+
+              <div className="[filter:drop-shadow(0_18px_26px_rgb(19_77_100/0.22))] transition-transform duration-500 group-hover:-translate-y-2">
+                <div
+                  data-inner
+                  className="relative aspect-[4/5] [transform-style:preserve-3d]"
+                  style={reduced ? { transform: `rotateY(${isOpen ? 180 : 0}deg)` } : undefined}
+                >
+                  {/* FRONT */}
                   <div
-                    data-inner
-                    className="relative aspect-[4/5] [transform-style:preserve-3d]"
-                    style={reduced ? { transform: `rotateY(${isOpen ? 180 : 0}deg)` } : undefined}
+                    className="absolute inset-0 [backface-visibility:hidden]"
+                    style={{ clipPath: `url(#${clipId})`, background: PAPER[i % PAPER.length] }}
+                    inert={isOpen}
                   >
-                    {/* FRONT */}
-                    <div
-                      className="absolute inset-0 [backface-visibility:hidden]"
-                      style={{ clipPath: `url(#${clipId})`, background: PAPER[i] }}
-                      inert={isOpen}
+                    <Postmark story={story} />
+                    <Stamp />
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => setOpen(isOpen ? null : i)}
+                      className="focus-visible:ring-focus-ring absolute inset-0 z-10 flex flex-col justify-end p-7 text-left focus-visible:ring-4 focus-visible:outline-none focus-visible:ring-inset sm:p-8"
                     >
-                      <Postmark story={story} />
-                      <Stamp />
-                      <button
-                        type="button"
-                        aria-expanded={isOpen}
-                        onClick={() => setOpen(isOpen ? null : i)}
-                        className="focus-visible:ring-focus-ring absolute inset-0 z-10 flex flex-col justify-end p-7 text-left focus-visible:ring-4 focus-visible:outline-none focus-visible:ring-inset sm:p-8"
-                      >
-                        <span className="font-display text-fg-heading text-[clamp(24px,2.2vw,31px)] leading-[1.12] font-medium tracking-[-0.02em] text-balance">
-                          &ldquo;{story.pullQuote ?? story.title}&rdquo;
-                        </span>
-                        <span className="text-fg-muted mt-5 block text-sm">
-                          {storyByline(story)}
-                        </span>
-                        <span className="text-fg-heading mt-3 inline-flex items-center gap-1.5 text-sm font-medium">
-                          Open the letter
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            aria-hidden="true"
-                            className="transition-transform duration-300 group-hover:translate-x-1"
-                          >
-                            <path
-                              d="M5 12h14M13 6l6 6-6 6"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </span>
-                      </button>
-                    </div>
+                      <span className="font-display text-fg-heading text-[clamp(24px,2.2vw,31px)] leading-[1.12] font-medium tracking-[-0.02em] text-balance">
+                        &ldquo;{story.pullQuote ?? story.title}&rdquo;
+                      </span>
+                      <span className="text-fg-muted mt-5 block text-sm">{storyByline(story)}</span>
+                      <span className="text-fg-heading mt-3 inline-flex items-center gap-1.5 text-sm font-medium">
+                        Open the letter
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                          className="transition-transform duration-300 group-hover:translate-x-1"
+                        >
+                          <path
+                            d="M5 12h14M13 6l6 6-6 6"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
 
-                    {/* BACK: the letter */}
+                  {/* BACK: the letter */}
+                  <div
+                    className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden]"
+                    style={{
+                      clipPath: `url(#${clipId})`,
+                      background: PAPER[(i + 1) % PAPER.length],
+                    }}
+                    inert={!isOpen}
+                  >
                     <div
-                      className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden]"
-                      style={{ clipPath: `url(#${clipId})`, background: PAPER[(i + 1) % 3] }}
-                      inert={!isOpen}
+                      className="flex h-full flex-col px-7 pt-9 pb-7 sm:px-8"
+                      style={{
+                        backgroundImage:
+                          'repeating-linear-gradient(to bottom, transparent 0, transparent 29px, color-mix(in srgb, var(--color-fg-default) 11%, transparent) 29px, color-mix(in srgb, var(--color-fg-default) 11%, transparent) 30px)',
+                        backgroundPosition: '0 14px',
+                      }}
                     >
-                      <div
-                        className="flex h-full flex-col px-7 pt-9 pb-7 sm:px-8"
-                        style={{
-                          backgroundImage:
-                            'repeating-linear-gradient(to bottom, transparent 0, transparent 29px, color-mix(in srgb, var(--color-fg-default) 11%, transparent) 29px, color-mix(in srgb, var(--color-fg-default) 11%, transparent) 30px)',
-                          backgroundPosition: '0 14px',
-                        }}
-                      >
-                        <p className="text-fg-muted text-xs font-medium tracking-[0.14em] uppercase">
-                          {storyByline(story)}
-                          {story.country ? ` · ${story.country}` : ''}
+                      <p className="text-fg-muted text-xs font-medium tracking-[0.14em] uppercase">
+                        {storyByline(story)}
+                        {story.country ? ` · ${story.country}` : ''}
+                      </p>
+                      {story.contentWarning && (
+                        <p className="text-fg-muted mt-1 text-xs">
+                          Content note: {story.contentWarning}
                         </p>
-                        {story.contentWarning && (
-                          <p className="text-fg-muted mt-1 text-xs">
-                            Content note: {story.contentWarning}
+                      )}
+                      <div className="text-fg mt-3 min-h-0 flex-1 overflow-hidden text-[16px] leading-[30px]">
+                        {paras.slice(0, 2).map((p, pi) => (
+                          <p key={pi} className="line-clamp-4">
+                            {p}
                           </p>
-                        )}
-                        <div className="text-fg mt-3 min-h-0 flex-1 overflow-hidden text-[16px] leading-[30px]">
-                          {paras.slice(0, 2).map((p, pi) => (
-                            <p key={pi} className="line-clamp-4">
-                              {p}
-                            </p>
-                          ))}
-                        </div>
-                        <div className="mt-2 flex items-center justify-between gap-3">
-                          {story.slug && (
-                            <ButtonLink
-                              href={`/connect/stories/${story.slug.current}`}
-                              variant="solid"
-                              size="sm"
-                            >
-                              Read the full letter
-                            </ButtonLink>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => setOpen(null)}
-                            className="text-fg-muted hover:text-fg text-sm underline underline-offset-4"
+                        ))}
+                      </div>
+                      <div className="mt-2 flex items-center justify-between gap-3">
+                        {story.slug && (
+                          <ButtonLink
+                            href={`/connect/stories/${story.slug.current}`}
+                            variant="solid"
+                            size="sm"
                           >
-                            Turn it back
-                          </button>
-                        </div>
+                            Read the full letter
+                          </ButtonLink>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setOpen(null)}
+                          className="text-fg-muted hover:text-fg text-sm underline underline-offset-4"
+                        >
+                          Turn it back
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </li>
-            )
-          })}
-        </ul>
-        {cta && (
+              </div>
+            </li>
+          )
+        })}
+        <li aria-hidden="true" className="w-[var(--story-gutter)] shrink-0" />
+      </ul>
+
+      {cta && (
+        <div className="mx-auto max-w-[1240px] px-[var(--story-gutter)]">
           <div data-fade className="mt-16 sm:mt-20">
             <ButtonLink href={cta.href} variant="solid">
               {cta.label}
             </ButtonLink>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   )
 }

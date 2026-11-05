@@ -32,6 +32,7 @@ export const footer = {
     {
       heading: 'More',
       links: [
+        routeLink('Donate', '/act/donate'),
         routeLink('Contact', '/contact'),
         pageLink('Medical disclaimer', 'medical-disclaimer'),
         pageLink('Accessibility', 'accessibility'),

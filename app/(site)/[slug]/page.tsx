@@ -32,8 +32,10 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
       {page.hero ? (
         <Hero data={page.hero} animation="subtle" />
       ) : (
-        <Reveal className="mx-auto max-w-3xl px-4 pt-20 pb-4 sm:px-8">
-          <h1 className="font-display text-fg-heading text-4xl font-semibold">{page.title}</h1>
+        <Reveal className="mx-auto max-w-2xl px-4 pt-16 pb-0 sm:px-8 sm:pt-24">
+          <h1 className="font-display text-fg-heading text-4xl font-semibold sm:text-5xl">
+            {page.title}
+          </h1>
         </Reveal>
       )}
       <BlockRenderer sections={page.sections} />

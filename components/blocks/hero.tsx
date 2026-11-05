@@ -74,6 +74,7 @@ export function Hero({
     <section
       ref={sectionRef}
       data-theme="inverse"
+      data-hero
       className={cn(
         // Nav is `position: sticky`, which still reserves its own box in
         // normal flow — this negative margin pulls the hero up to collapse

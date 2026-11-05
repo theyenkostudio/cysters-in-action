@@ -1,12 +1,12 @@
 'use client'
 
-import NextLink from 'next/link'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useReducedMotion } from '@/components/motion/use-reduced-motion'
 import { ButtonLink } from '@/components/ui/button'
 import type { EventRef, EventType } from '@/lib/sanity/types'
 import { PILLAR_SOLID_VAR } from '@/components/blocks/WaysWeShowUp/pillar-colors'
 import { useGsapScope } from '@/components/motion/use-gsap-scope'
+import { EventRsvpDialog } from './event-rsvp-dialog'
 
 const TYPE_LABEL: Record<EventType, string> = {
   webinar: 'Webinar',
@@ -45,13 +45,16 @@ export function EventsLedger({
   events,
   heading = 'Upcoming events',
   cta,
+  rsvpCounts = {},
 }: {
   events: EventRef[]
+  rsvpCounts?: Record<string, number>
   heading?: string
   cta?: { label: string; href: string }
 }) {
   const reduced = useReducedMotion()
   const ref = useRef<HTMLElement>(null)
+  const [activeEvent, setActiveEvent] = useState<EventRef | null>(null)
 
   useGsapScope(
     ref,
@@ -117,9 +120,10 @@ export function EventsLedger({
                   aria-hidden="true"
                   className="bg-fg/25 absolute inset-x-0 top-0 h-px"
                 />
-                <NextLink
-                  href={`/connect/events/${event.slug.current}`}
-                  className="group relative grid grid-cols-[104px_1fr] items-center gap-x-6 gap-y-3 overflow-hidden py-7 sm:gap-x-10 sm:py-9 md:grid-cols-[170px_1fr_minmax(0,300px)_auto] md:gap-x-12"
+                <button
+                  type="button"
+                  onClick={() => setActiveEvent(event)}
+                  className="group relative grid w-full cursor-pointer grid-cols-[104px_1fr] items-center gap-x-6 gap-y-3 overflow-hidden py-7 text-left sm:gap-x-10 sm:py-9 md:grid-cols-[170px_1fr_minmax(0,300px)_auto] md:gap-x-12"
                   style={{ '--c': color } as React.CSSProperties}
                 >
                   <div className="relative overflow-hidden">
@@ -185,7 +189,7 @@ export function EventsLedger({
                       />
                     </svg>
                   </span>
-                </NextLink>
+                </button>
               </li>
             )
           })}
@@ -194,6 +198,12 @@ export function EventsLedger({
           </li>
         </ul>
       </div>
+
+      <EventRsvpDialog
+        event={activeEvent}
+        rsvpCount={activeEvent ? rsvpCounts[activeEvent._id] : undefined}
+        onOpenChange={(open) => !open && setActiveEvent(null)}
+      />
     </section>
   )
 }

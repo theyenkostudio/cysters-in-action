@@ -111,6 +111,7 @@ export function MobileMenu({ data }: { data: NavData }) {
                   href={resolveHref(data.primaryCta.link)}
                   variant="solid"
                   className="w-full"
+                  onClick={() => setOpen(false)}
                 >
                   {data.primaryCta.link.label}
                 </ButtonLink>

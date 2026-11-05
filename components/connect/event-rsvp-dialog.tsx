@@ -49,7 +49,7 @@ export function EventRsvpDialog({
             Below `sm`, it's pinned to the bottom edge as a full-width sheet
             (top corners only); at `sm` and up it's the original centered
             dialog, now with a gentle fade/scale instead of popping in. */}
-        <Dialog.Content className="sheet-dialog-panel bg-canvas rounded-t-dialog sm:rounded-dialog fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] w-full flex-col pb-[env(safe-area-inset-bottom)] shadow-lg sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-[min(36rem,94vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:pb-0">
+        <Dialog.Content className="sheet-dialog-panel bg-canvas rounded-t-card sm:rounded-card fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] w-full flex-col pb-[env(safe-area-inset-bottom)] shadow-lg sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-[min(36rem,94vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:pb-0">
           {/* data-lenis-prevent: tells Lenis to ignore wheel/touch here and
               leave it to native overflow scrolling — without it, Lenis's
               global listener keeps trying to scroll the page even when the

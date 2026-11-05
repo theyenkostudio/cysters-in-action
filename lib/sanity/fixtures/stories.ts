@@ -99,6 +99,7 @@ export const stories: (StoryRef & { _placeholder: true })[] = [
     ],
     submittedAt: '2026-02-18T10:00:00.000Z',
     approvedAt: '2026-02-20T09:00:00.000Z',
+    featured: true,
   },
   {
     _id: 'story-yaw-draftworth-nutrition',
@@ -125,6 +126,7 @@ export const stories: (StoryRef & { _placeholder: true })[] = [
     ],
     submittedAt: '2026-03-01T10:00:00.000Z',
     approvedAt: '2026-03-04T09:00:00.000Z',
+    featured: true,
   },
 ]
 
