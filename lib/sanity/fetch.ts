@@ -22,11 +22,18 @@ export async function sanityFetch<QueryResponse>({
   params = {},
   tags = [],
   fixture,
+  skipDraftMode = false,
 }: {
   query: string
   params?: Record<string, unknown>
   tags?: string[]
   fixture?: QueryResponse | ((params: Record<string, unknown>) => QueryResponse)
+  // generateStaticParams and sitemap.ts run at build time with no HTTP
+  // request — Next.js 16 throws if draftMode() is called from there at all
+  // (there's no request to read it from). Draft content is never relevant
+  // to enumerating static params anyway, so those callers pass this to skip
+  // the check entirely instead of hitting that throw.
+  skipDraftMode?: boolean
 }): Promise<QueryResponse> {
   if (!hasSanityProject) {
     if (fixture === undefined) return null as QueryResponse
@@ -35,10 +42,12 @@ export async function sanityFetch<QueryResponse>({
       : fixture
   }
 
-  const { isEnabled: isDraftMode } = await draftMode()
+  if (!skipDraftMode) {
+    const { isEnabled: isDraftMode } = await draftMode()
 
-  if (isDraftMode) {
-    return draftClient.fetch<QueryResponse>(query, params, { cache: 'no-store' })
+    if (isDraftMode) {
+      return draftClient.fetch<QueryResponse>(query, params, { cache: 'no-store' })
+    }
   }
 
   return client.fetch<QueryResponse>(query, params, {

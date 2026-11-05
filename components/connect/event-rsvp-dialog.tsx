@@ -2,11 +2,11 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import NextLink from 'next/link'
-import { useEffect } from 'react'
 import { AddToCalendarMenu } from './add-to-calendar-menu'
 import { RsvpForm } from './rsvp-form'
 import { Badge } from '@/components/ui/badge'
 import { ButtonLink } from '@/components/ui/button'
+import { useLenisScrollLock } from '@/components/motion/use-lenis-scroll-lock'
 import { isPastEvent } from '@/lib/events'
 import type { EventRef } from '@/lib/sanity/types'
 
@@ -32,31 +32,12 @@ export function EventRsvpDialog({
   rsvpCount?: number
   onOpenChange: (open: boolean) => void
 }) {
-  // Two separate scroll mechanisms both had to be dealt with, not just one:
-  // 1) Lenis (components/motion/lenis-provider.tsx) drives smooth scroll
-  //    itself from a global wheel/touch listener, entirely independent of
-  //    CSS `overflow` — so `lenis.stop()` is what actually stops it, not a
-  //    style change. 2) Radix's own scroll lock targets document.body, but
-  //    this site scrolls at the <html> level (deliberately, for
-  //    position: sticky — see globals.css), so that lock alone did
-  //    nothing. Locking html directly covers native/non-Lenis scrolling
-  //    once Lenis is stopped.
-  useEffect(() => {
-    if (!event) return
-    window.__lenis?.stop()
-    const html = document.documentElement
-    const previousOverflow = html.style.overflow
-    html.style.overflow = 'hidden'
-    return () => {
-      window.__lenis?.start()
-      html.style.overflow = previousOverflow
-    }
-  }, [event])
+  useLenisScrollLock(event !== null)
 
   return (
     <Dialog.Root open={event !== null} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="rsvp-dialog-overlay fixed inset-0 z-50 bg-black/40" />
+        <Dialog.Overlay className="sheet-dialog-overlay fixed inset-0 z-50 bg-black/40" />
         {/* The frame (fixed, positioned, max-height) and the scroll region
             are deliberately separate elements — putting overflow-y-auto
             directly on the positioned/transformed element was clipping
@@ -67,13 +48,16 @@ export function EventRsvpDialog({
 
             Below `sm`, it's pinned to the bottom edge as a full-width sheet
             (top corners only); at `sm` and up it's the original centered
-            dialog, unchanged. */}
-        <Dialog.Content className="rsvp-dialog-panel bg-canvas rounded-t-dialog sm:rounded-dialog fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] w-full flex-col pb-[env(safe-area-inset-bottom)] shadow-lg sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-[min(36rem,94vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:pb-0">
+            dialog, now with a gentle fade/scale instead of popping in. */}
+        <Dialog.Content className="sheet-dialog-panel bg-canvas rounded-t-dialog sm:rounded-dialog fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] w-full flex-col pb-[env(safe-area-inset-bottom)] shadow-lg sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-[min(36rem,94vw)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:pb-0">
           {/* data-lenis-prevent: tells Lenis to ignore wheel/touch here and
               leave it to native overflow scrolling — without it, Lenis's
               global listener keeps trying to scroll the page even when the
               cursor is over this div. */}
-          <div data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto p-6 sm:p-8">
+          <div
+            data-lenis-prevent
+            className="scrollbar-hide min-h-0 flex-1 overflow-y-auto p-6 sm:p-8"
+          >
             {event && <EventRsvpDialogContent event={event} rsvpCount={rsvpCount} />}
           </div>
           <Dialog.Close asChild>

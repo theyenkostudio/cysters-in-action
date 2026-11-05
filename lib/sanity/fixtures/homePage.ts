@@ -34,9 +34,10 @@ const aboutIntroStats: (AboutStatValue & { _placeholder: true })[] = [
 ]
 
 export const homePageHero: HeroValue = {
-  headline: 'You are not alone\nwith PMOS.\nLet’s act on it together.',
+  headline:
+    'A community in action.\nTogether, we’re changing the PMOS experience.\nYou’re not alone.',
   subline:
-    'Reliable health information, genuine community and collective action for people living with PMOS.',
+    'Cysters in Action brings people living with PMOS together to learn, share experiences, access reliable information and advocate for better care.',
   heroMedia: {
     mediaType: 'image',
     image: {

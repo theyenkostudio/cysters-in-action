@@ -52,7 +52,12 @@ export function resolveHref(link: ResolvedLink): string {
     case 'phone':
       return `tel:${link.external ?? ''}`
     case 'anchor':
-      return link.external?.startsWith('#') ? link.external : `#${link.external ?? ''}`
+      if (!link.external) return '#'
+      // Already a path (/connect/share-your-story) or fragment (#mission) —
+      // pass through. A bare fragment id with no leading # still gets one.
+      return link.external.startsWith('/') || link.external.startsWith('#')
+        ? link.external
+        : `#${link.external}`
     case 'external':
     default:
       return link.external ?? '#'

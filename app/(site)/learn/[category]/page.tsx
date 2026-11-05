@@ -7,7 +7,7 @@ import { getArticlesByCategory, getCategories, getCategoryBySlug } from '@/lib/s
 import { seoToMetadata } from '@/lib/seo'
 
 export async function generateStaticParams() {
-  const categories = await getCategories()
+  const categories = await getCategories({ skipDraftMode: true })
   return categories.map((c) => ({ category: c.slug.current }))
 }
 

@@ -2,8 +2,9 @@ import type { HeroValue, PageBuilderBlock, RichTextValue, SanityImage } from '..
 
 export const aboutPageHero: HeroValue = {
   eyebrow: 'About us',
-  headline: 'We are Cysters In Action',
-  subline: 'A community built by people who’ve lived through a PMOS diagnosis themselves.',
+  headline: 'Born from the need for better.\nBuilt for change.',
+  subline:
+    'Cysters in Action is a PMOS advocacy initiative committed to making reliable health information, meaningful community and collective action more accessible to people living with PMOS.',
   heroMedia: {
     mediaType: 'image',
     image: {
@@ -18,31 +19,74 @@ export const aboutPageHero: HeroValue = {
   textAlign: 'left',
 }
 
+// A plain-text paragraph + optional heading, as a portable-text block pair —
+// keeps the fixture below from repeating this shape six times over.
+function paragraph(key: string, text: string) {
+  return {
+    _type: 'block',
+    _key: key,
+    style: 'normal',
+    children: [{ _type: 'span', _key: `${key}-span`, text }],
+  }
+}
+function heading(key: string, text: string) {
+  return {
+    _type: 'block',
+    _key: key,
+    style: 'h3',
+    children: [{ _type: 'span', _key: `${key}-span`, text }],
+  }
+}
+
 export const aboutPageStory: RichTextValue = [
-  {
-    _type: 'block',
-    _key: 'story-1',
-    style: 'normal',
-    children: [
-      {
-        _type: 'span',
-        _key: 'story-1-span',
-        text: 'Cysters In Action started as a group chat between friends who were each, separately, trying to make sense of a PMOS diagnosis. We shared what we found — the useful articles, the dead-end forum threads, the doctors who actually listened — and realised that just having each other made an overwhelming process feel more manageable.',
-      },
-    ],
-  },
-  {
-    _type: 'block',
-    _key: 'story-2',
-    style: 'normal',
-    children: [
-      {
-        _type: 'span',
-        _key: 'story-2-span',
-        text: 'This site is that group chat, opened up. Reliable information, real community, and a place to turn shared frustration into action.',
-      },
-    ],
-  },
+  paragraph(
+    'story-belief',
+    'We believe no one should have to navigate PMOS alone, and that lived experiences deserve a place in shaping the conversations, care and change that affect us.',
+  ),
+  heading('story-heading', 'Our Story'),
+  paragraph(
+    'story-1',
+    'Cysters in Action was born out of a recognition that the experience of living with PMOS deserves better.',
+  ),
+  paragraph(
+    'story-2',
+    'For many people, navigating PMOS comes with unanswered questions, misinformation, stigma and the challenge of finding reliable information and meaningful support. Too often, people are left to figure things out on their own, with limited opportunities to have their experiences heard and understood.',
+  ),
+  paragraph('story-3', 'We believe this experience should be different.'),
+  paragraph(
+    'story-4',
+    'Cysters in Action was established to help bridge these gaps by creating a space where people living with PMOS can learn from reliable information, connect through shared experiences and contribute to conversations that influence how the condition is understood and addressed.',
+  ),
+  paragraph(
+    'story-5',
+    'What began as a desire to make a difference is growing into a community built on shared learning, collective voices and purposeful action.',
+  ),
+  paragraph(
+    'story-6',
+    'We are building this initiative with the PMOS community, not simply for it. Because the people who live with PMOS should have a meaningful role in shaping the conversations, support and change that affect their lives.',
+  ),
+  heading('story-mission-heading', 'Our Mission'),
+  paragraph(
+    'story-mission-body',
+    'To empower people living with Polyendocrine Metabolic Ovarian Syndrome (PMOS), formerly known as PCOS, through reliable health education, peer support, meaningful action and collective advocacy. We aim to create a community where people can learn about their health, share experiences, support one another and use their collective voices to contribute to better awareness, understanding and health outcomes.',
+  ),
+  heading('story-vision-heading', 'Our Vision'),
+  paragraph(
+    'story-vision-body',
+    'To build an informed, connected and empowered community of people living with PMOS, whose collective experiences and voices drive greater awareness, better support and meaningful change in PMOS care and advocacy, both locally and globally.',
+  ),
+  paragraph(
+    'story-founders-1',
+    'Every meaningful movement begins with people who believe that things can be better.',
+  ),
+  paragraph(
+    'story-founders-2',
+    'The Cysters in Action Founders Circle brings together the founder and 15 individuals united by a shared commitment to improving the PMOS experience. Coming from different backgrounds, experiences and parts of the world, these individuals are part of the foundation upon which this initiative is being built.',
+  ),
+  paragraph(
+    'story-founders-3',
+    'They represent the voices, perspectives and collective commitment that make Cysters in Action more than an idea. We are grateful to have them as part of this beginning.',
+  ),
 ]
 
 // Same photo as this page's own Hero (aboutPageHero above) — no dedicated

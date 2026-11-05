@@ -10,12 +10,14 @@ import {
 import { siteUrl } from '@/lib/seo'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // sitemap.ts runs at build time with no HTTP request — draftMode() throws
+  // if called from here at all, so every call below skips it.
   const [articles, categories, genericPages, stories, eventSlugs, glossarySlugs] =
     await Promise.all([
-      getAllArticles(),
-      getCategories(),
+      getAllArticles({ skipDraftMode: true }),
+      getCategories({ skipDraftMode: true }),
       getAllPageSlugs(),
-      getApprovedStories(),
+      getApprovedStories({ skipDraftMode: true }),
       getAllEventSlugs(),
       getAllGlossaryTermSlugs(),
     ])

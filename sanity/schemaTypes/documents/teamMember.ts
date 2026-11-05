@@ -8,6 +8,12 @@ export const teamMember = defineType({
     defineField({ name: 'name', title: 'Name', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'role', title: 'Role', type: 'string', validation: (r) => r.required() }),
     defineField({
+      name: 'country',
+      title: 'Country',
+      type: 'string',
+      description: 'Shown with a flag next to the name, e.g. on the Founding Circle cards.',
+    }),
+    defineField({
       name: 'group',
       title: 'Group',
       type: 'string',

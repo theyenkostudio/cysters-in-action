@@ -23,7 +23,7 @@ function isReviewDue(lastReviewedAt?: string) {
 }
 
 export async function generateStaticParams() {
-  const articles = await getAllArticles()
+  const articles = await getAllArticles({ skipDraftMode: true })
   return articles.map((a) => ({ category: a.category.slug.current, slug: a.slug.current }))
 }
 

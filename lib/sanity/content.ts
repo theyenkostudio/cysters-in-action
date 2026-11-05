@@ -188,11 +188,15 @@ export function getContactPage() {
 
 // --- Learn hub content -------------------------------------------------------
 
-export function getCategories() {
+// Used both at request time (learn hub page, draft-aware) and from
+// generateStaticParams/sitemap.ts (build time, no request) — callers in the
+// latter case pass skipDraftMode to avoid draftMode()'s build-time throw.
+export function getCategories(opts: { skipDraftMode?: boolean } = {}) {
   return sanityFetch<CategoryRef[]>({
     query: categoriesQuery,
     tags: ['category'],
     fixture: fixtures.categories,
+    skipDraftMode: opts.skipDraftMode,
   })
 }
 
@@ -222,11 +226,16 @@ export function getFeaturedArticles() {
   })
 }
 
-export function getAllArticles() {
+// Used both at request time (search, learn hub, featured-articles block —
+// draft-aware) and from generateStaticParams/sitemap.ts (build time, no
+// request) — callers in the latter case pass skipDraftMode to avoid
+// draftMode()'s build-time throw.
+export function getAllArticles(opts: { skipDraftMode?: boolean } = {}) {
   return sanityFetch<ArticleRef[]>({
     query: allArticlesQuery,
     tags: ['article'],
     fixture: () => [...fixtures.articles].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)),
+    skipDraftMode: opts.skipDraftMode,
   })
 }
 
@@ -271,11 +280,14 @@ export function getPageBySlug(slug: string) {
   })
 }
 
+// Only ever called from generateStaticParams/sitemap.ts (build time, no
+// request) — skipDraftMode is hardcoded rather than threaded as an option.
 export function getAllPageSlugs() {
   return sanityFetch<{ slug: string }[]>({
     query: allPageSlugsQuery,
     tags: ['page'],
     fixture: () => fixtures.pages.map((p) => ({ slug: p.slug.current })),
+    skipDraftMode: true,
   })
 }
 
@@ -311,11 +323,15 @@ export function getShareStoryPage() {
   })
 }
 
-export function getApprovedStories() {
+// Used both at request time (stories pages/carousel, draft-aware) and from
+// sitemap.ts (build time, no request) — callers in the latter case pass
+// skipDraftMode to avoid draftMode()'s build-time throw.
+export function getApprovedStories(opts: { skipDraftMode?: boolean } = {}) {
   return sanityFetch<StoryRef[]>({
     query: approvedStoriesQuery,
     tags: ['story'],
     fixture: () => fixtures.stories.map(withResolvedAuthorName),
+    skipDraftMode: opts.skipDraftMode,
   })
 }
 
@@ -369,11 +385,13 @@ export function getStoryContactDetails(id: string) {
   })
 }
 
+// Only ever called from generateStaticParams (build time, no request).
 export function getAllApprovedStorySlugs() {
   return sanityFetch<{ slug: string }[]>({
     query: allApprovedStorySlugsQuery,
     tags: ['story'],
     fixture: () => fixtures.stories.filter((s) => s.slug).map((s) => ({ slug: s.slug!.current })),
+    skipDraftMode: true,
   })
 }
 
@@ -471,11 +489,14 @@ export function getEventRsvpCount(eventId: string) {
   })
 }
 
+// Only ever called from generateStaticParams/sitemap.ts (build time, no
+// request) — skipDraftMode is hardcoded rather than threaded as an option.
 export function getAllEventSlugs() {
   return sanityFetch<{ slug: string }[]>({
     query: allEventSlugsQuery,
     tags: ['event'],
     fixture: () => fixtures.events.map((e) => ({ slug: e.slug.current })),
+    skipDraftMode: true,
   })
 }
 
@@ -496,10 +517,13 @@ export function getGlossaryTermBySlug(slug: string) {
   })
 }
 
+// Only ever called from generateStaticParams/sitemap.ts (build time, no
+// request) — skipDraftMode is hardcoded rather than threaded as an option.
 export function getAllGlossaryTermSlugs() {
   return sanityFetch<{ slug: string }[]>({
     query: allGlossaryTermSlugsQuery,
     tags: ['glossaryTerm'],
     fixture: () => fixtures.glossaryTerms.map((t) => ({ slug: t.slug.current })),
+    skipDraftMode: true,
   })
 }

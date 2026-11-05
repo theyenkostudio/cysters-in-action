@@ -24,5 +24,5 @@ export function categoryLink(label: string, slug: string): ResolvedLinkValue {
 
 /** A link whose target isn't a Sanity document (e.g. /learn, /about, /). */
 export function routeLink(label: string, href: string): ResolvedLinkValue {
-  return { label, type: 'external', external: href }
+  return { label, type: 'anchor', external: href }
 }

@@ -169,6 +169,7 @@ export type TeamMemberRef = {
   _type: 'teamMember'
   name: string
   role: string
+  country?: string
   group: 'foundingCircle' | 'advisor' | 'volunteer'
   photo?: SanityImage
   bio?: string

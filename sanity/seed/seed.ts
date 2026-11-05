@@ -17,13 +17,20 @@
  */
 import { createReadStream } from 'node:fs'
 import path from 'node:path'
+import { loadEnvConfig } from '@next/env'
 import type { SanityDocument } from 'sanity'
-import { writeClient } from '../../lib/sanity/client'
-import { hasSanityProject } from '../../lib/sanity/client'
-import * as fixtures from '../../lib/sanity/fixtures'
+import type { writeClient as WriteClient } from '../../lib/sanity/client'
+
+// Run via `tsx`, not `next dev`/`next build` — nothing else loads `.env` into
+// process.env here, unlike in the app itself. Must happen before the client/
+// fixtures modules below are imported, since lib/sanity/client.ts reads
+// NEXT_PUBLIC_SANITY_* at module-init time — hence the dynamic imports inside
+// main() below, rather than static imports at the top of this file.
+loadEnvConfig(path.resolve(__dirname, '../..'))
 
 const PUBLIC_DIR = path.resolve(__dirname, '../../public')
 const assetIdCache = new Map<string, string>()
+let writeClient: typeof WriteClient
 
 async function uploadImageAsset(localUrl: string): Promise<string> {
   const cached = assetIdCache.get(localUrl)
@@ -106,14 +113,46 @@ async function deepTransform(value: unknown): Promise<unknown> {
   return value
 }
 
+async function transformDoc(doc: Record<string, unknown>): Promise<SanityDocument> {
+  // Transform each field's value, not `doc` itself — `doc` always has its
+  // own `_id`/`_type` and (at this top level) no `asset`/`url` key, so
+  // running it through deepTransform would make isDocumentReference mistake
+  // the document being written for a reference to itself, collapsing it
+  // down to just `{ _type: 'reference', _ref }` and losing every real field.
+  const transformed: Record<string, unknown> = {}
+  for (const [key, val] of Object.entries(doc)) {
+    transformed[key] = await deepTransform(val)
+  }
+  return transformed as SanityDocument
+}
+
 async function writeDoc(doc: Record<string, unknown>) {
-  const transformed = (await deepTransform(doc)) as SanityDocument
+  const transformed = await transformDoc(doc)
   await writeClient.createOrReplace(transformed)
   console.log(`✓ ${transformed._type} ${transformed._id}`)
 }
 
+/**
+ * Writes a set of documents in one transaction, instead of one `createOrReplace`
+ * call each — needed when documents in the set reference each other (e.g.
+ * articles.ts's `relatedArticles`, which is circular), since the content lake
+ * rejects a reference to a document that doesn't exist yet anywhere, *unless*
+ * the referenced document is created in the same atomic transaction.
+ */
+async function writeDocsBatch(docs: Record<string, unknown>[]) {
+  const transformedDocs = await Promise.all(docs.map(transformDoc))
+  const tx = writeClient.transaction()
+  for (const doc of transformedDocs) tx.createOrReplace(doc)
+  await tx.commit()
+  for (const doc of transformedDocs) console.log(`✓ ${doc._type} ${doc._id}`)
+}
+
 async function main() {
-  if (!hasSanityProject) {
+  const client = await import('../../lib/sanity/client')
+  const fixtures = await import('../../lib/sanity/fixtures')
+  writeClient = client.writeClient
+
+  if (!client.hasSanityProject) {
     console.error('NEXT_PUBLIC_SANITY_PROJECT_ID is not set — nothing to seed. See .env.example.')
     process.exit(1)
   }
@@ -131,14 +170,30 @@ async function main() {
   console.log('Seeding team members...')
   for (const doc of fixtures.teamMembers) await writeDoc(doc)
 
-  console.log('Seeding articles...')
-  for (const doc of fixtures.articles) await writeDoc(doc)
+  console.log('Seeding articles + glossary terms...')
+  // Batched together, in one transaction: articles.ts wires relatedArticles
+  // into a circular web after the array is built, article bodies carry
+  // inline `glossaryTerm` annotations pointing at glossary docs, and
+  // glossaryTerms.ts points `relatedArticles` back at articles — so no
+  // one-at-a-time order avoids a reference to a document that doesn't exist
+  // yet. Writing the whole set as a single atomic transaction does.
+  await writeDocsBatch([...fixtures.articles, ...fixtures.glossaryTerms])
 
   console.log('Seeding testimonials...')
   for (const doc of fixtures.testimonials) await writeDoc(doc)
 
   console.log('Seeding legal/generic pages...')
   for (const doc of fixtures.pages) await writeDoc(doc)
+
+  console.log('Seeding events...')
+  for (const doc of fixtures.events) await writeDoc(doc)
+
+  console.log('Seeding community stories...')
+  // The fixture's stories are all implicitly "the ones the public
+  // fixture-mode queries return" — i.e. approved — but unlike every other
+  // document field here, `status` isn't actually in the fixture literals
+  // (see stories.ts), so it has to be set explicitly when writing for real.
+  for (const doc of fixtures.stories) await writeDoc({ status: 'approved', ...doc })
 
   console.log('Seeding site shell singletons...')
   await writeDoc({ _id: 'siteSettings', _type: 'siteSettings', ...fixtures.siteSettings })
@@ -165,10 +220,12 @@ async function main() {
     _placeholder: true,
     hero: fixtures.aboutPageHero,
     story: fixtures.aboutPageStory,
+    storyImage: fixtures.aboutPageStoryImage,
     pillars: fixtures.aboutPagePillars,
     values: fixtures.aboutPageValues,
     foundingCircleHeading: 'The Founding Circle',
     foundingCircle: fixtures.teamMembers.filter((m) => m.group === 'foundingCircle'),
+    sections: fixtures.aboutPageSections,
   })
   await writeDoc({
     _id: 'learnHubPage',
@@ -177,6 +234,30 @@ async function main() {
     hero: fixtures.learnHubPageHero,
     introText: fixtures.learnHubIntroText,
     featuredArticles: fixtures.learnHubFeaturedArticles,
+  })
+
+  console.log('Seeding contact / share-your-story pages...')
+  await writeDoc({
+    _id: 'contactPage',
+    _type: 'contactPage',
+    _placeholder: true,
+    hero: fixtures.contactPageHero,
+    intro: fixtures.contactPageIntro,
+    enquiryTypes: fixtures.contactPageEnquiryTypes,
+    successMessage: fixtures.contactPageSuccessMessage,
+  })
+  await writeDoc({
+    _id: 'shareStoryPage',
+    _type: 'shareStoryPage',
+    _placeholder: true,
+    hero: fixtures.shareStoryPageHero,
+    intro: fixtures.shareStoryPageIntro,
+    whatHappensNext: fixtures.shareStoryWhatHappensNext,
+    consentText: fixtures.shareStoryConsentText,
+    privacyNote: fixtures.shareStoryPrivacyNote,
+    successHeading: fixtures.shareStorySuccessHeading,
+    successMessage: fixtures.shareStorySuccessMessage,
+    submissionsOpen: fixtures.shareStorySubmissionsOpen,
   })
 
   console.log(

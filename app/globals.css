@@ -326,10 +326,14 @@
   animation: mobile-panel-out 0.2s ease-in both;
 }
 
-/* Event RSVP dialog: below `sm` it's a bottom sheet that slides up/down;
-   at `sm` and up it's the original centered dialog with no slide, matching
-   how it already behaved before the sheet treatment existed. */
-@keyframes rsvp-sheet-in {
+/* Shared sheet/dialog treatment for any Radix dialog that's a bottom sheet
+   below `sm` and a centered dialog at `sm` and up — the event RSVP
+   quick-view and the founding member bio dialog both use it. Below `sm` the
+   panel slides up/down; at `sm` and up it gently fades/scales instead,
+   rather than popping in. `scale`/`opacity` are animated as their own CSS
+   properties (not folded into `transform`) so they compose with the
+   Tailwind `translate-x/y` utilities already centering the panel. */
+@keyframes sheet-slide-in {
   from {
     transform: translateY(100%);
   }
@@ -337,27 +341,55 @@
     transform: translateY(0);
   }
 }
-@keyframes rsvp-sheet-out {
+@keyframes sheet-slide-out {
   from {
     transform: translateY(0);
   }
   to {
     transform: translateY(100%);
+  }
+}
+@keyframes dialog-gentle-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes dialog-gentle-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 0.96;
   }
 }
 @media not all and (min-width: 640px) {
-  .rsvp-dialog-panel[data-state='open'] {
-    animation: rsvp-sheet-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  .sheet-dialog-panel[data-state='open'] {
+    animation: sheet-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .rsvp-dialog-panel[data-state='closed'] {
-    animation: rsvp-sheet-out 0.22s ease-in both;
+  .sheet-dialog-panel[data-state='closed'] {
+    animation: sheet-slide-out 0.22s ease-in both;
   }
-  .rsvp-dialog-overlay[data-state='open'] {
-    animation: mobile-overlay-in 0.25s ease-out both;
+}
+@media (min-width: 640px) {
+  .sheet-dialog-panel[data-state='open'] {
+    animation: dialog-gentle-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .rsvp-dialog-overlay[data-state='closed'] {
-    animation: mobile-overlay-out 0.2s ease-in both;
+  .sheet-dialog-panel[data-state='closed'] {
+    animation: dialog-gentle-out 0.18s ease-in both;
   }
+}
+.sheet-dialog-overlay[data-state='open'] {
+  animation: mobile-overlay-in 0.25s ease-out both;
+}
+.sheet-dialog-overlay[data-state='closed'] {
+  animation: mobile-overlay-out 0.2s ease-in both;
 }
 
 @keyframes accordion-down {
@@ -409,8 +441,10 @@
   animation: nl-drift-b 20s ease-in-out infinite;
 }
 
-/* Hides the scrollbar on horizontal overflow sliders (e.g. the About page's
-   Founding Circle) while keeping the element natively scrollable/swipeable. */
+/* Hides the scrollbar on scrollable regions where it'd just add visual
+   noise (horizontal overflow sliders like the About page's Founding
+   Circle, and the scrollable body of the RSVP/bio sheets and dialogs)
+   while keeping the element natively scrollable/swipeable. */
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;

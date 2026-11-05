@@ -57,14 +57,17 @@ const GLOSSARY_TERM_FULL = `{
 // Only ever queried publicly with status == "approved" — see every usage
 // below. Private fields (contactEmail, the three consents, moderationNotes)
 // are never selected here at all, so they can never leak into a public response.
+// `body` is included even on the card shape: StoryPostcards/storyParagraphs
+// (fed by approvedStoriesQuery/featuredStoriesQuery, both STORY_CARD) render
+// an excerpt of it, not just the pull-quote.
 const STORY_CARD = `{
   _id, _type, title, slug, isAnonymous,
   "authorName": select(isAnonymous => null, authorName),
-  pullQuote, "image": image${IMAGE}, themes, featured, submittedAt, approvedAt,
+  pullQuote, "image": image${IMAGE}, themes, featured, submittedAt, approvedAt, body,
 }`
 const STORY_FULL = `{
   ${STORY_CARD.slice(1, -1)},
-  ageRange, country, body, contentWarning,
+  ageRange, country, contentWarning,
 }`
 // onlineJoinUrl is deliberately excluded — "Never rendered publicly" per
 // Section 6. It's only ever read server-side, inside the RSVP Server Action,
@@ -136,7 +139,7 @@ export const aboutPageQuery = defineQuery(`*[_type == "aboutPage"][0]{
   seo${SEO}, hero${HERO}, story, "storyImage": storyImage${IMAGE},
   "pillars": pillars[]{ title, icon, body, "image": image${IMAGE} },
   values, foundingCircleHeading,
-  "foundingCircle": foundingCircle[]->{ _id, _type, name, role, group, "photo": photo${IMAGE}, bio, quote, order },
+  "foundingCircle": foundingCircle[]->{ _id, _type, name, role, country, group, "photo": photo${IMAGE}, bio, quote, order },
   sections[]${PAGE_BUILDER_BLOCK},
 }`)
 
@@ -177,7 +180,7 @@ export const allArticlesQuery = defineQuery(
 // --- Team / testimonials / generic pages -----------------------------------
 
 export const teamMembersQuery = defineQuery(
-  `*[_type == "teamMember" && group == $group] | order(order asc){ _id, _type, name, role, group, "photo": photo${IMAGE}, bio, quote, order }`,
+  `*[_type == "teamMember" && group == $group] | order(order asc){ _id, _type, name, role, country, group, "photo": photo${IMAGE}, bio, quote, order }`,
 )
 
 export const pageBySlugQuery = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
