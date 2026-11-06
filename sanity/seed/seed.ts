@@ -15,6 +15,7 @@
  * this environment) — it is type-checked but not integration-tested. Do a
  * dry run on a throwaway dataset before pointing it at production.
  */
+import { randomUUID } from 'node:crypto'
 import { createReadStream } from 'node:fs'
 import path from 'node:path'
 import { loadEnvConfig } from '@next/env'
@@ -93,7 +94,18 @@ async function transformImage(obj: Record<string, unknown>): Promise<Record<stri
 /** Walks any fixture value, resolving embedded documents/links/images into
  * the raw Sanity-reference shapes `createOrReplace` expects. */
 async function deepTransform(value: unknown): Promise<unknown> {
-  if (Array.isArray(value)) return Promise.all(value.map((v) => deepTransform(v)))
+  if (Array.isArray(value)) {
+    const items = await Promise.all(value.map((v) => deepTransform(v)))
+    // Every object-shaped array item needs a unique `_key` for Sanity Studio
+    // to edit/reorder it — fixtures write object/reference literals without
+    // one (that's the Studio author's job normally), so backfill it here
+    // rather than in every fixture file.
+    return items.map((item) =>
+      item && typeof item === 'object' && !Array.isArray(item) && !('_key' in item)
+        ? { _key: randomUUID(), ...item }
+        : item,
+    )
+  }
   if (value && typeof value === 'object') {
     const obj = value as Record<string, unknown>
 
